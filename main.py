@@ -88,6 +88,10 @@ def main():
         print("place a github token in the .env file")
     else:
         g = Github(GITHUB_TOKEN)
+
+        # NOTE: if this is all doesn't work then parsing readme files of popular repositories will be the way to go
+
+
         # writeToCsv([{"a":"cat,fish,dog"}], "test.csv")
         # getConfigStuff(g, "extension:.yml filename:travis.yml", "allTheTravis")
         # getConfigStuff(g, "extension:.yml path:.circle/ filename:config.yml", "allTheCircles")
@@ -97,6 +101,7 @@ def main():
         # getConfigStuff(g, "filename:.cirrus.yml", "cirrus") # cirrus https://cirrus-ci.org/examples/
         # getConfigStuff(g, "path:.cds version", "cds") # https://ovh.github.io/cds/docs/tutorials/init_workflow_with_cdsctl/ more CD than CI though
         getConfigStuff(g, "path:.teamcity version", "teamcity") # note the content of the configuration will be xml and it will be messy most likely as team city has lots of files for all the things
+        getConfigStuff(g, "filename:filename:azure-pipelines.yml", "azure") # TODO: triple check this is how it works?? as it could just be any .yml file however it will do the job and there should be around 50,000 results
 
         # note: GoCd seems to be used so little that I can't find any good examples of it its config
         # combined with the fact that they allow .json and .yml ah!
