@@ -5,7 +5,8 @@ import csv
 import time
 load_dotenv()
 
-TIMEOUT = 10
+TIMEOUT = 30
+REQUEST_TIME_TO_COMPLETE_TIMEOUT = 30
 MAX_NO_OF_PAGES = 100
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
 
@@ -68,24 +69,24 @@ def getReposFromFiles(files):
     return repos, contents
 
 def getConfigStuff(search, name):
-    g = Github(GITHUB_TOKEN)
+    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT)
     searches = 0
     
     print("----------------------------------------")
     print("getting data for: {} will take around 2mins".format(name))
     name += time.strftime("%X").replace(":","_")
     temp = g.search_code(search)
-    index = 0
+    index = 3
     page = temp.get_page(index)
     while len(page) >= 1 and index < MAX_NO_OF_PAGES and searches < 1000:
-        g = Github(GITHUB_TOKEN)
+        g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT)
         print("getting page: {}".format(index))
         repos, content = getReposFromFiles(page)
 
 
         if len(repos) > 1:
             print("sleeping for a few seconds just not to abuse the rate limiting too much")
-            time.sleep(2)
+            time.sleep(TIMEOUT)
             writeToCsv(saveRepos(repos, content), name)
         else:
             print("no data found")
@@ -109,15 +110,18 @@ def main():
 
         # so we get a 1000 search results for each search
         # writeToCsv([{"a":"cat,fish,dog"}], "test.csv")
-        getConfigStuff("extension:.yml filename:travis.yml", "allTheTravis")
-        # getConfigStuff(g, "extension:.yml path:.circle/ filename:config.yml", "allTheCircles")
-        # getConfigStuff(g, "extension:.yml path:.github/workflows name", "githubActions")
-        # getConfigStuff(g, "extension:.yml filename:.gitlab-ci.yml", "gitlab")
-        # getConfigStuff(g, "filename:JenkinsFile", "jenkinsPipeline")
-        # getConfigStuff(g, "filename:.cirrus.yml", "cirrus") # cirrus https://cirrus-ci.org/examples/
-        # getConfigStuff(g, "path:.cds version", "cds") # https://ovh.github.io/cds/docs/tutorials/init_workflow_with_cdsctl/ more CD than CI though
-        # getConfigStuff(g, "path:.teamcity version", "teamcity") # note the content of the configuration will be xml and it will be messy most likely as team city has lots of files for all the things
-        # getConfigStuff(g, "filename:filename:azure-pipelines.yml", "azure") # TODO: triple check this is how it works?? as it could just be any .yml file however it will do the job and there should be around 50,000 results
+        # getConfigStuff("extension:.yml filename:.travis.yml", "allTheTravis")
+        # getConfigStuff("extension:.yml path:.circle/ filename:config.yml", "allTheCircles")
+        # getConfigStuff("extension:.yml path:.github/workflows name", "githubActions")
+        # getConfigStuff("extension:.yml filename:.gitlab-ci.yml", "gitlab")
+        # getConfigStuff("filename:JenkinsFile", "jenkinsPipeline")
+        # getConfigStuff( "filename:.cirrus.yml", "cirrus") # cirrus https://cirrus-ci.org/examples/
+        # getConfigStuff("path:.cds version", "cds") # https://ovh.github.io/cds/docs/tutorials/init_workflow_with_cdsctl/ more CD than CI though
+        # team city got to last page before it died
+        # getConfigStuff("path:.teamcity version", "teamcity") # note the content of the configuration will be xml and it will be messy most likely as team city has lots of files for all the things
+        
+        # got too 48%
+        getConfigStuff("filename:azure-pipelines.yml", "azure") # TODO: triple check this is how it works?? as it could just be any .yml file however it will do the job and there should be around 50,000 results
 
         # note: GoCd seems to be used so little that I can't find any good examples of it its config
         # combined with the fact that they allow .json and .yml ah!
