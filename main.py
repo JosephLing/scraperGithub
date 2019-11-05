@@ -138,7 +138,7 @@ def foo(g, repo):
             except GithubException as e:
                 pass
 
-        time.sleep(2)
+        time.sleep(1)
 
     if len(path_results.keys()) == 0:
         print("found no results")
@@ -158,7 +158,7 @@ def getReposStuff(name, stars_start, stars_end):
     g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT)
     search = "stars:{}..{}".format(stars_start, stars_end)  # TODO: add in stars
     print("----------------------------------------")
-    name += time.strftime("%X").replace(":", "_")
+    name += time.strftime("%X").replace(":", "_") + "stars{}{}".format(stars_start, stars_end)
 
     temp = g.search_repositories(search)
     pageination_page = 0
@@ -200,16 +200,6 @@ def getReposStuff(name, stars_start, stars_end):
 
         writeToCsv(data, name)
 
-        print("finsiehd")
-        break
-
-        # if len(repos) > 1:
-        #     print(
-        #         "sleeping for a few seconds just not to abuse the rate limiting too much")
-        #     time.sleep(TIMEOUT)
-        #     writeToCsv(saveRepos(repos, content), name)
-        # else:
-        #     print("no data found")
 
         searches += len(saveData)
         pageination_page += 1
@@ -217,10 +207,11 @@ def getReposStuff(name, stars_start, stars_end):
         page = temp.get_page(pageination_page)
 
         print("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
+        print("progress >>> {}%".format((searches/1000)*100))
         time.sleep(TIMEOUT)
 
     print("finished")
-    # print("finished going through {} pages of results and got {} results".format(pageination_page, searches))
+    print("finished going through {} pages of results and got {} results".format(pageination_page, searches))
 
 
 def main():
