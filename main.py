@@ -218,8 +218,8 @@ def main():
         print("place a github token in the .env file")
     else:
         # getReposStuff("TEST", 9000, 10000)
-        for i in range(1000, 99999, 1000):
-            getReposStuff("TEST20", i, i + 1000)
+        for i in range(0, 1000, 100):
+            getReposStuff("BEN", i, i + 100)
             print("sleeping for a minute to not abuse time limits too much")
             # TODO: maths can only have 5000 requests per hour
             time.sleep(60)
