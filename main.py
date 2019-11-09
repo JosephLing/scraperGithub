@@ -7,7 +7,7 @@ load_dotenv()
 
 TIMEOUT = 30
 REQUEST_TIME_TO_COMPLETE_TIMEOUT = 30
-MAX_NO_OF_PAGES = 2
+MAX_NO_OF_PAGES = 100
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
 
 
@@ -39,7 +39,6 @@ def saveRepos(repos, contents, name="repo"):
 def writeToCsv(data, name):
     if len(data) >= 1:
         print("saving: data")
-        print(data)
         field = list(data[0].keys())
 
         with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
@@ -110,7 +109,7 @@ def getConfigStuff(search, name):
 
 
 def foo(g, repo):
-
+    # TODO: make me global!!! as its a read only constant that needs to have global access to avoid to fun stuff
     paths = {
         "travis": {"file": "single", "path": ".travis.yml"},
         "gitlab": {"file": "single", "path": ".gitlab-ci.yml"},
@@ -134,11 +133,11 @@ def foo(g, repo):
                 pass
         else:
             try:
-                path_results[key] = [f.content for f in repo.get_dir_contents(paths.get(key).get("path")) if f is not None]
+                path_results[key] = [f.content for f in repo.get_dir_contents(paths.get(key).get("path")) if f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))]
             except GithubException as e:
                 pass
 
-        time.sleep(1)
+        time.sleep(2)
 
     if len(path_results.keys()) == 0:
         print("found no results")
@@ -155,17 +154,18 @@ def foo(g, repo):
 
 
 def getReposStuff(name, stars_start, stars_end):
-    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT)
+    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT, per_page=100)
     search = "stars:{}..{}".format(stars_start, stars_end)  # TODO: add in stars
     print("----------------------------------------")
-    name += time.strftime("%X").replace(":", "_") + "stars{}{}".format(stars_start, stars_end)
 
     temp = g.search_repositories(search)
     pageination_page = 0
     page = temp.get_page(pageination_page)
     searches = 0
     while len(page) >= 1 and pageination_page < MAX_NO_OF_PAGES and searches < 1000:
-        g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT)
+        file_name = name + time.strftime("%X").replace(":", "_") + "stars{}{}".format(stars_start, stars_end)
+
+        g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT, per_page=100)
 
         print("getting page: {}".format(pageination_page))
 
@@ -194,12 +194,11 @@ def getReposStuff(name, stars_start, stars_end):
         }
 
         for k in paths.keys():
-            for i in range(3):
+            for i in range(10):
                 if data[0].get("{}{}".format(k, i)) is None:
                     data[0]["{}{}".format(k, i)] = ""
 
         writeToCsv(data, name)
-
 
         searches += len(saveData)
         pageination_page += 1
@@ -207,7 +206,7 @@ def getReposStuff(name, stars_start, stars_end):
         page = temp.get_page(pageination_page)
 
         print("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
-        print("progress >>> {}%".format((searches/1000)*100))
+        print("progress >>> {}%".format((searches / 1000) * 100))
         time.sleep(TIMEOUT)
 
     print("finished")
@@ -218,7 +217,13 @@ def main():
     if GITHUB_TOKEN is None:
         print("place a github token in the .env file")
     else:
-        getReposStuff("TEST", 5000, 10000)
+        # getReposStuff("TEST", 9000, 10000)
+        for i in range(1000, 99999, 1000):
+            getReposStuff("TEST20", i, i + 1000)
+            print("sleeping for a minute to not abuse time limits too much")
+            # TODO: maths can only have 5000 requests per hour
+            time.sleep(60)
+
         # NOTE: if this is all doesn't work then parsing readme files of popular repositories will be the way to go
 
         # so we get a 1000 search results for each search
