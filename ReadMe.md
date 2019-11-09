@@ -7,3 +7,11 @@ list of sites we will scrap:
 
 
 Most of them can be done via search query into csv file. However JenkinsFile will be really hard to search for as it doesn't have a file extension to search for :(
+
+
+# to run
+pip install -r requirements.txt
+
+create .env file with token inside named GITHUB_TOKEN
+
+python main.py to run
