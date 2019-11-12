@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jling-github-scraper
+  labels:
+    app.kubernetes.io/name: jling-github-scraper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: jling-github-scraper
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: jling-github-scraper
+    spec:
+      containers:
+      - name: jling-github-scraper
+        image: raehik/jling-github-scraper:latest
+        env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: jling-github-scraper-gh-token
+              key: GITHUB_TOKEN
+        command: [python, main.py]
