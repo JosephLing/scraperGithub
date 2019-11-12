@@ -7,7 +7,7 @@ load_dotenv()
 
 TIMEOUT = 30
 REQUEST_TIME_TO_COMPLETE_TIMEOUT = 30
-MAX_NO_OF_PAGES = 100
+MAX_NO_OF_PAGES = 9
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
 
 
@@ -122,7 +122,7 @@ def foo(g, repo):
 
     path_results = {}
     for key in paths.keys():
-        print("searching for {} search style: {} and query: {}".format(key, paths.get(key).get("file"), paths.get(key).get("path")))
+        # print("searching for {} search style: {} and query: {}".format(key, paths.get(key).get("file"), paths.get(key).get("path")))
 
         if paths.get(key).get("file") == "single":
             try:
@@ -136,8 +136,6 @@ def foo(g, repo):
                 path_results[key] = [f.content for f in repo.get_dir_contents(paths.get(key).get("path")) if f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))]
             except GithubException as e:
                 pass
-
-        time.sleep(2)
 
     if len(path_results.keys()) == 0:
         print("found no results")
@@ -198,13 +196,14 @@ def getReposStuff(name, stars_start, stars_end):
                 if data[0].get("{}{}".format(k, i)) is None:
                     data[0]["{}{}".format(k, i)] = ""
 
-        writeToCsv(data, name)
+        writeToCsv(data, file_name)
 
         searches += len(saveData)
         pageination_page += 1
-
-        page = temp.get_page(pageination_page)
-
+        if searches < 1000:
+            page = temp.get_page(pageination_page)
+        else:
+            break
         print("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
         print("progress >>> {}%".format((searches / 1000) * 100))
         time.sleep(TIMEOUT)
@@ -218,8 +217,8 @@ def main():
         print("place a github token in the .env file")
     else:
         # getReposStuff("TEST", 9000, 10000)
-        for i in range(0, 1000, 100):
-            getReposStuff("BEN", i, i + 100)
+        for i in range(3000, 99999, 1000):
+            getReposStuff("raptor2", i, i + 1000)
             print("sleeping for a minute to not abuse time limits too much")
             # TODO: maths can only have 5000 requests per hour
             time.sleep(60)
