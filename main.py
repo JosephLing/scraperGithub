@@ -3,19 +3,31 @@ from dotenv import load_dotenv
 from os import getenv
 import csv
 import time
+
 load_dotenv()
 
 TIMEOUT = 30
 REQUEST_TIME_TO_COMPLETE_TIMEOUT = 30
-MAX_NO_OF_PAGES = 9
+MAX_NO_OF_PAGES = 9 # zero indexed fun stuff
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
+
+# all yaml apart from jenkins which is a single file
+PATHS = {
+    "travis": ".travis.yml",
+    "gitlab": ".gitlab-ci.yml",
+    "jenkinsPipeline":  "JenkinsFile",
+    "cirrus": ".cirrus.yml",  # file endings .yml .yaml
+    "github": ".github/workflows/",
+    "cds": ".cds",  # file endings .yml .yaml
+    "azure":  "azure-pipelines.yml",
+    "circleci": ".circleci/"
+}
 
 
 def saveRepos(repos, contents, name="repo"):
     data = []
     keys = ["name", "id", "description", "language", "open_issues",
-            "stargazers_count", "topics", "watchers_count"]
-    methods = ["get_readme"]
+            "stargazers_count", "topics", "watchers_count", "fork", "forks_url"]
     index = 0
     for repo in repos:
         print("saving >>> {}".format(repo.name))
@@ -108,34 +120,36 @@ def getConfigStuff(search, name):
         index, searches))
 
 
+def getContentsForYaml(repo, path):
+    try:
+        temp = repo.get_contents(path)
+        if isinstance(temp, list):
+            return [f.content for f in repo.get_contents(path) if
+                    f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))]
+        else:
+            return [temp.content]
+    except GithubException as e:
+        return []
+
+
 def foo(g, repo):
     # TODO: make me global!!! as its a read only constant that needs to have global access to avoid to fun stuff
-    paths = {
-        "travis": {"file": "single", "path": ".travis.yml"},
-        "gitlab": {"file": "single", "path": ".gitlab-ci.yml"},
-        "jenkinsPipeline": {"file": "single", "path": "JenkinsFile"},
-        "cirrus": {"file": "single", "path": ".cirrus.yml"},  # file endings .yml .yaml
-        "github": {"file": "dir", "path": ".github/workflows/"},
-        "cds": {"file": "dir", "path": ".cds"},  # file endings .yml .yaml
-        "azure": {"file": "single", "path": "azure-pipelines.yml"}
-    }
 
     path_results = {}
-    for key in paths.keys():
-        # print("searching for {} search style: {} and query: {}".format(key, paths.get(key).get("file"), paths.get(key).get("path")))
+    for key in PATHS.keys():
+        # NOTE: files with the same name as directories will currently break
+        # there has been issue created on the repo based on this by someone else 2days ago!
+        # also this api call will get depracted which might fix this issue
+        # https://github.com/PyGithub/PyGithub/issues/1283
+        # attempting to hotfix by copying in the changes into the library to see if that will work
+        # NOTE: this will require hotfixing every time it is installed!!!! (or deployed)
 
-        if paths.get(key).get("file") == "single":
-            try:
-                temp = repo.get_contents(paths.get(key).get("path"))
-                if temp is not None:
-                    path_results[key] = [temp.content]
-            except GithubException as e:
-                pass
-        else:
-            try:
-                path_results[key] = [f.content for f in repo.get_dir_contents(paths.get(key).get("path")) if f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))]
-            except GithubException as e:
-                pass
+        # get_contents -> list or single ContentFile depending on what gets returned
+        temp = getContentsForYaml(repo, PATHS.get(key))
+        if temp:
+            path_results[key] = temp
+
+        time.sleep(1)
 
     if len(path_results.keys()) == 0:
         print("found no results")
@@ -181,18 +195,8 @@ def getReposStuff(name, stars_start, stars_end):
         for i in range(len(saveData)):
             data.append({**saveData[i], **results[i]})
 
-        paths = {
-            "travis": {"file": "single", "path": ".travis.yml"},
-            "gitlab": {"file": "single", "path": ".gitlab-ci.yml"},
-            "jenkinsPipeline": {"file": "single", "path": "JenkinsFile"},
-            "cirrus": {"file": "single", "path": ".cirrus.yml"},  # file endings .yml .yaml
-            "github": {"file": "dir", "path": ".github/workflows/"},
-            "cds": {"file": "dir", "path": ".cds"},  # file endings .yml .yaml
-            "azure": {"file": "single", "path": "azure-pipelines.yml"}
-        }
-
-        for k in paths.keys():
-            for i in range(10):
+        for k in PATHS.keys():
+            for i in range(12):
                 if data[0].get("{}{}".format(k, i)) is None:
                     data[0]["{}{}".format(k, i)] = ""
 
@@ -203,7 +207,7 @@ def getReposStuff(name, stars_start, stars_end):
         if searches < 1000:
             page = temp.get_page(pageination_page)
         else:
-            break
+            print("reached limit for search results")
         print("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
         print("progress >>> {}%".format((searches / 1000) * 100))
         time.sleep(TIMEOUT)
@@ -217,7 +221,7 @@ def main():
         print("place a github token in the .env file")
     else:
         # getReposStuff("TEST", 9000, 10000)
-        for i in range(3000, 99999, 1000):
+        for i in range(1000, 99999, 1000):
             getReposStuff("raptor2", i, i + 1000)
             print("sleeping for a minute to not abuse time limits too much")
             # TODO: maths can only have 5000 requests per hour
