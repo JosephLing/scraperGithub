@@ -1,9 +1,9 @@
-from github import Github, GithubException, enable_console_debug_logging
+from github import Github, GithubException
 from dotenv import load_dotenv
 from os import getenv
-import csv
+from csvReader import writeToCsv
 import time
-
+import config
 load_dotenv()
 
 TIMEOUT = 30
@@ -11,17 +11,6 @@ REQUEST_TIME_TO_COMPLETE_TIMEOUT = 30
 MAX_NO_OF_PAGES = 9 # zero indexed fun stuff
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
 
-# all yaml apart from jenkins which is a single file
-PATHS = {
-    "travis": ".travis.yml",
-    "gitlab": ".gitlab-ci.yml",
-    "jenkinsPipeline":  "JenkinsFile",
-    "cirrus": ".cirrus.yml",  # file endings .yml .yaml
-    "github": ".github/workflows/",
-    "cds": ".cds",  # file endings .yml .yaml
-    "azure":  "azure-pipelines.yml",
-    "circleci": ".circleci/"
-}
 
 
 def saveRepos(repos, contents, name="repo"):
@@ -48,20 +37,6 @@ def saveRepos(repos, contents, name="repo"):
     return data
 
 
-def writeToCsv(data, name):
-    if len(data) >= 1:
-        print("saving: data")
-        field = list(data[0].keys())
-
-        with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
-
-            writer = csv.DictWriter(
-                csvfile, fieldnames=field, quoting=csv.QUOTE_MINIMAL)
-            writer.writeheader()
-            for d in data:
-                writer.writerow(d)
-    else:
-        print("no data found")
 
 
 def fixEncoding(value):
@@ -136,7 +111,7 @@ def foo(g, repo):
     # TODO: make me global!!! as its a read only constant that needs to have global access to avoid to fun stuff
 
     path_results = {}
-    for key in PATHS.keys():
+    for key in config.PATHS.keys():
         # NOTE: files with the same name as directories will currently break
         # there has been issue created on the repo based on this by someone else 2days ago!
         # also this api call will get depracted which might fix this issue
@@ -145,7 +120,7 @@ def foo(g, repo):
         # NOTE: this will require hotfixing every time it is installed!!!! (or deployed)
 
         # get_contents -> list or single ContentFile depending on what gets returned
-        temp = getContentsForYaml(repo, PATHS.get(key))
+        temp = getContentsForYaml(repo, config.PATHS.get(key))
         if temp:
             path_results[key] = temp
 
@@ -195,7 +170,7 @@ def getReposStuff(name, stars_start, stars_end):
         for i in range(len(saveData)):
             data.append({**saveData[i], **results[i]})
 
-        for k in PATHS.keys():
+        for k in config.PATHS.keys():
             for i in range(12):
                 if data[0].get("{}{}".format(k, i)) is None:
                     data[0]["{}{}".format(k, i)] = ""

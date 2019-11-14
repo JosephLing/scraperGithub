@@ -1,29 +1,11 @@
-import csv
-import sys
-import yaml
-import base64
-import binascii
+import csvReader
+import lib
+
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, exists
 
-import main as mainScraper
-NUMBER_OF_KEYS_PER_CONFIG = 12
-KEYS_TO_TRY = ['config']
-for k in mainScraper.PATHS.keys():
-    for i in range(NUMBER_OF_KEYS_PER_CONFIG):
-        KEYS_TO_TRY.append("{}{}".format(k, i))
 
-maxInt = sys.maxsize
 
-while True:
-    # decrease the maxInt value by factor 10
-    # as long as the OverflowError occurs.
-
-    try:
-        csv.field_size_limit(maxInt)
-        break
-    except OverflowError:
-        maxInt = int(maxInt / 10)
 
 def pad(msg,prev_mesg, padding=20):
     return "{}{}".format(" " * (padding - len(prev_mesg)), msg)
@@ -32,79 +14,97 @@ def parseFile(config):
     y = None
     if config is not None:
         data = None
-        try:
-            data = base64.b64decode(config)
-        except binascii.Error as e:
-            return "base64"
-
+        lib.base64Decode(config)
         if data is not None:
-            try:
-                y = yaml.safe_load(data)
-            except yaml.scanner.ScannerError as e:
-                # print("invalid scan")
-                pass
-            except yaml.parser.ParserError as e:
-                # print("invalid parse")
-                pass
-            except yaml.constructor.ConstructorError as e:
-                # print("invalid constuctor")
-                pass
-            except yaml.reader.ReaderError as e:
-                # print("invalid reader error")
-                pass
+            y = lib.yamlParse(config)
+        else:
+            return "base64"
 
     if y is not None:
         return "yaml"
 
 
 def check(filename):
-    with open(filename, "r", encoding="utf-8") as csvFile:
-        reader = csv.DictReader(csvFile)
-        i = 0
-        keysLength = 0
-        validConfig = 0
-        base64Errors = 0
-        readMeEncoding = 0
-        for row in reader:
-            if i == 0:
-                keysLength = len(row.keys())
-
-            try:
-                base64.b64decode(row.get("readme"))
-            except binascii.Error as e:
-                readMeEncoding += 1
-
-            if keysLength == 10:
-                r = parseFile(row.get("config"))
-                if r == "base64":
-                    base64Errors += 1
-                elif r == "yaml":
-                    validConfig += 1
-            if keysLength == 80:
+    lines = csvReader.readfile(filename)
+    i = 0
+    keysLength = 0
+    validConfig = 0
+    base64Errors = 0
+    readMeEncoding = 0
+    maxKeys = {}
+    for line in lines:
+        if i == 0:
+            keysLength = len(line.keys())
+            if keysLength > len(maxKeys.keys()):
+                maxKeys = line.keys()
 
 
-                for k in KEYS_TO_TRY:
-                    if row.get(k) is not None and row.get(k) != "":
-                        r = parseFile(row.get("config"))
-                        if r == "base64":
-                            base64Errors += 1
-                        elif r == "yaml":
-                            validConfig += 1
+        base64 = lib.base64Decode(line.get("readme"))
+        if base64 is None:
+            readMeEncoding += 1
 
-            i += 1
+        if keysLength == 10:
+            r = parseFile(line.get("config"))
+            if r == "base64":
+                base64Errors += 1
+            elif r == "yaml":
+                validConfig += 1
+        if keysLength == 80:
 
-        print("name: %slines: %s keys: %s decode error: %s valid yml:%s readme: %d" % (filename, pad(i,filename, 40),
-                                                                                pad(keysLength, str(i),10),
-                                                                                pad(validConfig, str(keysLength), 5),
-                                                                                pad(base64Errors, str(validConfig), 5), readMeEncoding ))
+            for k in csvReader.KEYS_TO_TRY:
+                if line.get(k) is not None and line.get(k) != "":
+                    r = parseFile(line.get("config"))
+                    if r == "base64":
+                        base64Errors += 1
+                    elif r == "yaml":
+                        validConfig += 1
+
+        i += 1
+
+    print("name: %slines: %s keys: %s decode error: %s valid yml:%s readme: %d" % (filename, pad(i,filename, 40),
+                                                                                   pad(keysLength, str(i),10),
+                                                                                   pad(validConfig, str(keysLength), 5),
+                                                                                   pad(base64Errors, str(validConfig), 5), readMeEncoding ))
+    return maxKeys
+
+def merge():
+    mypath = "./data"
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith(".csv") and "raptor" in f]
+    configs = []
+    for f in onlyfiles:
+        configs.append(check(join(mypath, f)))
+
+    print("combining csv files")
+    combined = []
+    for i in range(len(configs)):
+        if len(configs[i]) == 108:
+            tempfiles = csvReader.readfile(join(mypath, onlyfiles[i]))
+            for line in tempfiles:
+                combined.append(line)
+
+    name = "combined"
+    count = 0
+    while exists("{}.csv".format(name)):
+        name = "combined%d" % count
+        count += 1
+        print("file already exists trying alternative name")
+        if count > 10:
+            break
+    if count < 10:
+        csvReader.writeToCsv(combined, name)
+    else:
+        print("too many combined copies already found")
+
+def checkfiles(mypath, regexp=""):
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith(".csv") and regexp in f]
+    for f in onlyfiles:
+        check(join(mypath, f))
 
 
 def main():
-    mypath = "."
-    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith(".csv")]
-    for f in onlyfiles:
-        check(f)
-
+    # checkfiles("./data", "raptor")
+    checkfiles(".", "combined0")
+    # merge()
 
 if __name__ == "__main__":
     main()
