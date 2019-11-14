@@ -3,9 +3,15 @@ import sys
 import yaml
 import base64
 import binascii
-
 from os import listdir
 from os.path import isfile, join
+
+import main as mainScraper
+NUMBER_OF_KEYS_PER_CONFIG = 12
+KEYS_TO_TRY = ['config']
+for k in mainScraper.PATHS.keys():
+    for i in range(NUMBER_OF_KEYS_PER_CONFIG):
+        KEYS_TO_TRY.append("{}{}".format(k, i))
 
 maxInt = sys.maxsize
 
@@ -52,8 +58,8 @@ def parseFile(config):
 
 
 def check(filename):
-    with open(filename, "r", encoding="utf-8") as cat:
-        reader = csv.DictReader(cat)
+    with open(filename, "r", encoding="utf-8") as csvFile:
+        reader = csv.DictReader(csvFile)
         i = 0
         keysLength = 0
         validConfig = 0
@@ -68,15 +74,16 @@ def check(filename):
             except binascii.Error as e:
                 readMeEncoding += 1
 
-            # if keysLength == 10:
-            #     r = parseFile(row.get("config"))
-            #     if r == "base64":
-            #         base64Errors += 1
-            #     elif r == "yaml":
-            #         validConfig += 1
+            if keysLength == 10:
+                r = parseFile(row.get("config"))
+                if r == "base64":
+                    base64Errors += 1
+                elif r == "yaml":
+                    validConfig += 1
             if keysLength == 80:
-                keys_to_try = ['config', 'travis0', 'travis1', 'travis2', 'travis3', 'travis4', 'travis5', 'travis6', 'travis7', 'travis8', 'travis9', 'gitlab0', 'gitlab1', 'gitlab2', 'gitlab3', 'gitlab4', 'gitlab5', 'gitlab6', 'gitlab7', 'gitlab8', 'gitlab9', 'jenkinsPipeline0', 'jenkinsPipeline1', 'jenkinsPipeline2', 'jenkinsPipeline3', 'jenkinsPipeline4', 'jenkinsPipeline5', 'jenkinsPipeline6', 'jenkinsPipeline7', 'jenkinsPipeline8', 'jenkinsPipeline9', 'cirrus0', 'cirrus1', 'cirrus2', 'cirrus3', 'cirrus4', 'cirrus5', 'cirrus6', 'cirrus7', 'cirrus8', 'cirrus9', 'github0', 'github1', 'github2', 'github3', 'github4', 'github5', 'github6', 'github7', 'github8', 'github9', 'cds0', 'cds1', 'cds2', 'cds3', 'cds4', 'cds5', 'cds6', 'cds7', 'cds8', 'cds9', 'azure0', 'azure1', 'azure2', 'azure3', 'azure4', 'azure5', 'azure6', 'azure7', 'azure8', 'azure9']
-                for k in keys_to_try:
+
+
+                for k in KEYS_TO_TRY:
                     if row.get(k) is not None and row.get(k) != "":
                         r = parseFile(row.get("config"))
                         if r == "base64":
