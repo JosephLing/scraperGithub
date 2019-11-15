@@ -75,13 +75,24 @@ def merge():
         configs.append(check(join(mypath, f)))
 
     print("combining csv files")
-    combined = []
+    combined = {}
     for i in range(len(configs)):
-        if len(configs[i]) == 108:
+        if len(configs[i]) == 108 or len(configs[i]) == 204:
             tempfiles = csvReader.readfile(join(mypath, onlyfiles[i]))
-            for line in tempfiles:
-                combined.append(line)
+            if len(configs[i]) == 108:
+                for line in tempfiles:
+                    for k in csvReader.KEYS_TO_TRY:
+                        if line.get(k) is None:
+                            line[k] = ""
+                    line["watchers"] = 0
+                    combined[line.get("id")] = line
+            else:
+                for line in tempfiles:
+                    if line.get("watchers") is None:
+                        line["watchers"] = 0
+                    combined[line.get("id")] = line
 
+    print(len(combined.values()))
     name = "combined"
     count = 0
     while exists("{}.csv".format(name)):
@@ -91,7 +102,7 @@ def merge():
         if count > 10:
             break
     if count < 10:
-        csvReader.writeToCsv(combined, name)
+        csvReader.writeToCsv(list(combined.values()), name)
     else:
         print("too many combined copies already found")
 
@@ -103,8 +114,8 @@ def checkfiles(mypath, regexp=""):
 
 def main():
     # checkfiles("./data", "raptor")
-    checkfiles(".", "combined0")
-    # merge()
+    # checkfiles(".", "combined")
+    merge()
 
 if __name__ == "__main__":
     main()

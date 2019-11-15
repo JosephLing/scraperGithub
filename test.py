@@ -6,6 +6,24 @@ import pandas as pd
 
 # csvfiledata = csvReader.readfile("data/raptor14_04_19stars30004000.csv")
 csvfiledata = csvReader.readfile("combined.csv")
+#
+# ids = {}
+# for line in csvfiledata:
+#     if ids.get(line.get("id")) is None:
+#         ids[line.get("id")] = 0
+#     ids[line.get("id")] += 1
+#
+#
+# temp = [k for k in ids.keys() if ids[k] != 1]
+
+# print(len(temp))
+
+def get_stars():
+    temp = [int(line.get("stargazers_count")) for line in csvfiledata]
+    temp.sort()
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(y=temp))
+    fig.show()
 
 
 def configCountPerLanguage():
@@ -68,4 +86,6 @@ def configNo():
     print("no. of repositories with no build files: %d" % (len(csvfiledata) - build_system_count))
     print("%s%% of repositories have build config" % ((build_system_count/len(csvfiledata))*100))
 
-getBuildSystemStats()
+# getBuildSystemStats()
+# configCountPerLanguage()
+get_stars()

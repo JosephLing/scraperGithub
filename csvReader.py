@@ -1,7 +1,7 @@
 from sys import maxsize
 import csv
 import config
-NUMBER_OF_KEYS_PER_CONFIG = 12
+NUMBER_OF_KEYS_PER_CONFIG = 24
 
 KEYS_TO_TRY = ['config']
 for k in config.PATHS.keys():
