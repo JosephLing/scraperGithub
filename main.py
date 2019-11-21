@@ -7,6 +7,7 @@ import config
 import traceback
 load_dotenv()
 
+FILE_NAME = getenv("FILE_NAME", "penguins")
 NO_PAGES = getenv("NO_PAGES", 100)
 REQUEST_TIMEOUT = getenv("REQUEST_TIMEOUT", 120)
 ITERATION_DIFFERENCE = getenv("ITERATION_DIFFERENCE", 10)
@@ -78,12 +79,14 @@ def getReposFromFiles(files):
     return repos, contents
 
 
-def getContentsForYaml(repo, path):
+def getContentsForYaml(repo, path, isjenkins):
+    # jenkins is the only configuration type that isn't yaml so we do validation for all the yaml files that
+    # they are actually legit files. Then for jenkins we let it be jenkins :)
     try:
         temp = repo.get_contents(path)
         if isinstance(temp, list):
             return [f.content for f in repo.get_contents(path) if
-                    f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))]
+                    f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml") and not isjenkins)]
         else:
             return [temp.content]
     except GithubException as e:
@@ -102,7 +105,7 @@ def process_repo_ci_files(repo):
         # NOTE: this will require hotfixing every time it is installed!!!! (or deployed)
 
         # get_contents -> list or single ContentFile depending on what gets returned
-        temp = getContentsForYaml(repo, config.PATHS.get(key))
+        temp = getContentsForYaml(repo, config.PATHS.get(key), "jenkins" in key)
         if temp:
             path_results[key] = temp
 
@@ -136,7 +139,7 @@ def getReposStuff(name, stars_start, stars_end):
 
         print("getting page: {}".format(pageination_page))
 
-        saveData = saveRepos(page, ["" for i in range(len(page))], name)
+        saveData = saveRepos(page, ["" for i in range(len(page))])
 
         results = []
         for repo in page:
@@ -174,7 +177,7 @@ def getReposStuff(name, stars_start, stars_end):
 
 def main_scraper():
     for i in range(ITERATION_START, ITERATION_END, ITERATION_DIFFERENCE):
-        getReposStuff("raptor_atypical", i, i + ITERATION_DIFFERENCE)
+        getReposStuff(FILE_NAME, i, i + ITERATION_DIFFERENCE)
         print("sleeping for a minute to not abuse time limits too much")
         # TODO: maths can only have 5000 requests per hour
         time.sleep(60)
