@@ -1,3 +1,5 @@
+import base64
+
 import csvReader
 import lib
 
@@ -38,27 +40,22 @@ def check(filename):
             if keysLength > len(maxKeys.keys()):
                 maxKeys = line.keys()
 
-
         base64 = lib.base64Decode(line.get("readme"))
         if base64 is None:
             readMeEncoding += 1
-
         if keysLength == 10:
             r = parseFile(line.get("config"))
             if r == "base64":
                 base64Errors += 1
             elif r == "yaml":
                 validConfig += 1
-        if keysLength == 80:
-
-            for k in csvReader.KEYS_TO_TRY:
-                if line.get(k) is not None and line.get(k) != "":
-                    r = parseFile(line.get("config"))
-                    if r == "base64":
-                        base64Errors += 1
-                    elif r == "yaml":
-                        validConfig += 1
-
+        for k in csvReader.KEYS_TO_TRY:
+            if line.get(k) is not None and line.get(k) != "":
+                r = parseFile(line.get(k))
+                if r == "base64":
+                    base64Errors += 1
+                elif r == "yaml":
+                    validConfig += 1
         i += 1
 
     print("name: %slines: %s keys: %s decode error: %s valid yml:%s readme: %d" % (filename, pad(i,filename, 40),
@@ -67,7 +64,12 @@ def check(filename):
                                                                                    pad(base64Errors, str(validConfig), 5), readMeEncoding ))
     return maxKeys
 
-def merge():
+def checkJenkins(line):
+    if line.get("jenkinsPipeline0"):
+        temp = base64.b64decode(line.get("jenkinsPipeline0"))
+        print(len(temp))
+
+def merge(save=True):
     mypath = "./data"
     onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith(".csv") and "raptor" in f]
     configs = []
@@ -76,35 +78,43 @@ def merge():
 
     print("combining csv files")
     combined = {}
+    duplicates = 0
     for i in range(len(configs)):
         if len(configs[i]) == 108 or len(configs[i]) == 204:
             tempfiles = csvReader.readfile(join(mypath, onlyfiles[i]))
-            if len(configs[i]) == 108:
-                for line in tempfiles:
-                    for k in csvReader.KEYS_TO_TRY:
-                        if line.get(k) is None:
-                            line[k] = ""
-                    line["watchers"] = 0
-                    combined[line.get("id")] = line
-            else:
-                for line in tempfiles:
-                    if line.get("watchers") is None:
-                        line["watchers"] = 0
-                    combined[line.get("id")] = line
+            for line in tempfiles:
+                for k in csvReader.KEYS_TO_TRY:
+                    # if there is no config
+                    if line.get(k) is None:
+                        line[k] = ""
 
-    print(len(combined.values()))
-    name = "combined"
-    count = 0
-    while exists("{}.csv".format(name)):
-        name = "combined%d" % count
-        count += 1
-        print("file already exists trying alternative name")
-        if count > 10:
-            break
-    if count < 10:
-        csvReader.writeToCsv(list(combined.values()), name)
-    else:
-        print("too many combined copies already found")
+                # watchers not working
+                if line.get("watchers") is None:
+                    line["watchers"] = 0
+
+                # duplicates numbers
+                if combined.get(line.get("id")) is not None:
+                    duplicates += 1
+                combined[line.get("id")] = line
+
+                checkJenkins(line)
+
+    print("duplicates: ", duplicates)
+    print("results: ", len(combined.values()))
+    if save:
+        name = "combined"
+        count = 0
+        while exists("{}.csv".format(name)):
+            name = "combined%d" % count
+            count += 1
+            print("file already exists trying alternative name")
+            if count > 10:
+                break
+        if count < 10:
+            csvReader.writeToCsv(list(combined.values()), name)
+        else:
+            print("too many combined copies already found")
+
 
 def checkfiles(mypath, regexp=""):
     onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith(".csv") and regexp in f]
@@ -113,6 +123,7 @@ def checkfiles(mypath, regexp=""):
 
 
 def main():
+    print("running")
     # checkfiles("./data", "raptor")
     # checkfiles(".", "combined")
     merge()

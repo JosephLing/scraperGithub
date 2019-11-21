@@ -4,19 +4,25 @@ from os import getenv
 from csvReader import writeToCsv
 import time
 import config
+import traceback
 load_dotenv()
 
-TIMEOUT = 30
-REQUEST_TIME_TO_COMPLETE_TIMEOUT = 30
-MAX_NO_OF_PAGES = 9 # zero indexed fun stuff
+NO_PAGES = getenv("NO_PAGES", 100)
+REQUEST_TIMEOUT = getenv("REQUEST_TIMEOUT", 120)
+ITERATION_DIFFERENCE = getenv("ITERATION_DIFFERENCE", 10)
+ITERATION_START = getenv("ITERATION_START", 1000)
+ITERATION_END = getenv("ITERATION_END", 999999)
+NUMBER_OF_POTENTAIL_FILES = getenv("NUMBER_OF_POTETNAIL_FILES", 24)
+RATE_LIMITING = getenv("RATE_LIMITING", 1000)
+TIMEOUT = getenv("TIMEOUT", 30)
+REQUEST_TIME_TO_COMPLETE_TIMEOUT = getenv("REQUEST_TIME_TO_COMPLETE_TIMEOUT", 120)
+MAX_NO_OF_PAGES = getenv("MAX_NO_OF_PAGES", 9) # zero indexed fun stuff
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
 
-
-
-def saveRepos(repos, contents, name="repo"):
+def saveRepos(repos, contents):
     data = []
     keys = ["name", "id", "description", "language", "open_issues",
-            "stargazers_count", "topics", "watchers_count", "fork", "forks_url"]
+            "stargazers_count", "topics", "watchers", "fork", "forks_url"]
     index = 0
     for repo in repos:
         print("saving >>> {}".format(repo.name))
@@ -27,16 +33,26 @@ def saveRepos(repos, contents, name="repo"):
         except GithubException as e:
             pass
 
-        dictionary = dict([(k, fixEncoding(getattr(repo, k))) for k in keys])
+        dictionary = dict([(k, "") for k in keys])
+        for k in keys:
+            # this deals with one recorded case of a 502 error when doing getting the attributes from github
+            # in doing so this makes it more versatile and allows for better error recovery and recording of the issues
+            try:
+                dictionary[k] = fixEncoding(getattr(repo, k))
+            except GithubException as e:
+                print("---------------")
+                print("github exception happened when searching for: {} in {}".format(k, repo.name))
+                traceback.print_tb(e.__traceback__)
+                print("---------------")
+
         dictionary["readme"] = readme
         dictionary["config"] = contents[index]
+        dictionary["watch"] = repo.watchers_count
 
         data.append(dictionary)
 
         index += 1
     return data
-
-
 
 
 def fixEncoding(value):
@@ -62,39 +78,6 @@ def getReposFromFiles(files):
     return repos, contents
 
 
-def getConfigStuff(search, name):
-    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT)
-    searches = 0
-
-    print("----------------------------------------")
-    print("getting data for: {} will take around 2mins".format(name))
-    name += time.strftime("%X").replace(":", "_")
-    temp = g.search_code(search)
-    index = 3
-    page = temp.get_page(index)
-    while len(page) >= 1 and index < MAX_NO_OF_PAGES and searches < 1000:
-        g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT)
-        print("getting page: {}".format(index))
-        repos, content = getReposFromFiles(page)
-
-        if len(repos) > 1:
-            print(
-                "sleeping for a few seconds just not to abuse the rate limiting too much")
-            time.sleep(TIMEOUT)
-            writeToCsv(saveRepos(repos, content), name)
-        else:
-            print("no data found")
-
-        index += 1
-        searches += len(repos)
-        page = temp.get_page(index)
-        print("currently {}% complete".format(searches / 1000))
-        print("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
-        time.sleep(TIMEOUT)
-    print("finished going through {} pages of results and got {} results".format(
-        index, searches))
-
-
 def getContentsForYaml(repo, path):
     try:
         temp = repo.get_contents(path)
@@ -107,8 +90,7 @@ def getContentsForYaml(repo, path):
         return []
 
 
-def foo(g, repo):
-    # TODO: make me global!!! as its a read only constant that needs to have global access to avoid to fun stuff
+def process_repo_ci_files(repo):
 
     path_results = {}
     for key in config.PATHS.keys():
@@ -141,18 +123,16 @@ def foo(g, repo):
 
 
 def getReposStuff(name, stars_start, stars_end):
-    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT, per_page=100)
+    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT, per_page=NO_PAGES)
     search = "stars:{}..{}".format(stars_start, stars_end)  # TODO: add in stars
     print("----------------------------------------")
 
-    temp = g.search_repositories(search)
+    pages = g.search_repositories(search)
     pageination_page = 0
-    page = temp.get_page(pageination_page)
+    page = pages.get_page(pageination_page)
     searches = 0
-    while len(page) >= 1 and pageination_page < MAX_NO_OF_PAGES and searches < 1000:
+    while len(page) >= 1 and pageination_page < MAX_NO_OF_PAGES and searches < RATE_LIMITING:
         file_name = name + time.strftime("%X").replace(":", "_") + "stars{}{}".format(stars_start, stars_end)
-
-        g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT, per_page=100)
 
         print("getting page: {}".format(pageination_page))
 
@@ -161,7 +141,7 @@ def getReposStuff(name, stars_start, stars_end):
         results = []
         for repo in page:
             print("querying:" + repo.name)
-            results.append(foo(g, repo))
+            results.append(process_repo_ci_files(repo))
 
         print("got all the data from the on the repository now sleeping for a bit")
         time.sleep(TIMEOUT)
@@ -171,7 +151,7 @@ def getReposStuff(name, stars_start, stars_end):
             data.append({**saveData[i], **results[i]})
 
         for k in config.PATHS.keys():
-            for i in range(12):
+            for i in range(NUMBER_OF_POTENTAIL_FILES):
                 if data[0].get("{}{}".format(k, i)) is None:
                     data[0]["{}{}".format(k, i)] = ""
 
@@ -179,50 +159,32 @@ def getReposStuff(name, stars_start, stars_end):
 
         searches += len(saveData)
         pageination_page += 1
-        if searches < 1000:
-            page = temp.get_page(pageination_page)
+        if searches < RATE_LIMITING:
+            page = pages.get_page(pageination_page)
         else:
             print("reached limit for search results")
+
         print("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
-        print("progress >>> {}%".format((searches / 1000) * 100))
+        print("progress >>> {}%".format((searches / RATE_LIMITING) * NO_PAGES))
         time.sleep(TIMEOUT)
 
     print("finished")
     print("finished going through {} pages of results and got {} results".format(pageination_page, searches))
 
 
+def main_scraper():
+    for i in range(ITERATION_START, ITERATION_END, ITERATION_DIFFERENCE):
+        getReposStuff("raptor_atypical", i, i + ITERATION_DIFFERENCE)
+        print("sleeping for a minute to not abuse time limits too much")
+        # TODO: maths can only have 5000 requests per hour
+        time.sleep(60)
+
+
 def main():
     if GITHUB_TOKEN is None:
         print("place a github token in the .env file")
     else:
-        # getReposStuff("TEST", 9000, 10000)
-        for i in range(1000, 99999, 1000):
-            getReposStuff("raptor2", i, i + 1000)
-            print("sleeping for a minute to not abuse time limits too much")
-            # TODO: maths can only have 5000 requests per hour
-            time.sleep(60)
-
-        # NOTE: if this is all doesn't work then parsing readme files of popular repositories will be the way to go
-
-        # so we get a 1000 search results for each search
-        # writeToCsv([{"a":"cat,fish,dog"}], "test.csv")
-        # getConfigStuff("extension:.yml filename:.travis.yml", "allTheTravis")
-        # getConfigStuff("extension:.yml path:.circle/ filename:config.yml", "allTheCircles")
-        # getConfigStuff("extension:.yml path:.github/workflows name", "githubActions")
-        # getConfigStuff("extension:.yml filename:.gitlab-ci.yml", "gitlab")
-        # getConfigStuff("filename:JenkinsFile", "jenkinsPipeline")
-        # getConfigStuff( "filename:.cirrus.yml", "cirrus") # cirrus https://cirrus-ci.org/examples/
-        # getConfigStuff("path:.cds version", "cds") # https://ovh.github.io/cds/docs/tutorials/init_workflow_with_cdsctl/ more CD than CI though
-        # team city got to last page before it died
-        # getConfigStuff("path:.teamcity version", "teamcity") # note the content of the configuration will be xml and it will be messy most likely as team city has lots of files for all the things
-
-        # got too 48%
-        # TODO: triple check this is how it works?? as it could just be any .yml file however it will do the job and there should be around 50,000 results
-        # getConfigStuff("filename:azure-pipelines.yml", "azure")
-
-        # note: GoCd seems to be used so little that I can't find any good examples of it its config
-        # combined with the fact that they allow .json and .yml ah!
-
+        main_scraper()
 
 if __name__ == "__main__":
     main()

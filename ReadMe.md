@@ -40,12 +40,51 @@ distribution per language and the length of the ci script
 
 plan:
 - finish scrapping the data [ ]
-- group the data sets into one large one [ ]
-- process the data removing duplicates [ ]
-- based on the questions above come up with ways answering from the data
-	- get half way through doing that 
+    - need to make this more consistent so we can get a long run for this!!! [ ]
+- group the data sets into one large one [X]
+- process the data removing duplicates [X]
+- get the graphs for language and thing type to create sepearte graphs for each thing
+    - get that to pick up on when there is no configuration in the % otherwise it is squed
+- yaml parser project!
 
+Bugs:
+- watchers aren't being picked up properly
+- consistent high speed data gathering is hard atm
+    - read time out 
+    - 502 error
+    ```log
+    saving >>> drizzleDumper
+    saving >>> DZNSegmentedControl
+    saving >>> DLCImagePickerController
+    Traceback (most recent call last):
+      File "main.py", line 254, in <module>
+        main()
+      File "main.py", line 226, in main
+        getReposStuff("raptor_webb", i, i + 100)
+      File "main.py", line 185, in getReposStuff
+        saveData = saveRepos(page, ["" for i in range(len(page))], name)
+      File "main.py", line 42, in saveRepos
+        dictionary = dict([(k, fixEncoding(getattr(repo, k))) for k in keys])
+      File "main.py", line 42, in <listcomp>
+        dictionary = dict([(k, fixEncoding(getattr(repo, k))) for k in keys])
+      File "/home/eat/jl653/private/scraperGithub/venv2/lib/python3.6/site-packages/github/Repository.py", line 732, in topics
+        self._completeIfNotSet(self._topics)
+      File "/home/eat/jl653/private/scraperGithub/venv2/lib/python3.6/site-packages/github/GithubObject.py", line 262, in _completeIfNotSet
+        self._completeIfNeeded()
+      File "/home/eat/jl653/private/scraperGithub/venv2/lib/python3.6/site-packages/github/GithubObject.py", line 266, in _completeIfNeeded
+        self.__complete()
+      File "/home/eat/jl653/private/scraperGithub/venv2/lib/python3.6/site-packages/github/GithubObject.py", line 273, in __complete
+        self._url.value
+      File "/home/eat/jl653/private/scraperGithub/venv2/lib/python3.6/site-packages/github/Requester.py", line 268, in requestJsonAndCheck
+        return self.__check(*self.requestJson(verb, url, parameters, headers, input, self.__customConnection(url)))
+      File "/home/eat/jl653/private/scraperGithub/venv2/lib/python3.6/site-packages/github/Requester.py", line 279, in __check
+        raise self.__createException(status, responseHeaders, output)
+    github.GithubException.GithubException: 502 {"message": "Server Error"}
+    ``` 
+    so probably could but an exception handler around this to ignore it maybe???
 
+- jenkins configuration wasn't being picked up as we were only getting .yml or .yaml file types
+    - this should be good validation but do we want data for weird files that don't match???
 
 csv -> line -> base64 -> text -> yaml
 
