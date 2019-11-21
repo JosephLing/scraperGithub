@@ -109,7 +109,7 @@ def process_repo_ci_files(repo):
         if temp:
             path_results[key] = temp
 
-        time.sleep(1)
+        time.sleep(1.5)
 
     if len(path_results.keys()) == 0:
         print("found no results")
