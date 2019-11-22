@@ -34,7 +34,7 @@ def saveRepos(repos, contents):
         except GithubException as e:
             pass
 
-        dictionary = dict([(k, "") for k in keys])
+        dictionary = {}
         for k in keys:
             # this deals with one recorded case of a 502 error when doing getting the attributes from github
             # in doing so this makes it more versatile and allows for better error recovery and recording of the issues
@@ -45,6 +45,7 @@ def saveRepos(repos, contents):
                 print("github exception happened when searching for: {} in {}".format(k, repo.name))
                 traceback.print_tb(e.__traceback__)
                 print("---------------")
+                dictionary[k] = ""
 
         dictionary["readme"] = readme
         dictionary["config"] = contents[index]
@@ -70,11 +71,6 @@ def getReposFromFiles(files):
         repos.append(file.repository)
         print("reading >>> {}".format(repos[len(repos) - 1].name))
 
-        if "," in file.content:
-            print("ERROR")
-            print(file.content)
-            print("--------------------")
-
         contents.append(file.content)
     return repos, contents
 
@@ -85,8 +81,10 @@ def getContentsForYaml(repo, path, isjenkins):
     try:
         temp = repo.get_contents(path)
         if isinstance(temp, list):
+            # we slice here to avoid having extra files of configuration over 24
+            # 24 atm is just a magic number as we should ideally never get above that
             return [f.content for f in repo.get_contents(path) if
-                    f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml") and not isjenkins)]
+                    f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml") and not isjenkins)][:NUMBER_OF_POTENTAIL_FILES]
         else:
             return [temp.content]
     except GithubException as e:
