@@ -17,13 +17,18 @@ NUMBER_OF_POTENTAIL_FILES = getenv("NUMBER_OF_POTETNAIL_FILES", 24)
 RATE_LIMITING = getenv("RATE_LIMITING", 1000)
 TIMEOUT = getenv("TIMEOUT", 30)
 REQUEST_TIME_TO_COMPLETE_TIMEOUT = getenv("REQUEST_TIME_TO_COMPLETE_TIMEOUT", 120)
-MAX_NO_OF_PAGES = getenv("MAX_NO_OF_PAGES", 9) # zero indexed fun stuff
+MAX_NO_OF_PAGES = getenv("MAX_NO_OF_PAGES", 9)  # zero indexed fun stuff
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
 
 def saveRepos(repos, contents):
     data = []
+
+    # NOTE: due to this: https://developer.github.com/changes/2012-09-05-watcher-api/
+    # subscribers count is used to demonstrate the number of people watching the repository. Watchers etc. is now for
+    # the star count.
+
     keys = ["name", "id", "description", "language", "open_issues",
-            "stargazers_count", "topics", "watchers", "fork", "forks_url"]
+            "stargazers_count", "topics", "subscribers_count", "fork", "forks_url"]
     index = 0
     for repo in repos:
         print("saving >>> {}".format(repo.name))
@@ -186,6 +191,7 @@ def main():
         print("place a github token in the .env file")
     else:
         main_scraper()
+
 
 if __name__ == "__main__":
     main()

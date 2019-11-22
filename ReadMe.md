@@ -40,7 +40,7 @@ distribution per language and the length of the ci script
 
 plan:
 - finish scrapping the data [ ]
-    - need to make this more consistent so we can get a long run for this!!! [ ]
+    - need to make this more consistent so we can get a long run for this!!! [X]
 - group the data sets into one large one [X]
 - process the data removing duplicates [X]
 - get the graphs for language and thing type to create sepearte graphs for each thing
@@ -48,6 +48,9 @@ plan:
 - yaml parser project!
 
 Bugs:
+- none so far....
+
+Fixed:
 - watchers aren't being picked up properly
 - consistent high speed data gathering is hard atm
     - read time out 
