@@ -23,10 +23,10 @@ while True:
         maxInt = int(maxInt / 10)
 
 
-def readfile(filename):
+def readfile(filename, fields=None):
     lines = []
     with open(filename, "r", encoding="utf-8") as csvFile:
-        reader = csv.DictReader(csvFile)
+        reader = csv.DictReader(csvFile, fields)
         for row in reader:
             lines.append(row)
     return lines

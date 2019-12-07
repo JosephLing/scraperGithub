@@ -16,26 +16,6 @@ import yaml
 csvfiledata = csvReader.readfile("combined.csv")
 # csvfiledata = []
 
-def isCommentInString(message):
-    search = "#"
-    if search in message:
-        inString = False
-        specailCharacter = False
-        for c in message:
-
-            if c == search and not inString and not specailCharacter:
-                return True
-
-            specailCharacter = False
-
-            if c == "'":
-                inString = True
-            elif inString and c == "'":
-                inString = False
-
-            elif not inString and c == '\\':
-                specailCharacter = True
-    return False
 
 
 
@@ -182,7 +162,7 @@ def configCountPerLanguage():
     fig.show()
 
     #
-    # wide_df = pd.DataFrame(data)
+        # wide_df = pd.DataFrame(data)
     # print(wide_df)
     # tidy_df = wide_df.melt(id_vars="lang")
     # print(tidy_df)
