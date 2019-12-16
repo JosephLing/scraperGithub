@@ -1,6 +1,6 @@
 from sys import maxsize
 import csv
-import config
+from . import config
 NUMBER_OF_KEYS_PER_CONFIG = 24
 
 KEYS_TO_TRY = ['config']
@@ -31,11 +31,23 @@ def readfile(filename, fields=None):
             lines.append(row)
     return lines
 
+def readfile_low_memory(filename):
+    lines = []
+    with open(filename, "r", encoding="utf-8") as csvFile:
+        reader = csv.reader(csvFile)
+        for row in reader:
+            lines.append(row)
+    return lines
 
-def writeToCsv(data, name):
+
+
+def writeToCsv(data, name, fields=None):
     if len(data) >= 1:
         print("saving: data")
-        field = list(data[0].keys())
+        if fields is None:
+            field = list(data[0].keys())
+        else:
+            field = fields
 
         with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
 

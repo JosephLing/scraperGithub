@@ -108,7 +108,16 @@ yaml:
   - how much things differ from standard templates for given languages? for travis and other languages 
     - detect snippets as described in docs
     - before and after scripts
-- loc 
+- loc [x] 
+
+what do people use CI for????
+testing or deployment or notifications
+for deplosy: the tag and maybe string search in noticiations but not 100% reliable as scripts
+
+
+
+
+
 
 
 groups configuration lines of code distribution 

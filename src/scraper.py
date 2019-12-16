@@ -1,9 +1,9 @@
 from github import Github, GithubException
 from dotenv import load_dotenv
 from os import getenv
-from csvReader import writeToCsv
+from .csvReader import writeToCsv
 import time
-import config
+from . import config
 import traceback
 load_dotenv()
 
@@ -90,7 +90,7 @@ def getContentsForYaml(repo, path, isjenkins):
             # we slice here to avoid having extra files of configuration over 24
             # 24 atm is just a magic number as we should ideally never get above that
             return [f.content for f in repo.get_contents(path) if
-                    f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml") and not isjenkins)][:NUMBER_OF_POTENTAIL_FILES]
+                    f is not None and ((f.name.endswith(".yaml") or f.name.endswith(".yml")) or (isjenkins and "jenkins" in f.name.lower()))][:NUMBER_OF_POTENTAIL_FILES]
         else:
             return [temp.content]
     except GithubException as e:
