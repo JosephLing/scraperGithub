@@ -1,10 +1,10 @@
 import base64
 
-import csvReader
-import lib
+from . import csvReader
+from . import lib
 
 from os import listdir
-from os.path import isfile, join, exists
+from os.path import isfile, join
 
 
 
@@ -99,15 +99,8 @@ def merge(mypath, save=True):
     print("duplicates: ", duplicates)
     print("results: ", len(combined.values()))
     if save:
-        name = "combined"
-        count = 0
-        while exists("{}.csv".format(name)):
-            name = "combined%d" % count
-            count += 1
-            print("file already exists trying alternative name")
-            if count > 10:
-                break
-        if count < 10:
+        name = csvReader.check_name("combined")
+        if name:
             csvReader.writeToCsv(list(combined.values()), name)
         else:
             print("too many combined copies already found")

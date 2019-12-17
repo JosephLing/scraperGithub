@@ -1,7 +1,7 @@
 import yaml
-from . import config
+from src import config
 import lib
-from . import csvReader
+from src import csvReader
 import csv
 import threading
 import queue
@@ -46,16 +46,18 @@ def isCommentInString(message) -> str:
                 specailCharacter = True
     return ""
 
+def write_to_csv(name, data, fields):
+    with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
+        writer = csv.DictWriter(
+            csvfile, fieldnames=fields, quoting=csv.QUOTE_MINIMAL)
+        for d in data:
+            writer.writerow(d)
+
 def appendData(name, data, fields):
 
     if data:
         global_lock.acquire()
-        with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
-            writer = csv.DictWriter(
-                csvfile, fieldnames=fields, quoting=csv.QUOTE_MINIMAL)
-            for d in data:
-                writer.writerow(d)
-
+        write_to_csv(name, data, fields)
         global_lock.release()
 
 def get_comment_stats(fileasstring):
@@ -126,7 +128,7 @@ def process(data, line, key):
                 "id": line.get("id")},comments_data
 
 
-def foo_worker(line, name):
+def process_line(line, name, comments_name):
     yaml_stats = []
     comments = []
     for key in config.PATHS.keys():
@@ -137,8 +139,9 @@ def foo_worker(line, name):
                 if len(comments_data) > 0:
                     comments.append(comments_data)
                 yaml_stats.append(dataToSave)
+
     appendData(name, yaml_stats, FIELDS)
-    appendData("comments test2", comments, COMMENTS_FIELDS)
+    appendData(comments_name, comments, COMMENTS_FIELDS)
 
 
 
@@ -152,29 +155,14 @@ def check(name):
         count += 1
         if count > 10:
             break
-    # import pandas as pd
-    # print(pd.read_csv("{}.csv".format(name)))
 
-
-def main(name, data):
-
-    num_worker_threads = 5
-    with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(
-            csvfile, fieldnames=FIELDS, quoting=csv.QUOTE_MINIMAL)
-        writer.writeheader()
-
-    with open("comments test2.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(
-            csvfile, fieldnames=COMMENTS_FIELDS, quoting=csv.QUOTE_MINIMAL)
-        writer.writeheader()
-
+def run_main(num_worker_threads, data, name, comments_name):
     def worker():
         while True:
             line = q.get()
             if line is None:
                 break
-            foo_worker(line, name)
+            process_line(line, name, comments_name)
             q.task_done()
 
     q = queue.Queue()
@@ -196,13 +184,38 @@ def main(name, data):
         q.put(None)
     for t in threads:
         t.join()
+    print("finished")
+
+
+def main(name, comments_test_name, data):
+
+    num_worker_threads = 5
+
+    name = csvReader.check_name(name)
+    comments_test_name = csvReader.check_name(comments_test_name)
+
+    if name == "":
+        print("file already found for the files for the main file so can't write to disk")
+        return
+    if comments_test_name == "":
+        print("file already found for the files for the comments file so can't write to disk")
+        return
+
+    with open(f"{name}.csv", "a", newline="", encoding="utf-8") as csvfile:
+        writer = csv.DictWriter(
+            csvfile, fieldnames=FIELDS, quoting=csv.QUOTE_MINIMAL)
+        writer.writeheader()
+
+    with open(f"{comments_test_name}.csv", "a", newline="", encoding="utf-8") as csvfile:
+        writer = csv.DictWriter(
+            csvfile, fieldnames=COMMENTS_FIELDS, quoting=csv.QUOTE_MINIMAL)
+        writer.writeheader()
+
+
+    run_main(num_worker_threads, data, name, comments_test_name)
+
 
 if __name__ == '__main__':
-    # main("yaml threaded", csvReader.readfile("combined.csv"))
+    main("yaml threaded", "comments threaded", csvReader.readfile("combined.csv"))
     # check("yaml threaded")
     # print(len(csvfiledata))
-    print(isCommentInString('"chat.freenode.net#deadbeefplayer"'))
-    print(isCommentInString('"he\'t#dog"#cat'))
-    print(isCommentInString('#cat'))
-    print(isCommentInString("'asdfasd#asdff'"))
-    print(isCommentInString("'asdfasd#asdf'#dogsaretheworst"))

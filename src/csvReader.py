@@ -1,6 +1,7 @@
 from sys import maxsize
 import csv
-from . import config
+from src import config
+from os.path import exists
 NUMBER_OF_KEYS_PER_CONFIG = 24
 
 KEYS_TO_TRY = ['config']
@@ -59,3 +60,14 @@ def writeToCsv(data, name, fields=None):
     else:
         print("no data found")
 
+def check_name(name, debug=True) -> str:
+    new_name = name
+    count = 0
+    while exists("{}.csv".format(new_name)):
+        new_name = f"{name}{count}"
+        count += 1
+        if debug:
+            print(f"{name}{count}.csv already exists trying alternative name")
+        if count > 10:
+            return ""
+    return new_name

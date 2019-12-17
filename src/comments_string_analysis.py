@@ -1,74 +1,80 @@
-import csvReader
+from src import csvReader
 import re
-data = csvReader.readfile("comments test2.csv")
 
-print(len(data))
-print(len(data[0]))
-
-print("running compression")
-comments_compressed = []
-for i in range(len(data)):
-    line_count = 0
-    multi_line = False
-    comment = ""
-    compressed = []
-    while line_count < 6000:
-        if multi_line:
-            if data[i][str(line_count)]:
-               comment += "\n" + data[i][str(line_count)]
-            else:
-                multi_line = False
-                compressed.append(comment)
-                comment = ""
-        elif data[i][str(line_count)]:
-            comment += data[i][str(line_count)]
-            multi_line = True
-
-        line_count += 1
-    comments_compressed.append(compressed)
-    print(data[i]["id"])
-
-header = []
-version = []
-cats = {
-    "todo":{"data":[], "search":"todo"},
-    "note":{"data":[], "search":"note"},
-    "http":{"data":[], "search":"(http:\/\/)|(https:\/\/)"},
-    "fixme":{"data":[], "search":"fixme"},
-    "important":{"data":[], "search":"important"},
-    "header":{"data":[], "search":"###|---|===|\*\*\*"},
-    "hmm":{"data":[], "search":"hmm"},
-    "?!":{"data":[], "search":"\?\!"},
+FILTERS = {
+    "todo": {"data": [], "search": "todo"},
+    "note": {"data": [], "search": "note"},
+    "http": {"data": [], "search": "(http:\/\/)|(https:\/\/)"},
+    "fixme": {"data": [], "search": "fixme"},
+    "important": {"data": [], "search": "important"},
+    "header": {"data": [], "search": "###|---|===|\*\*\*"},
+    "hmm": {"data": [], "search": "hmm"},
+    "?!": {"data": [], "search": "\?\!"},
     "explodes": {"data": [], "search": "\!\!\!"},
-    "dead": {"data": [], "search": "dies|dead|explodes|not working"}
+    "dead": {"data": [], "search": "dies|dead|explodes|not working"},
+    "version": {"data": [], "search": "(\d+\.\d+\.\d+)|(\d+\.\d+)"},
+    "isMultiLine": {"data": [], "search": "\\n"}
 }
-for i in range(len(comments_compressed)):
-    header.append([])
-    for k in cats.keys():
-        cats[k]["data"].append([])
-
-    for line in comments_compressed[i]:
-        line = line.lower()
-        for k in cats.keys():
-            if re.findall(cats[k]["search"], line):
-                cats[k]["data"][i].append(line)
 
 
-        # if re.match("^(\d+\.)?(\d+\.)?(\*|\d+)$", line):
-        #     version.append(line)
+def get_multi_line_comments(data) :
+    comments_compressed = []
+    for i in range(len(data)):
+        line_count = 0
+        multi_line = False
+        comment = ""
+        compressed = []
+        while line_count < 6000:
+            if multi_line:
+                if data[i][str(line_count)]:
+                    comment += "\n" + data[i][str(line_count)]
+                else:
+                    multi_line = False
+                    compressed.append(comment)
+                    comment = ""
+            elif data[i][str(line_count)]:
+                comment += data[i][str(line_count)]
+                multi_line = True
 
-for k in cats.keys():
-    cats[k] = [v for v in cats[k]["data"] if len(v) != 0]
+            line_count += 1
+        comments_compressed.append(compressed)
+    return comments_compressed
 
 
+def run():
+    data = csvReader.readfile("comments threaded0.csv")
 
-print("-----------")
-print(len(header))
-print(len(version))
-print(cats)
-print("overall size: ", len(data))
+    comments_compressed = get_multi_line_comments(data)
+    assert len(data) == len(comments_compressed)
 
-notes = """
+    results = []
+    for i in range(len(comments_compressed)):
+        result = {"id":data[i].get("id")}
+        for filter_type in FILTERS.keys():
+            result[filter_type] = 0
+        result["linecount"] = 0
+
+        for filter_type in FILTERS.keys():
+            for j in range(len(comments_compressed[i])):
+
+                if re.findall(FILTERS[filter_type]["search"], comments_compressed[i][j]):
+                    result[filter_type] += 1
+                result["linecount"] += 1
+
+        results.append(result)
+
+    assert len(data) == len(results)
+    return results
+
+if __name__ == "__main__":
+    results = run()
+    name = csvReader.check_name("notes test")
+    if name == "":
+        print("failed no names are available :(")
+    else:
+        print(f"saving data to: {name}")
+        csvReader.writeToCsv(results, name)
+        notes = """
 NOTE: -> note Note 
 version number
 url
@@ -84,5 +90,8 @@ TODO:
 - comparisons for same comments
 - save results so they can be displayed!
 - bring across type information!!
+
+
+hash, char count, type
 
 """
