@@ -158,9 +158,13 @@ def getReposStuff(name, stars_start, stars_end):
             data.append({**saveData[i], **results[i]})
 
         for k in config.PATHS.keys():
-            for i in range(NUMBER_OF_POTENTAIL_FILES):
-                if data[0].get("{}{}".format(k, i)) is None:
-                    data[0]["{}{}".format(k, i)] = ""
+            if k in config.PATHS_MULTIPLE:
+                for i in range(NUMBER_OF_POTENTAIL_FILES):
+                    if data[0].get("{}{}".format(k, i)) is None:
+                        data[0]["{}{}".format(k, i)] = ""
+            else:
+                if data[0].get("{}{}".format(k, 0)) is None:
+                    data[0]["{}{}".format(k, 0)] = ""
 
         writeToCsv(data, file_name)
 

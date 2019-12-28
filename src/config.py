@@ -9,3 +9,4 @@ PATHS = {
     "azure":  "azure-pipelines.yml",
     "circleci": ".circleci/"
 }
+PATHS_MULTIPLE = ["github", "circleci"]

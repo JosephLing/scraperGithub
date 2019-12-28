@@ -1,44 +1,76 @@
 import yaml
 import lib
-import csvReader
+from src import csvReader
 # Note: at 10/12/2019 travis lint didn't work
 # or at the very least did not provide error messages approritate to there own docs
 # as well as was doing it via sending requests off. Therefore ratelimiting would have
 # been an issue.
 
 #
-name = "yaml threaded"
-basics_stats = {}
+def parse_dict(init, lkey='', depth=0):
+    ret = {}
+    for rkey, val in init.items():
+        # some how someone has put a
+        # True:
+        # - asdf
+        # - asdfsdfasd
+        # peice of yaml!!!
+        # why!?
+        if isinstance(rkey, bool):
+            rkey = str(rkey)
+        key = lkey + rkey
+        if isinstance(val, dict):
+            ret.update(parse_dict(val, key + '.'))
+        elif isinstance(val, list):
+            if len(val) == 0:
+                ret["{}[_]".format(key)] = None
 
-yaml_list = []
-
-
-
-def generateStuff():
-    def parse_dict(init, lkey=''):
-        ret = {}
-        for rkey, val in init.items():
-            # some how someone has put a
-            # True:
-            # - asdf
-            # - asdfsdfasd
-            # peice of yaml!!!
-            # why!?
-            if isinstance(rkey, bool):
-                rkey = str(rkey)
-            key = lkey + rkey
-            if isinstance(val, dict):
-                ret.update(parse_dict(val, key + '_'))
-            elif isinstance(val, list):
+            elif len(val) == 1:
+                # speicail case where its only a list of one item
+                # we are doing this to simplify the pre-processing to make sure it is easier to check for lists
+                # we could just pretend that it is a value but that would break the comparison e.g. cat[0].dog
+                # would not be the same as cat.dog
+                if isinstance(val[0], dict):
+                    if depth >= 1:
+                        print("oh no")
+                    ret.update(parse_dict(val[0], "{}[*].".format(key), depth+1))
+                else:
+                    ret["{}[*]".format(key)] = val[0]
+            else:
+                keyValuePair = isinstance(val[0], dict)
                 for i in range(len(val)):
                     if isinstance(val[i], dict):
-                        ret.update(parse_dict(val[i], "{}[{}]".format(key, i)))
+                        if not keyValuePair:
+                            print("mis-matched types")
+                            keyValuePair = True
+                        if depth >= 1:
+                            print("oh no")
+                        ret.update(parse_dict(val[i], "{}[{}].".format(key, i), depth+1))
                     else:
+                        if keyValuePair:
+                            print("mis-matched types")
+                            keyValuePair = False
                         ret["{}[{}]".format(key, i)] = val[i]
-            else:
-                ret[key] = val
-        return ret
+        else:
+            ret[key] = val
+    return ret
 
+
+def generateStuff(name):
+    """
+    Need to look into transforming [] -> that contain objects into something that can easily be compared
+
+    if we used the dot synatx we could check for it properly
+    e.g. cat[0] vs cat[0].
+    so cat[1....3] -> cat.array = []
+
+    cat[0].whateverthingitwas......
+
+    maybe...
+
+    what is important is maintaining some semblenance of the ordering as for example for the before_all hook the order
+    in which you execute the actions is importnat
+    """
     parsed_data = []
     data = csvReader.readfile("{}.csv".format(name))
     count = 0
@@ -59,17 +91,26 @@ def generateStuff():
         if line.get("language") is None:
             line["language"] = "ruby"
         elif line.get("os[0]") is None and line.get("os") is None:
-            line["os"] = "linux"
+            line["os[0]"] = "linux"
+        elif line.get("os") is not None:
+            line["os[0]"] = line.get("os")
+            line.pop("os")
+    return all_keys, parsed_data
 
-    csvReader.writeToCsv(parsed_data, "travis_flattened3", list(all_keys.keys()))
+if __name__ == '__main__':
+    all_keys, parsed_data = generateStuff("yaml threaded")
+# name = csvReader.check_name("travis_flattened")
+# csvReader.writeToCsv(parsed_data, name, list(all_keys.keys()))
 
 
-# generateStuff()
 
-data = csvReader.readfile_low_memory("travis_flattened2.csv")
-print(len(data))
-print(len(data[0]))
-print(dict([(data[0][i], i) for i in range(len(data[0]))]))
+
+
+# data = csvReader.readfile_low_memory("travis_flattened2.csv")
+# print(len(data))
+# print(len(data[0]))
+# print(data[0])
+# print(dict([(data[0][i], i) for i in range(len(data[0]))]))
 
 # print(basics_stats)
 # print(master)
