@@ -4,8 +4,26 @@ from os import getenv
 from .csvReader import writeToCsv
 import time
 from . import config
-import traceback
-load_dotenv()
+import logging
+from sys import argv
+
+if len(argv) == 2:
+    load_dotenv(argv[1])
+else:
+    load_dotenv()
+
+# sets up the logging level
+LOG_LEVEL = getenv("LOG_LEVEL").lower()
+if LOG_LEVEL == "info":
+    LOG_LEVEL = logging.INFO
+elif LOG_LEVEL == "warning":
+    LOG_LEVEL = logging.WARNING
+elif LOG_LEVEL == "debug":
+    LOG_LEVEL = logging.DEBUG
+else:
+    LOG_LEVEL = logging.DEBUG
+
+logging.basicConfig(filename="{}.log".format(getenv("LOG_FILE", "logfile")), level=logging.DEBUG)
 
 FILE_NAME = getenv("FILE_NAME", "penguins")
 NO_PAGES = int(getenv("NO_PAGES", 100))
@@ -16,9 +34,14 @@ ITERATION_END = int(getenv("ITERATION_END", 999999))
 NUMBER_OF_POTENTAIL_FILES = int(getenv("NUMBER_OF_POTETNAIL_FILES", 24))
 RATE_LIMITING = getenv("RATE_LIMITING", 1000)
 TIMEOUT = int(getenv("TIMEOUT", 30))
-REQUEST_TIME_TO_COMPLETE_TIMEOUT = getenv("REQUEST_TIME_TO_COMPLETE_TIMEOUT", 120)
 MAX_NO_OF_PAGES = int(getenv("MAX_NO_OF_PAGES", 9))  # zero indexed fun stuff
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
+
+logging.info(f"file name {FILE_NAME}, no page {NO_PAGES}, request timeout {REQUEST_TIMEOUT}, "
+             f"iteration f{ITERATION_START} - f{ITERATION_END} incrementing by f{ITERATION_DIFFERENCE}")
+logging.info(f"no of potential config files for github actions: f{NUMBER_OF_POTENTAIL_FILES}, "
+             f"rate limiting f{RATE_LIMITING}, default timeout: f{TIMEOUT}, max no. of pages f{MAX_NO_OF_PAGES}")
+logging.debug(f"github token {GITHUB_TOKEN}")
 
 def saveRepos(repos, contents):
     data = []
@@ -32,7 +55,7 @@ def saveRepos(repos, contents):
             "subscribers_count", "fork", "forks_url"]
     index = 0
     for repo in repos:
-        print("saving >>> {}".format(repo.name))
+        logging.info("saving >>> {}".format(repo.name))
 
         readme = ""
         try:
@@ -47,10 +70,9 @@ def saveRepos(repos, contents):
             try:
                 dictionary[k] = fixEncoding(getattr(repo, k))
             except GithubException as e:
-                print("---------------")
-                print("github exception happened when searching for: {} in {}".format(k, repo.name))
-                traceback.print_tb(e.__traceback__)
-                print("---------------")
+                logging.error("---------------")
+                logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
+                logging.error("---------------")
                 dictionary[k] = ""
 
         dictionary["readme"] = readme
@@ -75,7 +97,7 @@ def getReposFromFiles(files):
     contents = []
     for file in files:
         repos.append(file.repository)
-        print("reading >>> {}".format(repos[len(repos) - 1].name))
+        logging.info("reading >>> {}".format(repos[len(repos) - 1].name))
 
         contents.append(file.content)
     return repos, contents
@@ -116,7 +138,7 @@ def process_repo_ci_files(repo):
         time.sleep(1.5)
 
     if len(path_results.keys()) == 0:
-        print("found no results")
+        logging.info("found no results")
         return {}
 
     result = {}
@@ -125,14 +147,14 @@ def process_repo_ci_files(repo):
             result["{}{}".format(k, i)] = path_results[k][i]
 
     if len(result.keys()) > 1:
-        print("found multiple results potentailly for multiple filse")
+        logging.info("found multiple results potentailly for multiple filse")
     return result
 
 
 def getReposStuff(name, stars_start, stars_end):
-    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIME_TO_COMPLETE_TIMEOUT, per_page=NO_PAGES)
+    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIMEOUT, per_page=NO_PAGES)
     search = "stars:{}..{}".format(stars_start, stars_end)  # TODO: add in stars
-    print("----------------------------------------")
+    logging.info("----------------------------------------")
 
     pages = g.search_repositories(search)
     pageination_page = 0
@@ -141,16 +163,16 @@ def getReposStuff(name, stars_start, stars_end):
     while len(page) >= 1 and pageination_page < MAX_NO_OF_PAGES and searches < RATE_LIMITING:
         file_name = name + time.strftime("%X").replace(":", "_") + "stars{}{}".format(stars_start, stars_end)
 
-        print("getting page: {}".format(pageination_page))
+        logging.info("getting page: {}".format(pageination_page))
 
         saveData = saveRepos(page, ["" for i in range(len(page))])
 
         results = []
         for repo in page:
-            print("querying:" + repo.name)
+            logging.info("querying:" + repo.name)
             results.append(process_repo_ci_files(repo))
 
-        print("got all the data from the on the repository now sleeping for a bit")
+        logging.info("got all the data from the on the repository now sleeping for a bit")
         time.sleep(TIMEOUT)
 
         data = []
@@ -173,27 +195,27 @@ def getReposStuff(name, stars_start, stars_end):
         if searches < RATE_LIMITING:
             page = pages.get_page(pageination_page)
         else:
-            print("reached limit for search results")
+            logging.info("reached limit for search results")
 
-        print("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
-        print("progress >>> {}%".format((searches / RATE_LIMITING) * NO_PAGES))
+        logging.info("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
+        logging.info("progress >>> {}%".format((searches / RATE_LIMITING) * NO_PAGES))
         time.sleep(TIMEOUT)
 
-    print("finished")
-    print("finished going through {} pages of results and got {} results".format(pageination_page, searches))
+    logging.info("finished")
+    logging.info("finished going through {} pages of results and got {} results".format(pageination_page, searches))
 
 
 def main_scraper():
     for i in range(ITERATION_START, ITERATION_END, ITERATION_DIFFERENCE):
         getReposStuff(FILE_NAME, i, i + ITERATION_DIFFERENCE)
-        print("sleeping for a minute to not abuse time limits too much")
+        logging.info("sleeping for a minute to not abuse time limits too much")
         # TODO: maths can only have 5000 requests per hour
         time.sleep(60)
 
 
 def main():
     if GITHUB_TOKEN is None:
-        print("place a github token in the .env file")
+        logging.info("place a github token in the .env file")
     else:
         main_scraper()
 
