@@ -13,7 +13,7 @@ else:
     load_dotenv()
 
 # sets up the logging level
-LOG_LEVEL = getenv("LOG_LEVEL").lower()
+LOG_LEVEL = getenv("LOG_LEVEL", "").lower()
 if LOG_LEVEL == "info":
     LOG_LEVEL = logging.INFO
 elif LOG_LEVEL == "warning":
@@ -103,7 +103,7 @@ def getReposFromFiles(files):
     return repos, contents
 
 
-def getContentsForYaml(repo, path, isjenkins):
+def getContentsForYaml(repo, path):
     # jenkins is the only configuration type that isn't yaml so we do validation for all the yaml files that
     # they are actually legit files. Then for jenkins we let it be jenkins :)
     try:
@@ -112,11 +112,29 @@ def getContentsForYaml(repo, path, isjenkins):
             # we slice here to avoid having extra files of configuration over 24
             # 24 atm is just a magic number as we should ideally never get above that
             return [f.content for f in repo.get_contents(path) if
-                    f is not None and ((f.name.endswith(".yaml") or f.name.endswith(".yml")) or (isjenkins and "jenkins" in f.name.lower()))][:NUMBER_OF_POTENTAIL_FILES]
+                    f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))][:NUMBER_OF_POTENTAIL_FILES]
         else:
             return [temp.content]
     except GithubException as e:
         return []
+
+def get_jenkins_config(repo):
+    """
+    Jenkins pipeline configuration is stored as a "jenkinsfile" or a "JenkinsFile"
+    """
+    result = None
+    i = 0
+    search_terms = ["jenkinsfile", "JenkinsFile", "jenkinsFile"]
+    while result is None and i < len(search_terms):
+        try:
+            result = repo.get_contents(search_terms[i])[0].content
+        except GithubException as e:
+            pass
+        i += 1
+
+    if result is None:
+        return []
+    return [result]
 
 
 def process_repo_ci_files(repo):
@@ -131,7 +149,10 @@ def process_repo_ci_files(repo):
         # NOTE: this will require hotfixing every time it is installed!!!! (or deployed)
 
         # get_contents -> list or single ContentFile depending on what gets returned
-        temp = getContentsForYaml(repo, config.PATHS.get(key), "jenkins" in key)
+        if "jenkins" in key:
+            temp = get_jenkins_config(repo)
+
+        temp = getContentsForYaml(repo, config.PATHS.get(key))
         if temp:
             path_results[key] = temp
 
