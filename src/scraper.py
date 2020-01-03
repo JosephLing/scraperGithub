@@ -21,9 +21,9 @@ elif LOG_LEVEL == "warning":
 elif LOG_LEVEL == "debug":
     LOG_LEVEL = logging.DEBUG
 else:
-    LOG_LEVEL = logging.DEBUG
+    LOG_LEVEL = logging.INFO
 
-logging.basicConfig(filename="{}.log".format(getenv("LOG_FILE", "logfile")), level=logging.DEBUG)
+logging.basicConfig(filename="{}.log".format(getenv("LOG_FILE", "logfile")), level=LOG_LEVEL)
 
 FILE_NAME = getenv("FILE_NAME", "penguins")
 NO_PAGES = int(getenv("NO_PAGES", 100))
@@ -136,10 +136,33 @@ def getReposFromFiles(files):
         contents.append(file.content)
     return repos, contents
 
+def get_single_file_from_repo(repo, search_terms):
+    result = None
+    i = 0
+    while result is None and i < len(search_terms):
+        try:
+            # we get the contents from the search, there should be always be an exception or one or more items
+            # each search term should be made to only get one file but this just makes sure of it.
+            result = repo.get_contents(search_terms[i])[0].content
+        except GithubException.UnknownObjectException as e:
+            pass
+        i += 1
 
-def getContentsForYaml(repo, path):
-    # jenkins is the only configuration type that isn't yaml so we do validation for all the yaml files that
-    # they are actually legit files. Then for jenkins we let it be jenkins :)
+    if result is None:
+        return []
+    return [result]
+
+
+def get_yaml_single_file(repo, name):
+    return get_single_file_from_repo(repo, [f".{name}.yml", f".{name}.yaml", f"{name}.yml", f"{name}.yaml"])
+
+def get_yaml_from_directory(repo, path):
+    """
+    @param repo github.Repository object
+    @param path get all the files in this path
+
+    returns an array of up too NUMBER_OF_POTENTIAL_FILES that match the search criteria and are yaml
+    """
     try:
         temp = repo.get_contents(path)
         if isinstance(temp, list):
@@ -157,19 +180,7 @@ def get_jenkins_config(repo):
     """
     Jenkins pipeline configuration is stored as a "jenkinsfile" or a "JenkinsFile"
     """
-    result = None
-    i = 0
-    search_terms = ["jenkinsfile", "JenkinsFile", "jenkinsFile"]
-    while result is None and i < len(search_terms):
-        try:
-            result = repo.get_contents(search_terms[i])[0].content
-        except GithubException.UnknownObjectException as e:
-            pass
-        i += 1
-
-    if result is None:
-        return []
-    return [result]
+    return get_single_file_from_repo(repo, ["jenkinsfile", "JenkinsFile", "jenkinsFile"])
 
 
 def process_repo_ci_files(repo):
@@ -186,7 +197,7 @@ def process_repo_ci_files(repo):
         if "jenkins" in key:
             temp = get_jenkins_config(repo)
         else:
-            temp = getContentsForYaml(repo, config.PATHS.get(key))
+            temp = get_yaml_from_directory(repo, config.PATHS.get(key))
 
         if temp:
             path_results[key] = temp

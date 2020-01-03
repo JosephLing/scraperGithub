@@ -8,7 +8,6 @@ from os.path import isfile, join
 
 
 
-
 def pad(msg,prev_mesg, padding=20):
     return "{}{}".format(" " * (padding - len(prev_mesg)), msg)
 
@@ -111,12 +110,3 @@ def checkfiles(mypath, regexp=""):
     for f in onlyfiles:
         check(join(mypath, f))
 
-
-def main():
-    print("running")
-    # checkfiles("./data", "raptor")
-    # checkfiles(".", "combined")
-    merge(mypath="./newData")
-
-if __name__ == "__main__":
-    main()
