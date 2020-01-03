@@ -1,7 +1,7 @@
 from github import Github, GithubException
 from dotenv import load_dotenv
 from os import getenv
-from .csvReader import writeToCsv
+from src import csvReader
 import time
 from . import config
 import logging
@@ -37,50 +37,84 @@ TIMEOUT = int(getenv("TIMEOUT", 30))
 MAX_NO_OF_PAGES = int(getenv("MAX_NO_OF_PAGES", 9))  # zero indexed fun stuff
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
 
+# NOTE: due to this: https://developer.github.com/changes/2012-09-05-watcher-api/
+# subscribers count is used to demonstrate the number of people watching the repository. Watchers etc. is now for
+# the star count.
+REPO_KEYS = ["name", "id", "description", "language", "open_issues",
+             "stargazers_count", "topics",
+             "subscribers_count", "fork", "forks_url"]
+
 logging.info(f"file name {FILE_NAME}, no page {NO_PAGES}, request timeout {REQUEST_TIMEOUT}, "
              f"iteration f{ITERATION_START} - f{ITERATION_END} incrementing by f{ITERATION_DIFFERENCE}")
 logging.info(f"no of potential config files for github actions: f{NUMBER_OF_POTENTAIL_FILES}, "
              f"rate limiting f{RATE_LIMITING}, default timeout: f{TIMEOUT}, max no. of pages f{MAX_NO_OF_PAGES}")
 logging.debug(f"github token {GITHUB_TOKEN}")
 
-def saveRepos(repos, contents):
+# could be a interesting way of dealing with rate limiting although not entirely practical
+# def rate_limit_check(func):
+#     response = None
+#     count = 0
+#     while response is None and count < 10:
+#         try:
+#             response = func()
+#         except GithubException.RateLimitExceededException:
+#             time.sleep(120)
+#
+#             logging.error("rate limit exceed when calling: {} at {} in {}"
+#                           .format(func.__name__, func.__code__, func.__module__))
+#         count += 1
+#
+#     return response
+
+
+def save_repo(repo, content):
+    logging.info("saving >>> {}".format(repo.name))
+
+    readme = ""
+    try:
+        readme = repo.get_readme().content
+    except GithubException.UnknownObjectException as e:
+        pass
+
+    dictionary = {}
+    for k in REPO_KEYS:
+        # this deals with one recorded case of a 502 error when doing getting the attributes from github
+        # in doing so this makes it more versatile and allows for better error recovery and recording of the issues
+        try:
+            dictionary[k] = fixEncoding(getattr(repo, k))
+        except GithubException.UnknownObjectException as e:
+            logging.error("---------------")
+            logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
+            logging.error("---------------")
+            dictionary[k] = ""
+        except GithubException.BadAttributeException as e:
+            logging.error("---------------")
+            logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
+            logging.error("---------------")
+            dictionary[k] = ""
+        except GithubException.IncompletableObject as e:
+            logging.error("---------------")
+            logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
+            logging.error("---------------")
+            dictionary[k] = ""
+        except GithubException.BadUserAgentException as e:
+            logging.error("---------------")
+            logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
+            logging.error("---------------")
+            dictionary[k] = ""
+
+    dictionary["readme"] = readme
+    dictionary["config"] = content
+    dictionary["watch"] = repo.watchers_count
+
+    return dictionary
+
+
+def save_repos(repos, contents):
     data = []
-
-    # NOTE: due to this: https://developer.github.com/changes/2012-09-05-watcher-api/
-    # subscribers count is used to demonstrate the number of people watching the repository. Watchers etc. is now for
-    # the star count.
-
-    keys = ["name", "id", "description", "language", "open_issues",
-            "stargazers_count", "topics",
-            "subscribers_count", "fork", "forks_url"]
     index = 0
     for repo in repos:
-        logging.info("saving >>> {}".format(repo.name))
-
-        readme = ""
-        try:
-            readme = repo.get_readme().content
-        except GithubException as e:
-            pass
-
-        dictionary = {}
-        for k in keys:
-            # this deals with one recorded case of a 502 error when doing getting the attributes from github
-            # in doing so this makes it more versatile and allows for better error recovery and recording of the issues
-            try:
-                dictionary[k] = fixEncoding(getattr(repo, k))
-            except GithubException as e:
-                logging.error("---------------")
-                logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
-                logging.error("---------------")
-                dictionary[k] = ""
-
-        dictionary["readme"] = readme
-        dictionary["config"] = contents[index]
-        dictionary["watch"] = repo.watchers_count
-
-        data.append(dictionary)
-
+        data.append(save_repo(repo, contents[index]))
         index += 1
     return data
 
@@ -115,8 +149,9 @@ def getContentsForYaml(repo, path):
                     f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))][:NUMBER_OF_POTENTAIL_FILES]
         else:
             return [temp.content]
-    except GithubException as e:
+    except GithubException.UnknownObjectException as e:
         return []
+
 
 def get_jenkins_config(repo):
     """
@@ -128,7 +163,7 @@ def get_jenkins_config(repo):
     while result is None and i < len(search_terms):
         try:
             result = repo.get_contents(search_terms[i])[0].content
-        except GithubException as e:
+        except GithubException.UnknownObjectException as e:
             pass
         i += 1
 
@@ -138,7 +173,6 @@ def get_jenkins_config(repo):
 
 
 def process_repo_ci_files(repo):
-
     path_results = {}
     for key in config.PATHS.keys():
         # NOTE: files with the same name as directories will currently break
@@ -151,8 +185,9 @@ def process_repo_ci_files(repo):
         # get_contents -> list or single ContentFile depending on what gets returned
         if "jenkins" in key:
             temp = get_jenkins_config(repo)
+        else:
+            temp = getContentsForYaml(repo, config.PATHS.get(key))
 
-        temp = getContentsForYaml(repo, config.PATHS.get(key))
         if temp:
             path_results[key] = temp
 
@@ -168,9 +203,20 @@ def process_repo_ci_files(repo):
             result["{}{}".format(k, i)] = path_results[k][i]
 
     if len(result.keys()) > 1:
-        logging.info("found multiple results potentailly for multiple filse")
+        logging.info("found multiple results potentailly for multiple files")
     return result
 
+
+def tidyup_dictinary_keys(data):
+    for k in config.PATHS.keys():
+        if k in config.PATHS_MULTIPLE:
+            for i in range(NUMBER_OF_POTENTAIL_FILES):
+                if data[0].get("{}{}".format(k, i)) is None:
+                    data[0]["{}{}".format(k, i)] = ""
+        else:
+            if data[0].get("{}{}".format(k, 0)) is None:
+                data[0]["{}{}".format(k, 0)] = ""
+    return data
 
 def getReposStuff(name, stars_start, stars_end):
     g = Github(GITHUB_TOKEN, timeout=REQUEST_TIMEOUT, per_page=NO_PAGES)
@@ -186,7 +232,7 @@ def getReposStuff(name, stars_start, stars_end):
 
         logging.info("getting page: {}".format(pageination_page))
 
-        saveData = saveRepos(page, ["" for i in range(len(page))])
+        saveData = save_repos(page, ["" for i in range(len(page))])
 
         results = []
         for repo in page:
@@ -200,16 +246,9 @@ def getReposStuff(name, stars_start, stars_end):
         for i in range(len(saveData)):
             data.append({**saveData[i], **results[i]})
 
-        for k in config.PATHS.keys():
-            if k in config.PATHS_MULTIPLE:
-                for i in range(NUMBER_OF_POTENTAIL_FILES):
-                    if data[0].get("{}{}".format(k, i)) is None:
-                        data[0]["{}{}".format(k, i)] = ""
-            else:
-                if data[0].get("{}{}".format(k, 0)) is None:
-                    data[0]["{}{}".format(k, 0)] = ""
+        data = tidyup_dictinary_keys(data)
 
-        writeToCsv(data, file_name)
+        csvReader.writeToCsv(data, file_name)
 
         searches += len(saveData)
         pageination_page += 1
@@ -226,12 +265,63 @@ def getReposStuff(name, stars_start, stars_end):
     logging.info("finished going through {} pages of results and got {} results".format(pageination_page, searches))
 
 
+def get_config_from_ids(name, ids):
+    """
+    @param name str
+    @param ids [int]
+    """
+    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIMEOUT, per_page=NO_PAGES)
+    file_name = name
+    searches = 0
+    len_ids = len(ids)
+    data = []
+    for repo_id in ids:
+        logging.info("getting repo: {}".format(repo_id))
+        repo = None
+        try:
+            repo = g.get_repo(repo_id)  # 1 request
+        except GithubException.UnknownObjectException as e:
+            pass
+
+        if repo:
+            try:
+                data.append({
+                    **save_repo(repo, ""),  # around about 12 requests
+                    **process_repo_ci_files(repo)  # 7 requests
+                })
+            except GithubException.RateLimitExceededException as e:
+                logging.error(e.__str__())
+                logging.info(f"searches at: {searches} {repo_id} {data}")
+                logging.info("error occured sleeping for 2 mins to allow for correction")
+                time.sleep(120)
+
+        if searches == 10 and data:
+            data = tidyup_dictinary_keys(data)
+
+            csvReader.writeToCsv(data, file_name)
+            data = []
+            time.sleep(TIMEOUT)
+            logging.info("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
+            logging.info("progress >>> {}%".format((searches / len_ids) * 100))
+        searches += 1
+
+        time.sleep(TIMEOUT)
+
+    logging.info("finished")
+
+
 def main_scraper():
     for i in range(ITERATION_START, ITERATION_END, ITERATION_DIFFERENCE):
         getReposStuff(FILE_NAME, i, i + ITERATION_DIFFERENCE)
         logging.info("sleeping for a minute to not abuse time limits too much")
         # TODO: maths can only have 5000 requests per hour
         time.sleep(60)
+
+
+def main_rerun_scrape():
+    ids = [int(line[0]) for line in csvReader.readfile_low_memory("combined.csv")[1:]]
+    logging.info("got {} ids to scrape through".format(len(ids)))
+    get_config_from_ids(FILE_NAME, ids)
 
 
 def main():
