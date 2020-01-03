@@ -1,9 +1,11 @@
-from github import Github, GithubException
+from github import Github
+from github.GithubException import UnknownObjectException, BadAttributeException, IncompletableObject,\
+    BadUserAgentException, RateLimitExceededException
 from dotenv import load_dotenv
 from os import getenv
 from src import csvReader
 import time
-from . import config
+from src import config
 import logging
 from sys import argv
 
@@ -57,7 +59,7 @@ logging.debug(f"github token {GITHUB_TOKEN}")
 #     while response is None and count < 10:
 #         try:
 #             response = func()
-#         except GithubException.RateLimitExceededException:
+#         except RateLimitExceededException:
 #             time.sleep(120)
 #
 #             logging.error("rate limit exceed when calling: {} at {} in {}"
@@ -73,7 +75,7 @@ def save_repo(repo, content):
     readme = ""
     try:
         readme = repo.get_readme().content
-    except GithubException.UnknownObjectException as e:
+    except UnknownObjectException as e:
         pass
 
     dictionary = {}
@@ -82,22 +84,22 @@ def save_repo(repo, content):
         # in doing so this makes it more versatile and allows for better error recovery and recording of the issues
         try:
             dictionary[k] = fixEncoding(getattr(repo, k))
-        except GithubException.UnknownObjectException as e:
+        except UnknownObjectException as e:
             logging.error("---------------")
             logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
             logging.error("---------------")
             dictionary[k] = ""
-        except GithubException.BadAttributeException as e:
+        except BadAttributeException as e:
             logging.error("---------------")
             logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
             logging.error("---------------")
             dictionary[k] = ""
-        except GithubException.IncompletableObject as e:
+        except IncompletableObject as e:
             logging.error("---------------")
             logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
             logging.error("---------------")
             dictionary[k] = ""
-        except GithubException.BadUserAgentException as e:
+        except BadUserAgentException as e:
             logging.error("---------------")
             logging.error("github exception happened when searching for: {} in {}".format(k, repo.name))
             logging.error("---------------")
@@ -144,7 +146,7 @@ def get_single_file_from_repo(repo, search_terms):
             # we get the contents from the search, there should be always be an exception or one or more items
             # each search term should be made to only get one file but this just makes sure of it.
             result = repo.get_contents(search_terms[i])[0].content
-        except GithubException.UnknownObjectException as e:
+        except UnknownObjectException as e:
             pass
         i += 1
 
@@ -172,7 +174,7 @@ def get_yaml_from_directory(repo, path):
                     f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))][:NUMBER_OF_POTENTAIL_FILES]
         else:
             return [temp.content]
-    except GithubException.UnknownObjectException as e:
+    except UnknownObjectException as e:
         return []
 
 
@@ -291,7 +293,7 @@ def get_config_from_ids(name, ids):
         repo = None
         try:
             repo = g.get_repo(repo_id)  # 1 request
-        except GithubException.UnknownObjectException as e:
+        except UnknownObjectException as e:
             pass
 
         if repo:
@@ -300,7 +302,7 @@ def get_config_from_ids(name, ids):
                     **save_repo(repo, ""),  # around about 12 requests
                     **process_repo_ci_files(repo)  # 7 requests
                 })
-            except GithubException.RateLimitExceededException as e:
+            except RateLimitExceededException as e:
                 logging.error(e.__str__())
                 logging.info(f"searches at: {searches} {repo_id} {data}")
                 logging.info("error occured sleeping for 2 mins to allow for correction")
