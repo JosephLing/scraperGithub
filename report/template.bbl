@@ -1,0 +1,64 @@
+\begin{thebibliography}{13}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Adorf and Johnston(1990)}]{adorf}
+Adorf, H. and Johnston, M. (1990). A discrete stochastic neural network
+  algorithm for constraint satisfaction problems. In \textit{Proceedings of the
+  International Joint Conference on Neural Networks}.
+
+\bibitem[{Brassard and Bratley(1988)}]{brassard}
+Brassard, G. and Bratley, P. (1988). \textit{Algorithmics - Theory and
+  Practice}. Englewood Cliffs, NJ: Prentice Hall.
+
+\bibitem[{Ginsberg and Harvey(1990)}]{ginsberg}
+Ginsberg, M. and Harvey, W. (1990). Iterative broadening. In
+  \textit{Proceedings of AAAI-91}.
+
+\bibitem[{Hopfield(1982)}]{hopfield}
+Hopfield, J. (1982). Neural networks and physical systems with emergent
+  collective computational abilities. In \textit{Proceedings of the National
+  Academy of Sciences}, vol.~79, Washington, DC: National Academy Press.
+
+\bibitem[{Johnson, Papadimitrou and Yannakakis(1988)}]{papad}
+Johnson, D., Papadimitrou, C. and Yannakakis, M. (1988). How easy is local
+  search? \textit{Journal of Computer and System Sciences}, 37, pp. 79--100.
+
+\bibitem[{Johnston(1987)}]{mj-early}
+Johnston, M. (1987). Automated telescope scheduling. In \textit{Proceedings of
+  the Symposium on Coordination of Observational Projects}.
+
+\bibitem[{Johnston and Adorf(1989)}]{johnston}
+Johnston, M. and Adorf, H. (1989). Learning in stochastic neural networks for
+  constraint satisfaction problems. In \textit{Proceedings of NASA Conference
+  on Space Telerobotics}, vol.~37.
+
+\bibitem[{Langley(1992)}]{langley}
+Langley, P. (1992). Systematic and nonsystematic search strategies. In
+  \textit{Proceedings of AAAI-92}.
+
+\bibitem[{Minton et~al.(1990)}]{min-aaai}
+Minton, S., Johnston, M., Philips, A. and Laird, P. (1990). Solving large scale
+  constraint satisfaction and scheduling problems using a heuristic repair
+  method. In \textit{Proceedings of AAAI-90}.
+
+\bibitem[{Simmons(1988)}]{simmons-aaai88}
+Simmons, R. (1988). A theory of debugging plans and interpretations. In
+  \textit{Proceedings of AAAI-88}.
+
+\bibitem[{Stone and Stone(1987)}]{stones}
+Stone, H. and Stone, J. (1987). Efficient search techniques - an empirical
+  study of the n-queens problem. \textit{IBM Journal of Research and
+  Development}, 31, pp. 464--474.
+
+\bibitem[{Sussman(1975)}]{hacker}
+Sussman, G.~J. (1975). \textit{A Computer Model of Skill Acquisition}. New
+  York: New American Elsevier.
+
+\bibitem[{Waldrop(1989)}]{sam}
+Waldrop, M. (1989). Will the {H}ubble space telescope compute?
+  \textit{Science}, 243, pp. 1437--1439.
+
+\end{thebibliography}
