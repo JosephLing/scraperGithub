@@ -145,7 +145,7 @@ def get_single_file_from_repo(repo, search_terms):
         try:
             # we get the contents from the search, there should be always be an exception or one or more items
             # each search term should be made to only get one file but this just makes sure of it.
-            result = repo.get_contents(search_terms[i])[0].content
+            result = (repo.get_contents(search_terms[i])[0].content, search_terms)
         except UnknownObjectException as e:
             pass
         i += 1
@@ -156,6 +156,12 @@ def get_single_file_from_repo(repo, search_terms):
 
 
 def get_yaml_single_file(repo, name):
+    """
+    @param repo
+    @param name this is search word we are going to use
+    .name.yml is the most common file name for configuration types but the others might still work depending on
+    the service. Yet it is unclear whether or not that is the case and how it is handled by each of the services.
+    """
     return get_single_file_from_repo(repo, [f".{name}.yml", f".{name}.yaml", f"{name}.yml", f"{name}.yaml"])
 
 def get_yaml_from_directory(repo, path):
@@ -170,10 +176,10 @@ def get_yaml_from_directory(repo, path):
         if isinstance(temp, list):
             # we slice here to avoid having extra files of configuration over 24
             # 24 atm is just a magic number as we should ideally never get above that
-            return [f.content for f in repo.get_contents(path) if
+            return [(f.content, f.name) for f in repo.get_contents(path) if
                     f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))][:NUMBER_OF_POTENTAIL_FILES]
         else:
-            return [temp.content]
+            return [(temp.content, temp.name)]
     except UnknownObjectException as e:
         return []
 
@@ -202,7 +208,8 @@ def process_repo_ci_files(repo):
             temp = get_yaml_from_directory(repo, config.PATHS.get(key))
 
         if temp:
-            path_results[key] = temp
+            path_results[key] = temp[0]
+            path_results[f"{key}_file"] = temp[1]
 
         time.sleep(1.5)
 
@@ -226,9 +233,15 @@ def tidyup_dictinary_keys(data):
             for i in range(NUMBER_OF_POTENTAIL_FILES):
                 if data[0].get("{}{}".format(k, i)) is None:
                     data[0]["{}{}".format(k, i)] = ""
+
+                if data[0].get("{}{}_file".format(k, i)) is None:
+                    data[0]["{}{}_file".format(k, i)] = ""
         else:
             if data[0].get("{}{}".format(k, 0)) is None:
                 data[0]["{}{}".format(k, 0)] = ""
+
+            if data[0].get("{}{}_file".format(k, 0)) is None:
+                data[0]["{}{}_file".format(k, 0)] = ""
     return data
 
 def getReposStuff(name, stars_start, stars_end):
@@ -332,7 +345,8 @@ def main_scraper():
 
 
 def main_rerun_scrape():
-    ids = [int(line[0]) for line in csvReader.readfile_low_memory("combined.csv")[1:]]
+    # name, id so index has to be 1 based on REPO_KEYS
+    ids = [int(line[1]) for line in csvReader.readfile_low_memory("combined.csv")[1:]]
     logging.info("got {} ids to scrape through".format(len(ids)))
     get_config_from_ids(FILE_NAME, ids)
 
