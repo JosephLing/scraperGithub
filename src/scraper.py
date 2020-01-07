@@ -222,6 +222,9 @@ def process_repo_ci_files(repo):
             result["{}{}".format(k, i)] = path_results[k][i][0]
             result["{}{}_file".format(k, i)] = path_results[k][i][1]
 
+    if path_results:
+        logging.info("found configuration files for: {}".format(path_results.keys()))
+
     if len(result.keys()) > 1:
         logging.info("found multiple results potentailly for multiple files")
     return result
