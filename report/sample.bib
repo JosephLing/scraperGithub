@@ -1,89 +1,198 @@
-@inproceedings(ginsberg,key="Ginsberg90",
-	Author="Ginsberg, M.L. and Harvey, W.D.",
-        Title="Iterative Broadening",
-	BookTitle="Proceedings of AAAI-91",
-        year=1990)
+% Encoding: UTF-8
 
-@inproceedings(min-aaai, key="Minton90", author="Minton, S. and
-		Johnston, M. and Philips, A.B. and Laird, P.",
-	title="Solving Large Scale Constraint Satisfaction and Scheduling
-      Problems Using a Heuristic Repair Method",
-	BookTitle="Proceedings of AAAI-90",
-	year=1990)
+@InProceedings{Rahman2018a,
+  author    = {Rahman, Akond and Williams, Laurie},
+  title     = {Characterizing {Defective} {Configuration} {Scripts} {Used} for {Continuous} {Deployment}},
+  booktitle = {2018 {IEEE} 11th {International} {Conference} on {Software} {Testing}, {Verification} and {Validation} ({ICST})},
+  year      = {2018},
+  pages     = {34--45},
+  month     = apr,
+  note      = {ISSN: null},
+  abstract  = {In software engineering, validation and verification (V\&V) resources are limited and characterization of defective software source files can help in efficiently allocating V\&V resources. Similar to software source files, defects occur in the scripts used to automatically manage configurations and software deployment infrastructure, often known as infrastructure as code (IaC) scripts. Defects in IaC scripts can have dire consequences, for example, creating large-scale system outages. Identifying the characteristics of defective IaC scripts can help in mitigating these defects by allocating V\&V efforts efficiently based upon these characteristics. The objective of this paper is to help software practitioners to prioritize validation and verification efforts for infrastructure as code (IaC) scripts by identifying the characteristics of defective IaC scripts. Researchers have previously extracted text features to characterize defective software source files written in general purpose programming languages. We investigate if text features can be used to identify properties that characterize defective IaC scripts. We use two text mining techniques to extract text features from IaC scripts: the bag-of-words technique, and the term frequency-inverse document frequency (TF-IDF) technique. Using the extracted features and applying grounded theory, we characterize defective IaC scripts. We also use the text features to build defect prediction models with tuned statistical learners. We mine open source repositories from Mozilla, Openstack, and Wikimedia Commons, to construct three case studies and evaluate our methodology. We identify three properties that characterize defective IaC scripts: filesystem operations, infrastructure provisioning, and managing user accounts. Using the bag-of-word technique, we observe a median F-Measure of 0.74, 0.71, and 0.73, respectively, for Mozilla, Openstack, and Wikimedia Commons. Using the TF-IDF technique, we observe a median F-Measure of 0.72, 0.74, and 0.70, respectively, for Mozilla, Openstack, and Wikimedia Commons.},
+  doi       = {10.1109/ICST.2018.00014},
+  file      = {IEEE Xplore Abstract Record:https\://ieeexplore.ieee.org/abstract/document/8367034:text/html},
+  issn      = {null},
+  keywords  = {data mining, program verification, resource allocation, software engineering, software fault tolerance, text analysis, defective IaC scripts, defective software source files, code scripts, user account management, infrastructure provisioning, filesystem operations, term frequency-inverse document frequency, bag-of-words technique, text mining, V\&V resource allocation, validation and verification resources, defective configuration scripts, text feature extraction, Feature extraction, Software, Predictive models, Text mining, Organizations, Measurement, DSL, configuration as code, continuous deployment, defect, devops, infrastructure as code, puppet},
+}
 
+@Article{Rahman2019,
+  author   = {Rahman, Akond and Mahdavi-Hezaveh, Rezvan and Williams, Laurie},
+  title    = {A systematic mapping study of infrastructure as code research},
+  journal  = {Information and Software Technology},
+  year     = {2019},
+  volume   = {108},
+  pages    = {65--77},
+  month    = apr,
+  issn     = {0950-5849},
+  abstract = {Context: Infrastructure as code (IaC) is the practice to automatically configure system dependencies and to provision local and remote instances. Practitioners consider IaC as a fundamental pillar to implement DevOps practices, which helps them to rapidly deliver software and services to end-users. Information technology (IT) organizations, such as GitHub, Mozilla, Facebook, Google and Netflix have adopted IaC. A systematic mapping study on existing IaC research can help researchers to identify potential research areas related to IaC, for example defects and security flaws that may occur in IaC scripts. Objective: The objective of this paper is to help researchers identify research areas related to infrastructure as code (IaC) by conducting a systematic mapping study of IaC-related research. Method: We conduct our research study by searching five scholar databases. We collect a set of 31,498 publications by using seven search strings. By systematically applying inclusion and exclusion criteria, which includes removing duplicates and removing non-English and non peer-reviewed publications, we identify 32 publications related to IaC. We identify topics addressed in these publications by applying qualitative analysis. Results: We identify four topics studied in IaC-related publications: (i) framework/tool for infrastructure as code; (ii) adoption of infrastructure as code; (iii) empirical study related to infrastructure as code; and (iv) testing in infrastructure as code. According to our analysis, 50.0\% of the studied 32 publications propose a framework or tool to implement the practice of IaC or extend the functionality of an existing IaC tool. Conclusion: Our findings suggest that framework or tools is a well-studied topic in IaC research. As defects and security flaws can have serious consequences for the deployment and development environments in DevOps, we observe the need for research studies that will study defects and security flaws for IaC.},
+  doi      = {10.1016/j.infsof.2018.12.004},
+  file     = {ScienceDirect Snapshot:https\://www.sciencedirect.com/science/article/abs/pii/S0950584918302507:text/html},
+  keywords = {Devops, Configuration as code, Configuration script, Continuous deployment, Infrastructure as code, Software engineering, Systematic mapping study},
+  language = {en},
+  url      = {http://www.sciencedirect.com/science/article/pii/S0950584918302507},
+  urldate  = {2020-01-06TZ},
+}
 
-@article(papad, key="Johnson88", author="Johnson, D.S. and
-	Papadimitrou, C.H. and Yannakakis, M.",
-	title="How Easy is Local Search?",
-	journal="Journal of Computer and System Sciences",
-	volume="37", pages="79-100",
-	year=1988)
+@InProceedings{Sharma2016,
+  author    = {Sharma, Tushar and Fragkoulis, Marios and Spinellis, Diomidis},
+  title     = {Does {Your} {Configuration} {Code} {Smell}?},
+  booktitle = {2016 {IEEE}/{ACM} 13th {Working} {Conference} on {Mining} {Software} {Repositories} ({MSR})},
+  year      = {2016},
+  pages     = {189--200},
+  month     = may,
+  note      = {ISSN: null},
+  abstract  = {Infrastructure as Code (IaC) is the practice of specifying computing system configurations through code, and managing them through traditional software engineering methods. The wide adoption of configuration management and increasing size and complexity of the associated code, prompt for assessing, maintaining, and improving the configuration code's quality. In this context, traditional software engineering knowledge and best practices associated with code quality management can be leveraged to assess and manage configuration code quality. We propose a catalog of 13 implementation and 11 design configuration smells, where each smell violates recommended best practices for configuration code. We analyzed 4,621 Puppet repositories containing 8.9 million lines of code and detected the cataloged implementation and design configuration smells. Our analysis reveals that the design configuration smells show 9\% higher average co-occurrence among themselves than the implementation configuration smells. We also observed that configuration smells belonging to a smell category tend to co-occur with configuration smells belonging to another smell category when correlation is computed by volume of identified smells. Finally, design configuration smell density shows negative correlation whereas implementation configuration smell density exhibits no correlation with the size of a configuration management system.},
+  file      = {IEEE Xplore Abstract Record:https\://ieeexplore.ieee.org/abstract/document/7832899:text/html},
+  issn      = {null},
+  keywords  = {software maintenance, software quality, configuration management system, smell category, puppet repositories, code quality management, software engineering knowledge, computing system configurations, IaC, infrastructure as code, configuration code, Best practices, Software, Software engineering, Correlation, Context, Production, Data mining, Infrastructure as Code, Code quality, Configuration smells, Technical debt, Maintainability},
+}
 
-@book(brassard, key="brassard88",author="Brassard, G. and Bratley, P.",
-	title="Algorithmics - Theory and Practice",
-        publisher="Englewood Cliffs, NJ: Prentice Hall", 
-	year=1988) 
+@InProceedings{Copeland2010,
+  author     = {Copeland, Patrick},
+  title      = {Google's {Innovation} {Factory}: {Testing}, {Culture}, and {Infrastructure}},
+  booktitle  = {Proceedings of the 2010 {Third} {International} {Conference} on {Software} {Testing}, {Verification} and {Validation}},
+  year       = {2010},
+  series     = {{ICST} '10},
+  pages      = {11--14},
+  address    = {Washington, DC, USA},
+  publisher  = {IEEE Computer Society},
+  abstract   = {Google’s external mythology has been one of a brilliant and chaotic innovation machine that produces new products and features at an amazing rate. Behind the curtain of public perception is a company that takes quality seriously and is reinventing how software is created, tested, released, and maintained; a reality that’s even more interesting than the myth. At Google we’ve learned a lot in the last few years about accelerating very large scale software development; in this paper we'll share what has worked and what hasn't worked for us.},
+  doi        = {10.1109/ICST.2010.65},
+  isbn       = {9780769539904},
+  keywords   = {Google, Testing, Process},
+  shorttitle = {Google's {Innovation} {Factory}},
+  url        = {http://dx.doi.org/10.1109/ICST.2010.65},
+  urldate    = {2019-10-15TZ},
+}
 
-@article(stones, key="Stone87", author="Stone, H.S. and Stone, J.M.",
-	title="Efficient Search Techniques - An Empirical Study of the
-	N-Queens Problem",
-	journal="IBM Journal of Research and Development",
-	volume=31,
-        pages="464-474", publisher="International Business Machines.",
-	year=1987)
+@Misc{,
+  title    = {({PDF}) {Continuous} {Integration} and {Continuous} {Delivery} {Pipeline} {Automation} for {Agile} {Software} {Project} {Management}},
+  abstract = {ResearchGate is a network dedicated to science and research. Connect, collaborate and discover scientific publications, jobs and conferences. All for free.},
+  file     = {Snapshot:https\://www.researchgate.net/publication/326406017_Continuous_Integration_and_Continuous_Delivery_Pipeline_Automation_for_Agile_Software_Project_Management:text/html},
+  journal  = {ResearchGate},
+  language = {en},
+  url      = {https://www.researchgate.net/publication/326406017_Continuous_Integration_and_Continuous_Delivery_Pipeline_Automation_for_Agile_Software_Project_Management},
+  urldate  = {CURRENT\_TIMESTAMP},
+}
 
-@inproceedings(adorf, key="Adorf90", author="Adorf, H.M. and
-	Johnston, M.D.",
-	title="A Discrete Stochastic Neural Network Algorithm for 
-	Constraint Satisfaction Problems",
-	booktitle="Proceedings of the International Joint Conference on Neural
-	Networks",
-        year=1990)	
+@Misc{,
+  title    = {Continuous {Deployment} of {Mobile} {Software} at {Facebook} ({Showcase})},
+  abstract = {This paper describes in detail the software update mobile deployment process at Facebook.},
+  chapter  = {Systems \& Networking},
+  file     = {Snapshot:https\://research.fb.com/publications/continuous-deployment-of-mobile-software-at-facebook-showcase/:text/html},
+  journal  = {Facebook Research},
+  language = {en-US},
+  url      = {https://research.fb.com/publications/continuous-deployment-of-mobile-software-at-facebook-showcase/},
+  urldate  = {CURRENT\_TIMESTAMP},
+}
 
-@inproceedings(langley,key="Langley92",
-	Author="Langley, P.",
-        Title="Systematic and Nonsystematic Search Strategies",
-	BookTitle="Proceedings of AAAI-92",
-	year=1992)
+@InProceedings{Munoz2018,
+  author    = {Muñoz, César A. and Narkawicz, Anthony and Dutle, Aaron},
+  title     = {From {Formal} {Requirements} to {Highly} {Assured} {Software} for {Unmanned} {Aircraft} {Systems}},
+  booktitle = {{FM}},
+  year      = {2018},
+  abstract  = {Operational requirements of safety-critical systems are often written in restricted specification logics. These restricted logics are amenable to automated analysis techniques such as model-checking, but are not rich enough to express complex requirements of unmanned systems. This short paper advocates for the use of expressive logics, such as higher-order logic, to specify the complex operational requirements and safety properties of unmanned systems. These rich logics are less amenable to automation and, hence, require the use of interactive theorem proving techniques. However, these logics support the formal verification of complex requirements such as those involving the physical environment. Moreover, these logics enable validation techniques that increase confidence in the correctness of numerically intensive software. These features result in highly-assured software that may be easier to certify. The feasibility of this approach is illustrated with examples drawn for NASA’s unmanned aircraft systems.},
+  doi       = {10.1007/978-3-319-95582-7_38},
+  file      = {Semantic Scholar Link:https\://www.semanticscholar.org/paper/From-Formal-Requirements-to-Highly-Assured-Software-Mu%C3%B1oz-Narkawicz/1143a4c041e6c08b04dad117c8101e1d28a996f6:text/html},
+  keywords  = {Requirement, Unmanned aerial vehicle, Formal verification, Model checking, Robotics, Proof assistant, Automated theorem proving, Correctness (computer science), Numerical analysis, Specification language},
+}
 
-@inproceedings(johnston, key="Johnston89", 
-	author="Johnston, M.D. and Adorf, H.M.",
-	title="Learning in Stochastic Neural Networks for
-	Constraint Satisfaction Problems",
-	booktitle="Proceedings of NASA Conference on Space Telerobotics",
-	volume=37,
-	year=1989)
+@Article{Meyer2014,
+  author   = {Meyer, M.},
+  title    = {Continuous {Integration} and {Its} {Tools}},
+  journal  = {IEEE Software},
+  year     = {2014},
+  volume   = {31},
+  number   = {3},
+  pages    = {14--16},
+  month    = may,
+  abstract = {Continuous integration has been around for a while now, but the habits it suggests are far from common practice. Automated builds, a thorough test suite, and committing to the mainline branch every day sound simple at first, but they require a responsible team to implement and constant care. What starts with improved tooling can be a catalyst for long-lasting change in your company's shipping culture. Continuous integration is more than a set of practices, it's a mindset that has one thing in mind: increasing customer value. The Web extra at http://youtu.be/tDl\_cHfrJZo is an audio podcast of the Tools of the Trade column discusses how continuous integration is more than a set of practices, it's a mindset that has one thing in mind: increasing customer value.},
+  doi      = {10.1109/MS.2014.58},
+  file     = {IEEE Xplore Abstract Record:https\://ieeexplore.ieee.org/abstract/document/6802994:text/html},
+  keywords = {Internet, program testing, software engineering, software tools, source code (software), automated builds, test suite, software development, Web frameworks, source code, customer value, company shipping culture, continuous integration, Production, Servers, Monitoring, Software, Green products, Marine vehicles, Multimedia communication, continuous integration, continuous delivery, testing},
+}
 
+@Article{Brandtner2015,
+  author     = {Brandtner, Martin and Giger, Emanuel and Gall, Harald},
+  title      = {{SQA}-{Mashup}: {A} mashup framework for continuous integration},
+  journal    = {Information and Software Technology},
+  year       = {2015},
+  volume     = {65},
+  pages      = {97--113},
+  month      = sep,
+  issn       = {0950-5849},
+  abstract   = {Context
+Continuous Integration (CI) has become an established best practice of modern software development. Its philosophy of regularly integrating the changes of individual developers with the master code base saves the entire development team from descending into Integration Hell, a term coined in the field of extreme programming. In practice, CI is supported by automated tools to cope with this repeated integration of source code through automated builds and testing. One of the main problems, however, is that relevant information about the quality and health of a software system is both scattered across those tools and across multiple views.
+Objective
+This paper introduces a quality awareness framework for CI-data and its conceptional model used for the data integration and visualization. The framework called SQA-Mashup makes use of the service-based mashup paradigm and integrates information from the entire CI-toolchain into a single service.
+Method
+The research approach followed in our work consists out of (i) a conceptional model for data integration and visualization, (ii) a prototypical framework implementation based on tool requirements derived from literature, and (iii) a controlled user study to evaluate its usefulness.
+Results
+The results of the controlled user study showed that SQA-Mashup’s single point of access allows users to answer questions regarding the state of a system more quickly (57\%) and accurately (21.6\%) than with standalone CI-tools.
+Conclusions
+The SQA-Mashup framework can serve as one-stop shop for software quality data monitoring in a software development project. It enables easy access to CI-data which otherwise is not integrated but scattered across multiple CI-tools. Our dynamic visualization approach allows for a tailoring of integrated CI-data according to information needs of different stakeholders such as developers or testers.},
+  comment    = {This one is key and I found it throuhg the more comprenhensive litrature review},
+  doi        = {10.1016/j.infsof.2014.10.004},
+  file       = {ScienceDirect Snapshot:https\://www.sciencedirect.com/science/article/pii/S0950584914002158:text/html;ScienceDirect Full Text PDF:https\://pdf.sciencedirectassets.com/271539/1-s2.0-S0950584915X00061/1-s2.0-S0950584914002158/main.pdf?X-Amz-Security-Token=AgoJb3JpZ2luX2VjEIr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIF1%2BjWBjRuK%2B3M%2FcYssZMJ%2B6dzoicVFod8YK85BUau8kAiAVWaa6RgiwnYq8Ll7Jo535FMlaUwtOmhy0b8EXvNtbGSraAwhzEAIaDDA1OTAwMzU0Njg2NSIMlXiSV5D8yMl6i2mwKrcDY0kJWlGztIHKR7tOB3r73bft%2FZgfns7Z%2BRyQSjLnvYFmdxkHzJvK6xkgfAqaCV%2BN%2F3oEywpeqz13gHjk81C02MBEklUoNZ6ioHaqbNetUcg%2F3DwBP%2F%2BdoY8t40xlcGfLpE2xnmFKPbotiOv664DoqdIHPqzHMjLRHyNDA5kOWO8CbxKYjzsy9pEL8TDG6AJ45NDHf6wNGBzfdKde1EU%2BoRtn7NGKCFEf00lOYA4NunSXXf608b%2FM1RzF5KBuTqRMkUEhF9Fis7NV2cFC2OBjhJ6pZREBwNPCB4I68ZwkhiyVzInztoNPcZAqSmp6C5o%2FsSW9m9W%2FgwQI6qegd4lt5JV%2FiqGXVyOQbB1CiwE2J82tdq0A7bsFh5IvoCAHCpMk7zb7xHF1r3lBDeaH7B83K5YKx0itxG9g6UYyZ6D%2BhNHurO0IDQ6KtDWEjTpH2ZaV8FyIghdrwtThZfmAqrJbuEqNvZK6SlXilOTupfE8pQgK9mle1nIf02OrmAIWIBCLQZGfRMgAloVUdlZ3tgUxynYny2hYja5G%2BNw5JU9R4vddafLiTSstzYol4hsGhbujhHFE6eznpjDljOzsBTq1AfrUqzcZlxN92Yf5K8b8McF%2FkI47QiOFJ1a%2FDLVzzqnAo5vsexbsuvfSD%2B3TafjCGa%2BYrX8diJvjTp9i%2F7CcL0LlrlmWBC8gQ2hTryMuvJLzbsFqrmWAhV80BZ1NwIvxcng8gu4vApq5k6bT18Fxx7zJU5dnc7oAXmTGNCM07ZxjwbYULcBNqdgD7Fzb7XCzA17wydOoVbIUNU5t3RqojhgwSlVXxUhtRmE6l%2Bt9PcU1kjSpqUU%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191007T105904Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTYZUQMMY3W%2F20191007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=03675afe0d193546bcc9a50b88664fc305a8aa126f9e214c76db1880907032bc&hash=30d27ec157db48079d47764147f0cb004911a4cd804a88ae46bb098d07788862&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S0950584914002158&tid=spdf-c23e6da5-50a0-4fcd-99d6-f2a663a74103&sid=0da2e4661aeac748f32af9184bb9c926564agxrqb&type=client:application/pdf},
+  keywords   = {Continuous integration, Controlled user study, Software quality, Tool integration, Information needs},
+  shorttitle = {{SQA}-{Mashup}},
+  url        = {http://www.sciencedirect.com/science/article/pii/S0950584914002158},
+  urldate    = {2019-10-07TZ},
+}
 
-@article(sam, key="Waldrop",
-        Author="Waldrop, M.",
-        Title="Will the {H}ubble Space Telescope Compute?",
-        Journal="Science", year=1989,
-	pages= "1437-1439",
-        volume=243)
-        
-@inproceedings(simmons-aaai88,key="Simmons88",
-	Author="Simmons, R.G.",
-        Title="A Theory of Debugging Plans and Interpretations",
-	BookTitle="Proceedings of AAAI-88",
-	year=1988)
+@InProceedings{Alegroth2018,
+  author     = {Alégroth, E. and Karlsson, A. and Radway, A.},
+  title      = {Continuous {Integration} and {Visual} {GUI} {Testing}: {Benefits} and {Drawbacks} in {Industrial} {Practice}},
+  booktitle  = {2018 {IEEE} 11th {International} {Conference} on {Software} {Testing}, {Verification} and {Validation} ({ICST})},
+  year       = {2018},
+  pages      = {172--181},
+  month      = apr,
+  abstract   = {Continuous integration (CI) is growing in industrial popularity, spurred on by market trends towards faster delivery and higher quality software. A key facilitator of CI is automated testing that should be executed, automatically, on several levels of system abstraction. However, many systems lack the interfaces required for automated testing. Others lack test automation coverage of the system under test's (SUT) graphical user interface (GUI) as it is shown to the user. One technique that shows promise to solve these challenges is Visual GUI Testing (VGT), which uses image recognition to stimulate and assert the SUT's behavior. Research has presented the technique's applicability and feasibility in industry but only limited support, from an academic setting, that the technique is applicable in a CI environment. In this paper we presents a study from an industrial design research study with the objective to help bridge the gap in knowledge regarding VGT's applicability in a CI environment in industry. Results, acquired from interviews, observations and quantitative analysis of 17.567 test executions, collected over 16 weeks, show that VGT provides similar benefits to other automated test techniques for CI. However, several significant drawbacks, such as high costs, are also identified. The study concludes that, although VGT is applicable in an industrial CI environment, its severe challenges require more research and development before the technique becomes efficient in practice.},
+  doi        = {10.1109/ICST.2018.00026},
+  file       = {IEEE Xplore Full Text PDF:https\://ieeexplore.ieee.org/ielx7/8365877/8367020/08367046.pdf?tp=&arnumber=8367046&isnumber=8367020&ref=:application/pdf;IEEE Xplore Abstract Record:https\://ieeexplore.ieee.org/abstract/document/8367046:text/html},
+  keywords   = {graphical user interfaces, image recognition, program testing, software quality, industrial design research study, automated test techniques, industrial CI environment, continuous integration, visual GUI testing, industrial practice, industrial popularity, system abstraction, automated testing, test automation coverage, test executions, software quality, SUT behavior, VGT applicability, system under test, image recognition, Testing, Tools, Companies, Graphical user interfaces, Software, Image recognition, Visualization, Visual GUI Testing, Continuous Integration, Industrial Study, Empirical, Design Research},
+  shorttitle = {Continuous {Integration} and {Visual} {GUI} {Testing}},
+}
 
-@book(hacker, key="sussman75",author="Sussman, G. J.",
-	title="A Computer Model of Skill Acquisition",
-	Publisher="New York: New American Elsevier",
-	year=1975) 
+@Article{Alegroth2016,
+  author     = {Alégroth, Emil and Feldt, Robert and Kolström, Pirjo},
+  title      = {Maintenance of {Automated} {Test} {Suites} in {Industry}: {An} {Empirical} study on {Visual} {GUI} {Testing}},
+  journal    = {arXiv:1602.01226 [cs]},
+  year       = {2016},
+  month      = feb,
+  note       = {arXiv: 1602.01226},
+  abstract   = {Context: Verification and validation (V\&V) activities make up 20 to 50 percent of the total development costs of a software system in practice. Test automation is proposed to lower these V\&V costs but available research only provides limited empirical data from industrial practice about the maintenance costs of automated tests and what factors affect these costs. In particular, these costs and factors are unknown for automated GUI-based testing. Objective: This paper addresses this lack of knowledge through analysis of the costs and factors associated with the maintenance of automated GUI-based tests in industrial practice. Method: An empirical study at two companies, Siemens and Saab, is reported where interviews about, and empirical work with, Visual GUI Testing is performed to acquire data about the technique's maintenance costs and feasibility. Results: 13 factors are observed that affect maintenance, e.g. tester knowledge/experience and test case complexity. Further, statistical analysis shows that developing new test scripts is costlier than maintenance but also that frequent maintenance is less costly than infrequent, big bang maintenance. In addition a cost model, based on previous work, is presented that estimates the time to positive return on investment (ROI) of test automation compared to manual testing. Conclusions: It is concluded that test automation can lower overall software development costs of a project whilst also having positive effects on software quality. However, maintenance costs can still be considerable and the less time a company currently spends on manual testing, the more time is required before positive, economic, ROI is reached after automation.},
+  file       = {arXiv\:1602.01226 PDF:http\://www.arxiv.org/pdf/1602.01226.pdf:application/pdf;arXiv.org Snapshot:http\://arxiv.org/abs/1602.01226:text/html},
+  keywords   = {Computer Science - Software Engineering},
+  shorttitle = {Maintenance of {Automated} {Test} {Suites} in {Industry}},
+  url        = {http://arxiv.org/abs/1602.01226},
+  urldate    = {2019-10-15TZ},
+}
 
-@inproceedings(hopfield, key="Hopfield", author="Hopfield, J.J.",
-	title="Neural Networks and Physical Systems with Emergent Collective
-		Computational Abilities",
-	booktitle="Proceedings of the National Academy of Sciences",
-	publisher="Washington, DC: National Academy Press",
-	year=1982, 
-	volume=79)
+@InProceedings{Hilton2016,
+  author        = {Michael Hilton, Timothy Tunnell, Kai Huang, Darko Marinov, Danny Dig},
+  title         = {Usage, costs, and benefits of continuous integration in open-source projects {\textbar} {Proceedings} of the 31st {IEEE}/{ACM} {International} {Conference} on {Automated} {Software} {Engineering}},
+  year          = {2016},
+  __markedentry = {[Joe:]},
+  file          = {Snapshot:https\://dl.acm.org/doi/10.1145/2970276.2970358#d860007e1:text/html},
+  language      = {en},
+  url           = {https://dl.acm.org/doi/abs/10.1145/2970276.2970358},
+  urldate       = {CURRENT\_TIMESTAMP},
+}
 
-@inproceedings(mj-early, key="Johnston", author="Johnston, M.D.",
-	title="Automated Telescope Scheduling",
-	booktitle="Proceedings of the Symposium on Coordination
-		of Observational Projects",
-	year=1987)
+@Article{Gallaba2018,
+  author        = {Gallaba, Keheliya and McIntosh, Shane},
+  title         = {Use and {Misuse} of {Continuous} {Integration} {Features}: {An} {Empirical} {Study} of {Projects} that (mis)use {Travis} {CI}},
+  journal       = {IEEE Transactions on Software Engineering},
+  year          = {2018},
+  pages         = {1--1},
+  issn          = {2326-3881},
+  __markedentry = {[Joe:6]},
+  abstract      = {Continuous Integration (CI) is a popular practice where software systems are automatically compiled and tested as changes appear in the version control system of a project. Like other software artifacts, CI specifications require maintenance effort. Although there are several service providers like Travis CI offering various CI features, it is unclear which features are being (mis)used. In this paper, we present a study of feature use and misuse in 9,312 open source systems that use Travis CI. Analysis of the features that are adopted by projects reveals that explicit deployment code is rare—48.16\% of the studied Travis CI specification code is instead associated with configuring job processing nodes. To analyze feature misuse, we propose Hansel—an anti-pattern detection tool for Travis CI specifications. We define four anti-patterns and Hansel detects anti-patterns in the Travis CI specifications of 894 projects in the corpus (9.60\%), and achieves a recall of 82.76\% in a sample of 100 projects. Furthermore, we propose Gretel—an anti-pattern removal tool for Travis CI specifications, which can remove 69.60\% of the most frequently occurring anti-pattern automatically. Using Gretel, we have produced 36 accepted pull requests that remove Travis CI anti-patterns automatically.},
+  doi           = {10.1109/TSE.2018.2838131},
+  file          = {IEEE Xplore Abstract Record:https\://ieeexplore.ieee.org/abstract/document/8360943:text/html},
+  keywords      = {Tools, Organizations, Software, Computer languages, Control systems, Electronic mail, Feature extraction},
+  shorttitle    = {Use and {Misuse} of {Continuous} {Integration} {Features}},
+}
 
+@Comment{jabref-meta: databaseType:bibtex;}
