@@ -209,7 +209,6 @@ def process_repo_ci_files(repo):
 
         if temp:
             path_results[key] = temp[0]
-            path_results[f"{key}_file"] = temp[1]
 
         time.sleep(1.5)
 
@@ -220,7 +219,8 @@ def process_repo_ci_files(repo):
     result = {}
     for k in path_results.keys():
         for i in range(len(path_results[k])):
-            result["{}{}".format(k, i)] = path_results[k][i]
+            result["{}{}".format(k, i)] = path_results[k][i][0]
+            result["{}{}_file".format(k, i)] = path_results[k][i][1]
 
     if len(result.keys()) > 1:
         logging.info("found multiple results potentailly for multiple files")
