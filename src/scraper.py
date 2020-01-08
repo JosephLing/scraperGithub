@@ -1,5 +1,5 @@
 from github import Github
-from github.GithubException import UnknownObjectException, BadAttributeException, IncompletableObject,\
+from github.GithubException import UnknownObjectException, BadAttributeException, IncompletableObject, \
     BadUserAgentException, RateLimitExceededException
 from dotenv import load_dotenv
 from os import getenv
@@ -25,7 +25,12 @@ elif LOG_LEVEL == "debug":
 else:
     LOG_LEVEL = logging.INFO
 
-logging.basicConfig(filename="{}.log".format(getenv("LOG_FILE", "logfile")), level=LOG_LEVEL)
+logging.basicConfig(
+    filename="{}.log".format(getenv("LOG_FILE", "logfile")),
+    level=LOG_LEVEL,
+    format="%(asctime)s %(levelname)s %(module)s - %(funcName)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
 
 FILE_NAME = getenv("FILE_NAME", "penguins")
 NO_PAGES = int(getenv("NO_PAGES", 100))
@@ -51,6 +56,7 @@ logging.info(f"file name {FILE_NAME}, no page {NO_PAGES}, request timeout {REQUE
 logging.info(f"no of potential config files for github actions: f{NUMBER_OF_POTENTAIL_FILES}, "
              f"rate limiting f{RATE_LIMITING}, default timeout: f{TIMEOUT}, max no. of pages f{MAX_NO_OF_PAGES}")
 logging.debug(f"github token {GITHUB_TOKEN}")
+
 
 # could be a interesting way of dealing with rate limiting although not entirely practical
 # def rate_limit_check(func):
@@ -138,6 +144,7 @@ def getReposFromFiles(files):
         contents.append(file.content)
     return repos, contents
 
+
 def get_single_file_from_repo(repo, search_terms):
     result = None
     i = 0
@@ -163,6 +170,7 @@ def get_yaml_single_file(repo, name):
     the service. Yet it is unclear whether or not that is the case and how it is handled by each of the services.
     """
     return get_single_file_from_repo(repo, [f".{name}.yml", f".{name}.yaml", f"{name}.yml", f"{name}.yaml"])
+
 
 def get_yaml_from_directory(repo, path):
     """
@@ -225,7 +233,7 @@ def process_repo_ci_files(repo):
     if path_results:
         logging.info("found configuration files for: {}".format(path_results.keys()))
 
-    if len(result.keys()) > 1:
+    if len(result.keys()) > 2:
         logging.info("found multiple results potentailly for multiple files")
     return result
 
@@ -246,6 +254,7 @@ def tidyup_dictinary_keys(data):
             if data[0].get("{}{}_file".format(k, 0)) is None:
                 data[0]["{}{}_file".format(k, 0)] = ""
     return data
+
 
 def getReposStuff(name, stars_start, stars_end):
     g = Github(GITHUB_TOKEN, timeout=REQUEST_TIMEOUT, per_page=NO_PAGES)
