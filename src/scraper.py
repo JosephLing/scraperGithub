@@ -29,7 +29,7 @@ logging.basicConfig(
     filename="{}.log".format(getenv("LOG_FILE", "logfile")),
     level=LOG_LEVEL,
     format="%(asctime)s %(levelname)s %(module)s - %(funcName)s: %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
+    datefmt="%H:%M:%S"
 )
 
 FILE_NAME = getenv("FILE_NAME", "penguins")
