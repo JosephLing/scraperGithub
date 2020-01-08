@@ -1,4 +1,13 @@
-from github import Github
+"""
+Searches for files based on the config.py either in directories or single files against the github api v3.
+
+TODO:
+- rate limiting (properly to optimise speed!)
+
+
+"""
+
+from github import Github, GithubException
 from github.GithubException import UnknownObjectException, BadAttributeException, IncompletableObject, \
     BadUserAgentException, RateLimitExceededException
 from dotenv import load_dotenv
@@ -31,6 +40,13 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(module)s - %(funcName)s: %(message)s",
     datefmt="%H:%M:%S"
 )
+
+class EmptyRepository(Exception):
+    """
+    repo.get_contents can cause a GithubException where the repository is empty. Therefore we want to have specified
+    type for this kind of exception. In order that we can handle the exception instead of dealing with parsing a
+    GithubException whenever this is the issue.
+    """
 
 FILE_NAME = getenv("FILE_NAME", "penguins")
 NO_PAGES = int(getenv("NO_PAGES", 100))
@@ -73,6 +89,16 @@ logging.debug(f"github token {GITHUB_TOKEN}")
 #         count += 1
 #
 #     return response
+def check_for_empty_repo(repo, path):
+    try:
+        return repo.get_contents(path)
+    except UnknownObjectException:
+        return []
+    except GithubException as e:
+        if e.status == 404 and "This repository is empty." in e.data:
+            raise EmptyRepository()
+        else:
+            raise e
 
 
 def save_repo(repo, content):
@@ -81,7 +107,7 @@ def save_repo(repo, content):
     readme = ""
     try:
         readme = repo.get_readme().content
-    except UnknownObjectException as e:
+    except UnknownObjectException:
         pass
 
     dictionary = {}
@@ -146,16 +172,23 @@ def getReposFromFiles(files):
 
 
 def get_single_file_from_repo(repo, search_terms):
+    """
+    We iterate through all the search terms until we find something or if the repository turns out to be empty.
+    @returns [(result, type)]
+    """
     result = None
     i = 0
-    while result is None and i < len(search_terms):
-        try:
-            # we get the contents from the search, there should be always be an exception or one or more items
-            # each search term should be made to only get one file but this just makes sure of it.
-            result = (repo.get_contents(search_terms[i])[0].content, search_terms)
-        except UnknownObjectException as e:
-            pass
-        i += 1
+    try:
+        while result is None and i < len(search_terms):
+            try:
+                # we get the contents from the search, there should be always be an exception or one or more items
+                # each search term should be made to only get one file but this just makes sure of it.
+                result = (check_for_empty_repo(repo, search_terms[i])[0].content, search_terms)
+            except UnknownObjectException:
+                pass
+            i += 1
+    except EmptyRepository:
+        return []
 
     if result is None:
         return []
@@ -185,12 +218,17 @@ def get_yaml_from_directory(repo, path):
             # we slice here to avoid having extra files of configuration over 24
             # 24 atm is just a magic number as we should ideally never get above that
             return [(f.content, f.name) for f in repo.get_contents(path) if
-                    f is not None and (f.name.endswith(".yaml") or f.name.endswith(".yml"))][:NUMBER_OF_POTENTAIL_FILES]
+                    f is not None and (
+                            f.name.endswith(".yaml")
+                            or f.name.endswith(".yml")
+                            or f.name.endswith(".xml")
+                            or f.name.endswith(".kts"))][:NUMBER_OF_POTENTAIL_FILES]
         else:
             return [(temp.content, temp.name)]
-    except UnknownObjectException as e:
+    except UnknownObjectException:
         return []
-
+    except EmptyRepository:
+        return []
 
 def get_jenkins_config(repo):
     """
@@ -258,7 +296,7 @@ def tidyup_dictinary_keys(data):
 
 def getReposStuff(name, stars_start, stars_end):
     g = Github(GITHUB_TOKEN, timeout=REQUEST_TIMEOUT, per_page=NO_PAGES)
-    search = "stars:{}..{}".format(stars_start, stars_end)  # TODO: add in stars
+    search = "stars:{}..{}".format(stars_start, stars_end)
     logging.info("----------------------------------------")
 
     pages = g.search_repositories(search)
@@ -318,7 +356,7 @@ def get_config_from_ids(name, ids):
         repo = None
         try:
             repo = g.get_repo(repo_id)  # 1 request
-        except UnknownObjectException as e:
+        except UnknownObjectException:
             pass
 
         if repo:
