@@ -92,8 +92,6 @@ logging.debug(f"github token {GITHUB_TOKEN}")
 def check_for_empty_repo(repo, path):
     try:
         return repo.get_contents(path)
-    except UnknownObjectException:
-        return []
     except GithubException as e:
         if e.status == 404 and "This repository is empty." in e.data:
             raise EmptyRepository()
