@@ -1,6 +1,7 @@
 from sys import maxsize
 import csv
 from src import config
+import logging
 from os.path import exists
 NUMBER_OF_KEYS_PER_CONFIG = 24
 
@@ -43,8 +44,9 @@ def readfile_low_memory(filename):
 
 
 def writeToCsv(data, name, fields=None):
+    logger = logging.getLogger(__name__)
     if len(data) >= 1:
-        print("saving: data")
+        logger.info("saving: data")
         if fields is None:
             field = list(data[0].keys())
         else:
@@ -58,7 +60,7 @@ def writeToCsv(data, name, fields=None):
             for d in data:
                 writer.writerow(d)
     else:
-        print("no data found")
+        logger.info("no data found")
 
 def check_name(name, debug=True) -> str:
     new_name = name
