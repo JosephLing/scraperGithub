@@ -7,7 +7,7 @@ TODO:
 
 """
 
-from github import Github, GithubException
+from github import Github, GithubException, ContentFile
 from github.GithubException import UnknownObjectException, BadAttributeException, IncompletableObject, \
     BadUserAgentException, RateLimitExceededException
 from dotenv import load_dotenv
@@ -185,7 +185,11 @@ def get_single_file_from_repo(repo, search_terms):
             try:
                 # we get the contents from the search, there should be always be an exception or one or more items
                 # each search term should be made to only get one file but this just makes sure of it.
-                result = (check_for_empty_repo(repo, search_terms[i])[0].content, search_terms)
+                result = check_for_empty_repo(repo, search_terms[i])
+                if not isinstance(result, ContentFile):
+                    result = result[0]
+
+                result = (result.content, search_terms)
             except UnknownObjectException:
                 pass
             i += 1
