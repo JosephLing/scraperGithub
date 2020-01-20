@@ -41,12 +41,14 @@ logging.basicConfig(
     datefmt="%H:%M:%S"
 )
 
+
 class EmptyRepository(Exception):
     """
     repo.get_contents can cause a GithubException where the repository is empty. Therefore we want to have specified
     type for this kind of exception. In order that we can handle the exception instead of dealing with parsing a
     GithubException whenever this is the issue.
     """
+
 
 FILE_NAME = getenv("FILE_NAME", "penguins")
 NO_PAGES = int(getenv("NO_PAGES", 100))
@@ -55,8 +57,10 @@ ITERATION_DIFFERENCE = int(getenv("ITERATION_DIFFERENCE", 10))
 ITERATION_START = int(getenv("ITERATION_START", 1000))
 ITERATION_END = int(getenv("ITERATION_END", 999999))
 NUMBER_OF_POTENTAIL_FILES = int(getenv("NUMBER_OF_POTETNAIL_FILES", 24))
+NUMBER_OF_POTENTAIL_FILES_FOR_SINGLE_FILES = int(getenv("NUMBER_OF_POTENTAIL_FILES_FOR_SINGLE_FILES", 5))
 RATE_LIMITING = getenv("RATE_LIMITING", 1000)
-TIMEOUT = int(getenv("TIMEOUT", 30))
+TIMEOUT = int(getenv("TIMEOUT_FOR_SEARCH", 30))
+TIMEOUT_FOR_SEARCH = int(getenv("TIMEOUT", 1))
 MAX_NO_OF_PAGES = int(getenv("MAX_NO_OF_PAGES", 9))  # zero indexed fun stuff
 GITHUB_TOKEN = getenv("GITHUB_TOKEN")
 
@@ -228,6 +232,7 @@ def get_yaml_from_directory(repo, path):
     except EmptyRepository:
         return []
 
+
 def get_jenkins_config(repo):
     """
     Jenkins pipeline configuration is stored as a "jenkinsfile" or a "JenkinsFile"
@@ -248,13 +253,15 @@ def process_repo_ci_files(repo):
         # get_contents -> list or single ContentFile depending on what gets returned
         if "jenkins" in key:
             temp = get_jenkins_config(repo)
-        else:
+        elif key in config.PATHS_MULTIPLE:
             temp = get_yaml_from_directory(repo, config.PATHS.get(key))
+        else:
+            temp = get_yaml_single_file(repo, config.PATHS.get(key))
 
         if temp:
             path_results[key] = temp[0]
 
-        time.sleep(1.5)
+        time.sleep(TIMEOUT_FOR_SEARCH)
 
     if len(path_results.keys()) == 0:
         logging.info("found no results")
@@ -276,19 +283,21 @@ def process_repo_ci_files(repo):
 
 def tidyup_dictinary_keys(data):
     for k in config.PATHS.keys():
-        if k in config.PATHS_MULTIPLE:
-            for i in range(NUMBER_OF_POTENTAIL_FILES):
-                if data[0].get("{}{}".format(k, i)) is None:
-                    data[0]["{}{}".format(k, i)] = ""
-
-                if data[0].get("{}{}_file".format(k, i)) is None:
-                    data[0]["{}{}_file".format(k, i)] = ""
+        number_of_configs = 0
+        if "jenkins" in k:
+            number_of_configs = 1
+        elif k in config.PATHS_MULTIPLE:
+            number_of_configs = NUMBER_OF_POTENTAIL_FILES
         else:
-            if data[0].get("{}{}".format(k, 0)) is None:
-                data[0]["{}{}".format(k, 0)] = ""
+            number_of_configs = NUMBER_OF_POTENTAIL_FILES_FOR_SINGLE_FILES
 
-            if data[0].get("{}{}_file".format(k, 0)) is None:
-                data[0]["{}{}_file".format(k, 0)] = ""
+        for i in range(number_of_configs):
+            if data[0].get("{}{}".format(k, i)) is None:
+                data[0]["{}{}".format(k, i)] = ""
+
+            if data[0].get("{}{}_file".format(k, i)) is None:
+                data[0]["{}{}_file".format(k, i)] = ""
+
     return data
 
 
@@ -391,6 +400,8 @@ def main_scraper():
         # TODO: maths can only have 5000 requests per hour
         time.sleep(60)
 
+    logging.info("FINISHED!!!!!! woo now time for human to stop sleeping...")
+
 
 def main_rerun_scrape():
     # name, id so index has to be 1 based on REPO_KEYS
@@ -404,6 +415,7 @@ def main():
         logging.info("place a github token in the .env file")
     else:
         main_scraper()
+    logging.info("finished running main")
 
 
 if __name__ == "__main__":
