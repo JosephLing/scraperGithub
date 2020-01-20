@@ -189,6 +189,9 @@ def get_single_file_from_repo(repo, search_terms):
             except UnknownObjectException:
                 pass
             i += 1
+
+            time.sleep(TIMEOUT_FOR_SEARCH/6)
+
     except EmptyRepository:
         return []
 
