@@ -3,6 +3,8 @@ import base64
 import binascii
 
 def base64Decode(contents):
+    if contents is None:
+        return None
     try:
         return base64.b64decode(contents).decode("utf-8")
     except binascii.Error as e:

@@ -1,15 +1,13 @@
 import base64
 
-from . import csvReader
-from . import lib
+import csvReader
+import lib
 
 from os import listdir
 from os.path import isfile, join
 
 
 
-def pad(msg,prev_mesg, padding=20):
-    return "{}{}".format(" " * (padding - len(prev_mesg)), msg)
 
 def parseFile(config):
     y = None
@@ -24,47 +22,35 @@ def parseFile(config):
     if y is not None:
         return "yaml"
 
+def pad(msg, count=10):
+    return "{}{}".format(count - len(str(msg)), msg)
+
 
 def check(filename):
+    if filename is None:
+        return 0
     lines = csvReader.readfile(filename)
-    i = 0
-    keysLength = 0
-    validConfig = 0
-    base64Errors = 0
-    readMeEncoding = 0
-    maxKeys = {}
+    if len(lines) == 0:
+        keys_length = 0
+    else:
+        keys_length = len(lines[0].keys())
+    readme = 0
+    jenkins = 0
     for line in lines:
-        if i == 0:
-            keysLength = len(line.keys())
-            if keysLength > len(maxKeys.keys()):
-                maxKeys = line.keys()
+        if line.get("readme") is not None:
+            readme += 1
 
-        base64 = lib.base64Decode(line.get("readme"))
-        if base64 is None:
-            readMeEncoding += 1
-        if keysLength == 10:
-            r = parseFile(line.get("config"))
-            if r == "base64":
-                base64Errors += 1
-            elif r == "yaml":
-                validConfig += 1
-        for k in csvReader.KEYS_TO_TRY:
-            if line.get(k) is not None and line.get(k) != "":
-                r = parseFile(line.get(k))
-                if r == "base64":
-                    base64Errors += 1
-                elif r == "yaml":
-                    validConfig += 1
-        i += 1
+        if line.get("jenkinsPipeline0"):
+            jenkins += 1
 
-    print("name: %slines: %s keys: %s decode error: %s valid yml:%s readme: %d" % (filename, pad(i,filename, 40),
-                                                                                   pad(keysLength, str(i),10),
-                                                                                   pad(validConfig, str(keysLength), 5),
-                                                                                   pad(base64Errors, str(validConfig), 5), readMeEncoding ))
-    return maxKeys
+
+    print("filename: {}{}{}{}{}".format(filename, pad(keys_length, 20), pad(len(lines),20) , pad(readme), pad(jenkins)))
+
+
+
+
 
 def checkJenkins(line):
-    if line.get("jenkinsPipeline0"):
         temp = base64.b64decode(line.get("jenkinsPipeline0"))
         print(len(temp))
 
@@ -110,3 +96,5 @@ def checkfiles(mypath, regexp=""):
     for f in onlyfiles:
         check(join(mypath, f))
 
+if __name__ == '__main__':
+    checkfiles(".", "travis")
