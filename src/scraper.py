@@ -78,21 +78,6 @@ logging.info(f"no of potential config files for github actions: f{NUMBER_OF_POTE
 logging.debug(f"github token {GITHUB_TOKEN}")
 
 
-# could be a interesting way of dealing with rate limiting although not entirely practical
-# def rate_limit_check(func):
-#     response = None
-#     count = 0
-#     while response is None and count < 10:
-#         try:
-#             response = func()
-#         except RateLimitExceededException:
-#             time.sleep(120)
-#
-#             logging.error("rate limit exceed when calling: {} at {} in {}"
-#                           .format(func.__name__, func.__code__, func.__module__))
-#         count += 1
-#
-#     return response
 def check_for_empty_repo(repo, path, count=0):
     try:
         return repo.get_contents(path)
@@ -165,59 +150,6 @@ def fixEncoding(value):
     else:
         return value
 
-
-def getReposFromFiles(files):
-    repos = []
-    contents = []
-    for file in files:
-        repos.append(file.repository)
-        logging.info("reading >>> {}".format(repos[len(repos) - 1].name))
-
-        contents.append(file.content)
-    return repos, contents
-
-
-def get_single_file_from_repo(repo, search_terms):
-    """
-    We iterate through all the search terms until we find something or if the repository turns out to be empty.
-    @returns [(result, type)]
-    """
-    result = None
-    i = 0
-    try:
-        while result is None and i < len(search_terms):
-            try:
-                # we get the contents from the search, there should be always be an exception or one or more items
-                # each search term should be made to only get one file but this just makes sure of it.
-                result = check_for_empty_repo(repo, search_terms[i])
-                if not isinstance(result, ContentFile.ContentFile):
-                    result = result[0]
-
-                result = (result.content, search_terms)
-            except UnknownObjectException:
-                pass
-            i += 1
-
-            time.sleep(TIMEOUT_FOR_SEARCH/6)
-
-    except EmptyRepository:
-        return []
-
-    if result is None:
-        return []
-    return [result]
-
-
-def get_yaml_single_file(repo, name):
-    """
-    @param repo
-    @param name this is search word we are going to use
-    .name.yml is the most common file name for configuration types but the others might still work depending on
-    the service. Yet it is unclear whether or not that is the case and how it is handled by each of the services.
-    """
-    return get_single_file_from_repo(repo, [f".{name}.yml", f".{name}.yaml", f"{name}.yml", f"{name}.yaml"])
-
-
 def get_yaml_from_directory(repo, path):
     """
     @param repo github.Repository object
@@ -244,33 +176,48 @@ def get_yaml_from_directory(repo, path):
         return []
 
 
-def get_jenkins_config(repo):
-    """
-    Jenkins pipeline configuration is stored as a "jenkinsfile" or a "JenkinsFile"
-    """
-    return get_single_file_from_repo(repo, ["jenkinsfile", "JenkinsFile", "jenkinsFile"])
-
 
 def process_repo_ci_files(repo):
+    # NOTE: files with the same name as directories will currently break
+    # there has been issue created on the repo based on this by someone else 2days ago!
+    # also this api call will get depracted which might fix this issue
+    # https://github.com/PyGithub/PyGithub/issues/1283
+    # attempting to hotfix by copying in the changes into the library to see if that will work
+    # NOTE: this will require hotfixing every time it is installed!!!! (or deployed)
+
     path_results = {}
+    files = {}
+    try:
+        for root_file in check_for_empty_repo(repo, "."):
+            file_name = root_file.name.lower()
+            if files.get(file_name) is not None:
+                logging.info("duplicate file in root directory found: {}".format(file_name))
+            files[file_name] = root_file
+    except UnknownObjectException:
+        pass
+    except EmptyRepository:
+        pass
+
     for key in config.PATHS.keys():
-        # NOTE: files with the same name as directories will currently break
-        # there has been issue created on the repo based on this by someone else 2days ago!
-        # also this api call will get depracted which might fix this issue
-        # https://github.com/PyGithub/PyGithub/issues/1283
-        # attempting to hotfix by copying in the changes into the library to see if that will work
-        # NOTE: this will require hotfixing every time it is installed!!!! (or deployed)
+        search_results = []
 
-        # get_contents -> list or single ContentFile depending on what gets returned
-        if "jenkins" in key:
-            temp = get_jenkins_config(repo)
-        elif key in config.PATHS_MULTIPLE:
-            temp = get_yaml_from_directory(repo, config.PATHS.get(key))
+        if key in config.PATHS_MULTIPLE:
+            search_results = get_yaml_from_directory(repo, config.PATHS.get(key))  # [(content, name)]
         else:
-            temp = get_yaml_single_file(repo, config.PATHS.get(key))
+            result = None
+            if "jenkins" in key:
+                result = files.get(config.PATHS.get(key))
+            else:
+                for search in [f".{key}.yml", f".{key}.yaml", f"{key}.yml", f"{key}.yaml"]:
+                    if search in files.keys():
+                        result = files.get(search)
 
-        if temp:
-            path_results[key] = temp[0]
+            if result is not None:
+                search_results = [(result.content, result.name)]
+
+        for i in range(len(search_results)):
+            path_results["{}{}".format(key, i)] = search_results[i][0]
+            path_results["{}{}_file".format(key, i)] = search_results[i][1]
 
         time.sleep(TIMEOUT_FOR_SEARCH)
 
@@ -278,18 +225,10 @@ def process_repo_ci_files(repo):
         logging.info("found no results")
         return {}
 
-    result = {}
-    for k in path_results.keys():
-        for i in range(len(path_results[k])):
-            result["{}{}".format(k, i)] = path_results[k][i][0]
-            result["{}{}_file".format(k, i)] = path_results[k][i][1]
-
     if path_results:
         logging.info("found configuration files for: {}".format(path_results.keys()))
 
-    if len(result.keys()) > 2:
-        logging.info("found multiple results potentailly for multiple files")
-    return result
+    return path_results
 
 
 def tidyup_dictinary_keys(data):
@@ -420,6 +359,11 @@ def main_rerun_scrape():
     logging.info("got {} ids to scrape through".format(len(ids)))
     get_config_from_ids(FILE_NAME, ids)
 
+
+def test_cases():
+    logging.info("test cases...")
+    ids = [106607705, 155825745]
+    get_config_from_ids(FILE_NAME, ids)
 
 def main():
     if GITHUB_TOKEN is None:

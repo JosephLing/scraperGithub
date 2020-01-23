@@ -10,7 +10,7 @@ PATHS = {
 
 
     # this one is weird so it has it's on edge case
-    "jenkinsPipeline": "JenkinsFile",
+    "jenkinsPipeline": "jenkinsfile",
 
     # these two should just work out of the box
     "github": ".github/workflows/",
