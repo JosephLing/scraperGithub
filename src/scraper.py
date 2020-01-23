@@ -93,12 +93,16 @@ logging.debug(f"github token {GITHUB_TOKEN}")
 #         count += 1
 #
 #     return response
-def check_for_empty_repo(repo, path):
+def check_for_empty_repo(repo, path, count=0):
     try:
         return repo.get_contents(path)
     except GithubException as e:
         if e.status == 404 and "This repository is empty." in e.data:
             raise EmptyRepository()
+        elif e.status == 500 and count < 5:
+            # note: this will cause a horrible stacktrace error
+            logging.error("first 50 characters: " + e.data[:50])
+            return check_for_empty_repo(repo, path, count+1)
         else:
             raise e
 
@@ -186,7 +190,7 @@ def get_single_file_from_repo(repo, search_terms):
                 # we get the contents from the search, there should be always be an exception or one or more items
                 # each search term should be made to only get one file but this just makes sure of it.
                 result = check_for_empty_repo(repo, search_terms[i])
-                if not isinstance(result, ContentFile):
+                if not isinstance(result, ContentFile.ContentFile):
                     result = result[0]
 
                 result = (result.content, search_terms)
