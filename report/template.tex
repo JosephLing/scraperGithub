@@ -51,95 +51,48 @@ be most effective.
 \section{Introduction}
 \label{Introduction}
 
-For continuous integration (CI) and build systems a lot of it is configured with code as configuration. The main kind of configuration format used for this is yaml followed by xml and special edge cases. As CI is increasingly becoming more popular and practical (\todo[size=\scriptsize]{cite needed here to backup})................For software development teams there are roles for just looking after and managing CI and the deployment infrastructure. Understanding how code as configuration is used for CI is an emerging area of research because of this. 
+\todo[size=\scriptsize]{need more introduction into CI like the travis paper probably?}
 
-% this part is turning into an analysis of exisitng papers....
+For continuous integration (CI) and build systems/continuous delivery a lot of it is configured with code as configuration. The main kind of configuration format used for this is yaml (reference to what it is??) followed by xml and java based scripting formats. As CI has become increasingly more popular and practical (\todo[size=\scriptsize]{cite needed here to backup})................For software development teams there are roles for just looking after and managing CI and the deployment infrastructure. Understanding how code as configuration is used for CI is an emerging area of research because of this.
 
-As Travis CI is the most popular research has already be done on patterns found in the structure \cite{Gallaba2018}. We will follow a similar methodology in order to get our data to analyse. 
+The first stage in order to answer this question is to get a dataset of configuration files from different ci/cd systems. In doing so answering the questions of:
+- what is the spread of ci/cd systems for public github repositories? this will take into account operating system, programming language, star count, subscriber count
+- note: something along the lines of multiple configuration files
+- what naming convention do they use for the files? (in order to understand common practices)
 
-\todo[size=\scriptsize]{check which tense to use}
-Although we won't be looking at puppet (\todo[size=\scriptsize]{what is puppet???}) research has also be done on the "code smell" which can be an indication on the quality of the code by analyzing its structure \cite{Sharma2016}.
+After getting all that data then it will be need to analysed to how it is used. The key questions for this that will be focused on will be:
+- how are comments used in the configuration?
+- how are stages (named sections of the process) named for configuration files?
+  - branch names
+- configuration errors when loading the config (just yaml parsing errors atm)
+- how scripts with the configuration files? (need to elloborate more on this one)
 
-\todo[size=\scriptsize]{check which version of english to use}
-Initially this paper started off looking at how to visualize Continuous Integration (CI) and Continuous delivery (CD) systems. However due to their being a lack of research in the area (\todo[size=\scriptsize]{cite the paper that lists all of the papers around the area}) on specifically on how CI is used and practical implementation. A lot of research has been done supporting the use of CI/CD and it's implementation and benefits in cases for particular languages.
+A key aspect is that these questions do not look too deeply into the individual implementation of each of unique piece of configuration for each type. This is because there are already some good papers looking \cite{Gallaba2018} at this but in order to be able to compare the different configuration types it is important to compare similar attributes (there is also a time factor in here as well). 
 
-% Research queqsiotnsasdf
-% - ??? RQ1
-%   One of the most promising general approaches for solving combinatorial search
-% problems is to generate an initial, suboptimal solution and then to apply
-% local {\em repair} 
-% heuristics.
-% Techniques based on
-% this approach have met with empirical success on many combinatorial 
-% problems, including
-% the traveling salesman and graph partitioning problems \cite{papad}.  
-% Such techniques also have a long tradition in AI, most notably in
-% problem-solving systems that operate by debugging initial
-% solutions \cite{simmons-aaai88,hacker}.
-% In this paper, we describe how this idea can be extended to
-% constraint satisfaction problems (CSPs) in a natural manner.
-% \todo[size=\scriptsize]{This box is an example todo note. Numbered lines are useful for marking. To remove line numbers, comment out the \texttt{lineno} package at the top of this latex file.}
-
-% Most of the previous work on CSP algorithms has assumed a
-% ``constructive'' backtracking approach in which a partial assignment
-% to the variables is incrementally extended. In contrast, our 
-% method \cite{min-aaai} creates a complete, but inconsistent assignment and
-% then repairs constraint violations until a consistent assignment is
-% achieved.  The method is guided by a simple ordering heuristic for
-% repairing constraint violations: identify a variable that is currently
-% in conflict and select a new value that minimizes the number of
-% outstanding constraint violations.
-
-
-% We present empirical evidence showing that on some standard problems
-% our approach is considerably more efficient than traditional constructive
-% backtracking methods. For example, on the $n$-queens problem, our
-% method quickly finds solutions to the one million queens 
-% problem.
-% We argue that the reason that repair-based methods can outperform
-% constructive methods is because a complete assignment can be more
-% informative in guiding search than a partial assignment.
-% However, the utility of
-% the extra information is domain dependent. To help clarify the nature of
-% this potential advantage, we present a theoretical analysis that
-% describes how various problem characteristics may affect the
-% performance of the method. This analysis shows, for example, how the
-% ``distance'' between the current assignment and solution (in terms of
-% the minimum number of repairs that are required) affects the expected
-% utility of the heuristic.
-
-% The work described in this paper was inspired by a surprisingly
-% effective neural network developed by Adorf and 
-% Johnston \cite{adorf,johnston}
-%  for scheduling astronomical observations on the
-% Hubble Space Telescope.  Our heuristic CSP method
-% was distilled from
-% an analysis of the network.
-% In the process of carrying out the
-% analysis, we discovered that the effectiveness of the network has
-% little to do with its connectionist implementation. Furthermore, the
-% ideas employed in the network can be implemented very efficiently
-% within a symbolic CSP framework. The symbolic implementation is
-% extremely simple. It also has the advantage that several different
-% search strategies can be employed, although we have found that
-% hill-climbing methods are particularly well-suited for the
-% applications that we have investigated.
-
-% We begin the paper with a brief review of Adorf and Johnston's neural
-% network, and then describe our symbolic method for heuristic repair.
-% Following this, we describe empirical results with the
-% $n$-queens problem, graph-colorability problems and the
-% Hubble Space Telescope scheduling application. Finally,
-% we consider a theoretical model identifying
-% general problem characteristics that 
-% influence the performance of the method. We include a second gratuitous
-% citation to ourselves to illustrate a short citation \cite{min-aaai}.
-
+\todo[size=\scriptsize]{need to carefully plan out how to gage the size of repo, as I don't want to have too download repos}
 \section{Previous Works}
-\label{network}
+\label{config as code}
+
+\todo[size=\scriptsize]{Config as code is not necessarily infrastructure as code is slightly differently. So the comparison isn't fair necessarily or accurate.}
 
 
+Configuration as code or infrastructure as code has been an increasing area of research over the last few years. There seems to be slightly more research in infrastructure as code \cite{Rahman2019}. The has been a focus on Puppet and Chef, for example in \cite{Sharma2016} looks at code quality by the measure of "code smell" of Puppet code. This tackles the problem by defining by best practises and analysing the code against that. In the case of \cite{Cito2017} it uses the docker linter in order to be able to analyse the files. 
 
+
+15, 18, 23, 30
+
+
+docker, puppet, travis analysis 
+
+\section{Methodology}
+\label{methodology}
+
+foo bar
+asdffsdf
+
+\vspace*{-0.05in}
+\subsection{first load}
+\vspace*{-0.05in}
 
 
 By almost any measure, the Hubble Space Telescope scheduling problem

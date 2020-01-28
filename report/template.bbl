@@ -1,14 +1,26 @@
-\begin{thebibliography}{2}
+\begin{thebibliography}{4}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 \providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Cito et~al.(2017)}]{Cito2017}
+Cito, J., Schermann, G., Wittern, J.~E., Leitner, P., Zumberi, S. and Gall,
+  H.~C. (2017). An {Empirical} {Analysis} of the {Docker} {Container}
+  {Ecosystem} on {GitHub}. In \textit{2017 {IEEE}/{ACM} 14th {International}
+  {Conference} on {Mining} {Software} {Repositories} ({MSR})}, pp. 323--333,
+  iSSN: null.
 
 \bibitem[{Gallaba and McIntosh(2018)}]{Gallaba2018}
 Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
   {Integration} {Features}: {An} {Empirical} {Study} of {Projects} that
   (mis)use {Travis} {CI}. \textit{IEEE Transactions on Software Engineering},
   pp. 1--1.
+
+\bibitem[{Rahman, Mahdavi-Hezaveh and Williams(2019)}]{Rahman2019}
+Rahman, A., Mahdavi-Hezaveh, R. and Williams, L. (2019). A systematic mapping
+  study of infrastructure as code research. \textit{Information and Software
+  Technology}, 108, pp. 65--77.
 
 \bibitem[{Sharma, Fragkoulis and Spinellis(2016)}]{Sharma2016}
 Sharma, T., Fragkoulis, M. and Spinellis, D. (2016). Does {Your}
