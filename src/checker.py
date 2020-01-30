@@ -1,12 +1,7 @@
-import base64
-
 import csvReader
 import lib
-
 from os import listdir
 from os.path import isfile, join
-
-
 
 
 def parseFile(config):
@@ -22,8 +17,9 @@ def parseFile(config):
     if y is not None:
         return "yaml"
 
+
 def pad(msg, count=10):
-    return "{}{}".format(count - len(str(msg)), msg)
+    return "{}{}".format(" " * (count - len(str(msg))), msg)
 
 
 def check(filename):
@@ -45,25 +41,15 @@ def check(filename):
 
 
     print("filename: {}{}{}{}{}".format(filename, pad(keys_length, 20), pad(len(lines),20) , pad(readme), pad(jenkins)))
+    return len(lines)
 
 
-
-
-
-def checkJenkins(line):
-        temp = base64.b64decode(line.get("jenkinsPipeline0"))
-        print(len(temp))
-
-def merge(mypath, save=True):
-    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith(".csv") and "raptor" in f]
-    configs = []
-    for f in onlyfiles:
-        configs.append(check(join(mypath, f)))
-
-    print("combining csv files")
+def merge(mypath, save=True, query="raptor"):
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith(".csv") and query in f]
     combined = {}
     duplicates = 0
-    for i in range(len(configs)):
+    forks = 0
+    for i in range(len(onlyfiles)):
         tempfiles = csvReader.readfile(join(mypath, onlyfiles[i]))
         for line in tempfiles:
             for k in csvReader.KEYS_TO_TRY:
@@ -78,10 +64,13 @@ def merge(mypath, save=True):
             # duplicates numbers
             if combined.get(line.get("id")) is not None:
                 duplicates += 1
+            if line.get("fork") is not None and isinstance(line.get("fork"), bool) and line.get("fork"):
+                forks += 1
             combined[line.get("id")] = line
 
 
     print("duplicates: ", duplicates)
+    print("forks: ", forks)
     print("results: ", len(combined.values()))
     if save:
         name = csvReader.check_name("combined")
@@ -93,8 +82,12 @@ def merge(mypath, save=True):
 
 def checkfiles(mypath, regexp=""):
     onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith(".csv") and regexp in f]
+    total = 0
     for f in onlyfiles:
-        check(join(mypath, f))
+        total += check(join(mypath, f))
+    print(total)
+
 
 if __name__ == '__main__':
-    checkfiles(".", "travis")
+    checkfiles("../new data", "loga")
+    merge("../new data", query="loga", save=False)
