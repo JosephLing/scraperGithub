@@ -1,4 +1,4 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{6}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -16,6 +16,15 @@ Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
   {Integration} {Features}: {An} {Empirical} {Study} of {Projects} that
   (mis)use {Travis} {CI}. \textit{IEEE Transactions on Software Engineering},
   pp. 1--1.
+
+\bibitem[{github(2017)}]{Github2017}
+github (2017). https://github.blog/2017-11-07-github-welcomes-all-ci-tools/. In
+  github.com, ed., \textit{github welcomes all ci tools}.
+
+\bibitem[{Kalliamvakou et~al.(2014)}]{Kalliamvakou2014}
+Kalliamvakou, E., Gousios, G., Blincoe, K., Singer, L., German, D.~M. and
+  Damian, D. (2014). The promises and perils of mining {GitHub}. Hyderabad,
+  India: Association for Computing Machinery, {MSR} 2014, pp. 92--101.
 
 \bibitem[{Rahman, Mahdavi-Hezaveh and Williams(2019)}]{Rahman2019}
 Rahman, A., Mahdavi-Hezaveh, R. and Williams, L. (2019). A systematic mapping
