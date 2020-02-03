@@ -1,6 +1,6 @@
 from sys import maxsize
 import csv
-import config
+from src import config
 import logging
 from os.path import exists
 NUMBER_OF_KEYS_PER_CONFIG = 24

@@ -1,23 +1,43 @@
 import yaml
 from src import config
 import lib
+import re
 from src import csvReader
 import csv
 import threading
 import queue
-FIELDS = ["comments", "blank_lines", "code", "config", "lang", "yaml_encoding_error", "code_with_comments", "lines", "percentage", "stars", "sub", "data", "id"]
-dtypes = {"comments":int, "blank_lines":int, "code":int, "config":str,
-          "lang":str,
-          "yaml_encoding_error":str, "code_with_comments":int, "lines":int, "percentage":float, "stars":int, "sub":int, "data":str, "id":int}
+from src.scraper import NUMBER_OF_POTENTAIL_FILES
 
-COMMENTS_FIELDS = list(range(6000))
-COMMENTS_FIELDS.append("id")
-COMMENTS_FIELDS.append("lang")
+FILTERS = {
+    "todo": {"data": [], "search": "todo"},
+    "note": {"data": [], "search": "note"},
+    "http": {"data": [], "search": "(http:\/\/)|(https:\/\/)"},
+    "fixme": {"data": [], "search": "fixme"},
+    "important": {"data": [], "search": "important"},
+    "header": {"data": [], "search": "###|---|===|\*\*\*"},
+    "hmm": {"data": [], "search": "hmm"},
+    "?!": {"data": [], "search": "\?\!"},
+    "explodes": {"data": [], "search": "\!\!\!"},
+    "dead": {"data": [], "search": "dies|dead|explodes|not working"},
+    "version": {"data": [], "search": "(\d+\.\d+\.\d+)|(\d+\.\d+)"},
+}
+
+FIELDS = [*FILTERS.keys(),"comments", "blank_lines", "code", "config", "lang", "yaml_encoding_error", "code_with_comments", "lines",
+          "percentage", "stars", "sub", "data", "id"]
+
+dtypes = {"comments": int, "blank_lines": int, "code": int, "config": str,
+          "lang": str,
+          "yaml_encoding_error": str, "code_with_comments": int, "lines": int, "percentage": float, "stars": int,
+          "sub": int, "data": str, "id": int}
 
 
 global_lock = threading.Lock()
 
-def isCommentInString(message) -> str:
+
+def is_comment_in_string(message) -> str:
+    """
+    :returns str: the comment
+    """
     search = "#"
     if message.startswith(search):
         return message
@@ -46,6 +66,7 @@ def isCommentInString(message) -> str:
                 specailCharacter = True
     return ""
 
+
 def write_to_csv(name, data, fields):
     with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(
@@ -53,116 +74,135 @@ def write_to_csv(name, data, fields):
         for d in data:
             writer.writerow(d)
 
-def appendData(name, data, fields):
 
+def appendData(name, data, fields):
     if data:
         global_lock.acquire()
         write_to_csv(name, data, fields)
         global_lock.release()
 
-def get_comment_stats(fileasstring):
-    yaml_file_lines = fileasstring.split("\n")
-    comments_data = []
-    comments = 0
-    blank_lines = 0
-    code_with_comments = 0
-    code = 0
+
+def get_comment_stats(file_as_string):
+    yaml_file_lines = file_as_string.split("\n")
+    result = {}
+
+    for filter_type in [*FILTERS.keys(), "comments", "blank_lines", "code_with_comments", "code",
+                        "multi_line_comment_unique", "single_line_comment", "multi_line_comment"]:
+        result[filter_type] = 0
+    multi = 0
     for i in range(len(yaml_file_lines)):
         yaml_line = yaml_file_lines[i]
+
         if yaml_line.replace(" ", "") == "":
-            blank_lines += 1
+            if multi > 1:
+                result["multi_line_comment"] += multi
+                result["multi_line_comment_unique"] += 1
+                result["single_line_comment"] -= multi
+            multi = 0
+
+            result["blank_lines"] += 1
         else:
-            comment = isCommentInString(yaml_line)
+
+            comment = is_comment_in_string(yaml_line)
             if comment != "":
-                comments_data.append((i, comment))
+                result["comments"] += 1
+
+                for filter_type in FILTERS.keys():
+                    if re.findall(FILTERS[filter_type]["search"], comment):
+                        result[filter_type] += 1
+
                 if len(comment) == len(yaml_line):
-                    comments += 1
+                    result["single_line_comment"] += 1
+                    multi += 1
                 else:
-                    code += 1
-                    code_with_comments += 1
+                    if multi > 1:
+                        result["multi_line_comment"] += multi
+                        result["multi_line_comment_unique"] += 1
+                        result["single_line_comment"] -= multi
 
-            code += 1
-    return comments, blank_lines, code, code_with_comments, len(yaml_file_lines), comments_data
+                    multi = 0
 
-def process(data, line, key):
-    fileasstring = lib.base64Decode(data)
+                    result["code"] += 1
+                    result["code_with_comments"] += 1
+            else:
+                if multi > 1:
+                    result["multi_line_comment"] += multi
+                    result["multi_line_comment_unique"] += 1
+                    result["single_line_comment"] -= multi
+
+                multi = 0
+
+                # moved this into an else as is_commment_in_string returns just the comment
+                # therefore if it is empty then it must be code
+                # in doing this it should tidy up the raitos of code to comments
+                result["code"] += 1
+
+    if multi > 1:
+        result["multi_line_comment"] += multi
+        result["multi_line_comment_unique"] += 1
+        result["single_line_comment"] -= multi
+
+    result["yaml_file_lines"] = len(yaml_file_lines)
+    return result
+
+
+def process(config_data, config_name, line, config_type):
+    """
+    :param config_data str: hash of the config
+    :param config_name str: filename of that config
+    :param line dictionary: all the data for that line
+    :param config_type str: the type of configuration this config belongs too
+    :returns dictionary: of values to be saved:
+    """
+    fileasstring = lib.base64Decode(config_data)
     if fileasstring:
         yaml_encoding_error = ""
         blob = None
         try:
             blob = yaml.safe_load(fileasstring)
-        except yaml.composer.ComposerError as e:
+        except yaml.composer.ComposerError:
             yaml_encoding_error = "composer error"
-        except yaml.scanner.ScannerError as e:
+        except yaml.scanner.ScannerError:
             yaml_encoding_error = "scanner error"
-        except yaml.parser.ParserError as e:
+        except yaml.parser.ParserError:
             yaml_encoding_error = "parse error"
-        except yaml.constructor.ConstructorError as e:
+        except yaml.constructor.ConstructorError:
             yaml_encoding_error = "constructor error"
-        except yaml.reader.ReaderError as e:
+        except yaml.reader.ReaderError:
             yaml_encoding_error = "reader error"
 
-        if blob is not None:
-            pass
-        comments, blank_lines, code, code_with_comments, yaml_file_lines, comments_data = get_comment_stats(fileasstring)
-        comments_data = dict(comments_data)
-        if len(comments_data) != 0:
-            comments_data["lang"] = line.get("language")
-            comments_data["id"] = line.get("id")
-            if comments_data["lang"] is None:
-                if blob.get("language") is not None:
-                    comments_data["lang"] = blob.get("language")
-
-        return {"comments": comments,
-                "blank_lines": blank_lines,
-                "code": code,
-                "config":key,
-                "yaml_encoding_error": yaml_encoding_error,
-                "code_with_comments": code_with_comments,
-                "lines": yaml_file_lines,
-                "lang":line.get("language"),
-                "percentage": (comments / yaml_file_lines) * 100,
-                "stars": line["stargazers_count"],
-                "sub": line.get("subscribers_count"),
-                "data": data,
-                "id": line.get("id")},comments_data
+        return {**{
+            "config": config_type,
+            "config_name": config_name,
+            "yaml_encoding_error": yaml_encoding_error,
+            "lang": line.get("language"),
+            "stars": line["stargazers_count"],
+            "sub": line.get("subscribers_count"),
+            "data": config_data,
+            "id": line.get("id")}, **get_comment_stats(fileasstring)}
 
 
-def process_line(line, name, comments_name):
+def process_line(line, name):
     yaml_stats = []
-    comments = []
     for key in config.PATHS.keys():
-        for j in range(24):
-            data = line.get("{}{}".format(key, j))
-            if data:
-                dataToSave, comments_data = process(data, line, key)
-                if len(comments_data) > 0:
-                    comments.append(comments_data)
+        for j in range(NUMBER_OF_POTENTAIL_FILES):
+            config_data = line.get("{}{}".format(key, j))
+            config_name = line.get("{}{}_file".format(key, j))
+
+            if config_data:
+                dataToSave = process(config_data, config_name, line, key)
                 yaml_stats.append(dataToSave)
 
     appendData(name, yaml_stats, FIELDS)
-    appendData(comments_name, comments, COMMENTS_FIELDS)
 
 
-
-def check(name):
-    data = csvReader.readfile("{}.csv".format(name))
-    count = 0
-    print(len(data))
-    for line in data:
-        print(line.keys())
-        print("{} {} {} {}".format(line.get("config"), line.get("stars"), line.get("lines"), line.get("id")))
-        count += 1
-        if count > 10:
-            break
-
-def run_main(num_worker_threads, data, name, comments_name):
+def run_main(num_worker_threads, data, name):
     def worker():
         while True:
             line = q.get()
             if line is None:
                 break
-            process_line(line, name, comments_name)
+            process_line(line, name)
             q.task_done()
 
     q = queue.Queue()
@@ -187,18 +227,16 @@ def run_main(num_worker_threads, data, name, comments_name):
     print("finished")
 
 
-def main(name, comments_test_name, data):
-
+def main(name, data):
+    """
+    sets up the files to write the
+    """
     num_worker_threads = 5
 
     name = csvReader.check_name(name)
-    comments_test_name = csvReader.check_name(comments_test_name)
 
     if name == "":
         print("file already found for the files for the main file so can't write to disk")
-        return
-    if comments_test_name == "":
-        print("file already found for the files for the comments file so can't write to disk")
         return
 
     with open(f"{name}.csv", "a", newline="", encoding="utf-8") as csvfile:
@@ -206,16 +244,8 @@ def main(name, comments_test_name, data):
             csvfile, fieldnames=FIELDS, quoting=csv.QUOTE_MINIMAL)
         writer.writeheader()
 
-    with open(f"{comments_test_name}.csv", "a", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(
-            csvfile, fieldnames=COMMENTS_FIELDS, quoting=csv.QUOTE_MINIMAL)
-        writer.writeheader()
-
-
-    run_main(num_worker_threads, data, name, comments_test_name)
+    run_main(num_worker_threads, data, name)
 
 
 if __name__ == '__main__':
-    main("yaml threaded", "comments threaded", csvReader.readfile("combined.csv"))
-    # check("yaml threaded")
-    # print(len(csvfiledata))
+    main("yaml threaded", csvReader.readfile("combined.csv"))
