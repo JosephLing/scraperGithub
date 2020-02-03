@@ -1,6 +1,6 @@
 import yaml
 import lib
-from src import csvReader
+import csvReader
 # Note: at 10/12/2019 travis lint didn't work
 # or at the very least did not provide error messages approritate to there own docs
 # as well as was doing it via sending requests off. Therefore ratelimiting would have
