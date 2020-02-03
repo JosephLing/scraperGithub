@@ -1,6 +1,6 @@
 import unittest
 from unittest import mock
-from src import csvReader
+import csvReader
 
 
 class CheckName(unittest.TestCase):

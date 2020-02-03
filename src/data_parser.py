@@ -1,12 +1,12 @@
 import yaml
-from src import config
+import config
 import lib
 import re
-from src import csvReader
+import csvReader
 import csv
 import threading
 import queue
-from src.scraper import NUMBER_OF_POTENTAIL_FILES
+from scraper import NUMBER_OF_POTENTAIL_FILES
 
 FILTERS = {
     "todo": {"data": [], "search": "todo"},

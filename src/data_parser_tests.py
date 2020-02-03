@@ -1,5 +1,5 @@
 import unittest
-from src.data_parser import is_comment_in_string, get_comment_stats
+from data_parser import is_comment_in_string, get_comment_stats
 
 example_files_test_cases = [
     """addons:
