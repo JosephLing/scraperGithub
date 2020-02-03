@@ -12,9 +12,9 @@ from github.GithubException import UnknownObjectException, BadAttributeException
     BadUserAgentException, RateLimitExceededException
 from dotenv import load_dotenv
 from os import getenv
-from src import csvReader
+import csvReader
 import time
-from src import config
+import config
 import logging
 from sys import argv
 
