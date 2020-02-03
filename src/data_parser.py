@@ -22,14 +22,15 @@ FILTERS = {
     "version": {"data": [], "search": "(\d+\.\d+\.\d+)|(\d+\.\d+)"},
 }
 
-FIELDS = [*FILTERS.keys(),"comments", "blank_lines", "code", "config", "lang", "yaml_encoding_error", "code_with_comments", "lines",
-          "percentage", "stars", "sub", "data", "id"]
+FIELDS = [*FILTERS.keys(), "comments", "blank_lines", "code", "config", "lang", "yaml_encoding_error",
+          "code_with_comments", "lines",
+          "percentage", "stars", "sub", "data", "id", "single_line_comment", "config_name", "multi_line_comment_unique",
+          "multi_line_comment", "yaml_file_lines"]
 
 dtypes = {"comments": int, "blank_lines": int, "code": int, "config": str,
           "lang": str,
           "yaml_encoding_error": str, "code_with_comments": int, "lines": int, "percentage": float, "stars": int,
           "sub": int, "data": str, "id": int}
-
 
 global_lock = threading.Lock()
 
@@ -183,6 +184,7 @@ def process(config_data, config_name, line, config_type):
 
 
 def process_line(line, name):
+    print(line.get("name"))
     yaml_stats = []
     for key in config.PATHS.keys():
         for j in range(NUMBER_OF_POTENTAIL_FILES):
@@ -227,6 +229,10 @@ def run_main(num_worker_threads, data, name):
     print("finished")
 
 
+def check_output(name):
+    data = csvReader.readfile(name)
+    print(data[0])
+
 def main(name, data):
     """
     sets up the files to write the
@@ -238,6 +244,7 @@ def main(name, data):
     if name == "":
         print("file already found for the files for the main file so can't write to disk")
         return
+    print(f"writing to {name}.csv")
 
     with open(f"{name}.csv", "a", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(
@@ -248,4 +255,5 @@ def main(name, data):
 
 
 if __name__ == '__main__':
-    main("yaml threaded", csvReader.readfile("combined.csv"))
+    # main("yaml threaded", csvReader.readfile("combined0.csv"))
+    check_output("yaml threaded2.csv")
