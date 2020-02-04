@@ -15,6 +15,7 @@
 - language and os representation (and then how does that map too information displayed in the wiki)
 - size of configuration per config type and then size of configuration per language based on the configuration type (e.g. does a github action take up less code than a travis one on avg... depending if the sampling is big enough)
 - branches...
+- length of lines vs no. of lines (this is not a raito I don't think more a comaprison although could be???)
 
 - proportion of script tags and then names of scripts run (this is where a analysis on common patterns would be useful but stretch goal)
 
