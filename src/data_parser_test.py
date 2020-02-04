@@ -422,6 +422,20 @@ class JavaThing(unittest.TestCase):
         self.assertEqual(["", "/* world", "this /", "is a test*/"],
                          java_thing(["hello", "/* world", "this /", "is a test*/"]))
 
+    def test_multiple_lines_with_content_horrible_case(self):
+        # ah this is horrible
+        self.assertEqual(["", "/* world *//*foo", "this /", "is a test*/"],
+                         java_thing(["hello", "/* world *//*foo", "this /", "is a test*/"]))
+
+    def test_multiple_lines_with_content_horrible_case2(self):
+        # I might start using comments less now ;)
+        self.assertEqual(["", "/* world ", "this /", "is a test*//*cats*/"],
+                         java_thing(["hello", "/* world ", "this /", "is a test*//*cats*/"]))
+
+    def test_a_multi_line_comment_left_open(self):
+        self.assertEqual(["", "/* world ", "this /"],
+                         java_thing(["hello", "/* world ", "this /"]))
+
 
 class JenkinsCommentTest(GetCommentStat):
 

@@ -139,18 +139,35 @@ def java_thing(file_lines):
                             else:
                                 comments.append(message[open_comment:i + 1])
 
+                            # so this is stupid, what it does is stops the parser from picking up:
+                            # "/*hello*//*world*/" as "/*hello*/" and then "//*world/"
+                            # yeah...
+                            message = message[:i] + "@" + message[i + 1:]
+
                             open_comment = -1
                             # we could still have more comments after here so we do not break the loop
 
                     inString, inStringQuoted, specailCharacter = handle_specail_character_and_strings(c, inString,
                                                                                                       inStringQuoted)
 
-        line_count += 1
         if open_comment != -1 and not multi_line and len(message) > 0:
             multi_line = True
             # if we are starting or ending the multi-line comment
             # this is where that comment proportion gets appended on
-            comments.append(message[open_comment:])
+            if len(comments) - 1 == line_count:
+                # in the case that we have more than one comment on the line
+                # we append it onto the line of the comments
+                # this is a little bit hacky as the system is currently only designed to handle
+                # 1 comment per line as it was written for yaml
+                comments[line_count] += message[open_comment:]
+            else:
+                if len(message) == open_comment:
+                    comments.append(message)
+                else:
+                    comments.append(message[open_comment:])
+
+
+        line_count += 1
 
         # so if we did not find a comment we need to have a blank line representing that
         if len(comments) != line_count:
@@ -211,6 +228,7 @@ def get_comment_stats(file_as_string, func_comments):
 
 def get_yaml_encoding_error(fileasstring):
     yaml_encoding_error = ""
+    # TODO: do we ever want to pass on the yaml blob to anywhere?
     blob = None
     try:
         blob = yaml.safe_load(fileasstring)
