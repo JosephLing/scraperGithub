@@ -269,7 +269,12 @@ def process_yaml_files(config_data, config_name, line, config_type):
         print("error")
 
 
-def temp(config_data, config_type, config_name, line, is_yaml):
+def process_config(config_data, config_type, config_name, line, is_yaml):
+    # TODO: for teamcity config should we try and parse all of it for comments???
+    # as we going to ignore it in later stages as well
+    # but as it will be included in the stats of overall data it either needs parsing or being
+    # removed from the commment data set.
+    # Difficulty and pain point being that it is <!-- --> xml comments ahaha :(
     fileasstring = lib.base64Decode(config_data)
     if is_yaml:
         comment_stats = get_comment_stats(fileasstring, yaml_thing)
@@ -299,9 +304,9 @@ def process_line(line, name):
 
             if config_data:
                 if key in config.NONE_YAML:
-                    dataToSave = temp(config_data, key, config_name, line, False)
+                    dataToSave = process_config(config_data, key, config_name, line, False)
                 else:
-                    dataToSave = temp(config_data, key, config_name, line, True)
+                    dataToSave = process_config(config_data, key, config_name, line, True)
                 yaml_stats.append(dataToSave)
 
     appendData(name, yaml_stats, FIELDS)
@@ -341,6 +346,12 @@ def run_main(num_worker_threads, data, name):
 def check_output(name):
     data = csvReader.readfile(name)
     print(data[0])
+    print(data[0]["yaml"])
+    print(type(data[0]["yaml"]))
+    for line in data:
+        if line.get("yaml") == "False":
+            print(line)
+            break
 
 
 def main(name, data):
@@ -366,4 +377,4 @@ def main(name, data):
 
 if __name__ == '__main__':
     # main("yaml threaded", csvReader.readfile("combined0.csv"))
-    check_output("yaml threaded2.csv")
+    check_output("yaml threaded5.csv")
