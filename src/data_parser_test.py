@@ -1,5 +1,5 @@
 import unittest
-from data_parser import is_comment_in_string, get_comment_stats_yaml, get_comment_stats_kotlin_style
+from data_parser import is_comment_in_yaml, get_comment_stats, yaml_thing, java_thing
 
 example_files_test_cases = [
     """addons:
@@ -264,31 +264,32 @@ sudo: false
 
 class IsCommentInStringTest(unittest.TestCase):
     def test_basic(self):
-        self.assertEqual("#hello",is_comment_in_string("#hello"))
+        self.assertEqual("#hello", is_comment_in_yaml("#hello"))
 
     def test_end_of_string(self):
-        self.assertEqual("#hello",is_comment_in_string("asdfasdfasdf#hello") )
+        self.assertEqual("#hello", is_comment_in_yaml("asdfasdfasdf#hello"))
 
     def test_quotes(self):
-        self.assertEqual("#hello",is_comment_in_string("'a'#hello"))
+        self.assertEqual("#hello", is_comment_in_yaml("'a'#hello"))
 
     def test_single_quotes(self):
-        self.assertEqual("#hello",is_comment_in_string('"asdf"#hello'))
+        self.assertEqual("#hello", is_comment_in_yaml('"asdf"#hello'))
 
     def test_mixed_quotes(self):
-        self.assertEqual("#cat",is_comment_in_string("'asdf#assd'#cat"))
+        self.assertEqual("#cat", is_comment_in_yaml("'asdf#assd'#cat"))
 
     def test_mixed_quotes2(self):
-        self.assertEqual("#dog",is_comment_in_string('"asa#cats"asdfdfsdf#dog'))
+        self.assertEqual("#dog", is_comment_in_yaml('"asa#cats"asdfdfsdf#dog'))
 
     def test_empty(self):
-        self.assertEqual("", is_comment_in_string(''))
+        self.assertEqual("", is_comment_in_yaml(''))
 
     def test_newline(self):
-        self.assertEqual("", is_comment_in_string('\n'))
+        self.assertEqual("", is_comment_in_yaml('\n'))
 
     def test_no_comment(self):
-        self.assertEqual("",is_comment_in_string('hello world'))
+        self.assertEqual("", is_comment_in_yaml('hello world'))
+
 
 class GetCommentStat(unittest.TestCase):
     def gen_default(self):
@@ -320,13 +321,13 @@ class GetCommentStatsYaml(GetCommentStat):
         expected["file_lines"] = 1
         expected["comments"] = 1
         expected["single_line_comment"] = 1
-        self.assertEqual(expected, get_comment_stats_yaml("#hello"))
+        self.assertEqual(expected, get_comment_stats("#hello", yaml_thing))
 
     def test_none(self):
         expected = self.gen_default()
         expected["file_lines"] = 1
         expected["code"] = 1
-        self.assertEqual(expected, get_comment_stats_yaml("cats"))
+        self.assertEqual(expected, get_comment_stats("cats", yaml_thing))
 
     def test_code_and_single_comment(self):
         expected = self.gen_default()
@@ -335,7 +336,7 @@ class GetCommentStatsYaml(GetCommentStat):
         expected["comments"] = 1
         expected["single_line_comment"] = 1
 
-        self.assertEqual(expected,get_comment_stats_yaml("cats\n#dogs"))
+        self.assertEqual(expected, get_comment_stats("cats\n#dogs", yaml_thing))
 
     def test_actual_file(self):
         expected = self.gen_default()
@@ -343,7 +344,7 @@ class GetCommentStatsYaml(GetCommentStat):
         expected["blank_lines"] = 27
         expected["code"] = 123
 
-        self.assertEqual(expected, get_comment_stats_yaml(example_files_test_cases[0]))
+        self.assertEqual(expected, get_comment_stats(example_files_test_cases[0], yaml_thing))
 
     def test_actual_file_with_complex_script_tags(self):
         expected = self.gen_default()
@@ -351,7 +352,7 @@ class GetCommentStatsYaml(GetCommentStat):
         expected["blank_lines"] = 2
         expected["code"] = 117
 
-        self.assertEqual(expected, get_comment_stats_yaml(example_files_test_cases[1]))
+        self.assertEqual(expected, get_comment_stats(example_files_test_cases[1], yaml_thing))
 
     def test_todo_comment(self):
         expected = self.gen_default()
@@ -363,7 +364,7 @@ class GetCommentStatsYaml(GetCommentStat):
         expected["comments"] = 2
         expected["single_line_comment"] = 1
 
-        self.assertEqual(expected, get_comment_stats_yaml("""
+        self.assertEqual(expected, get_comment_stats("""
 go:
 - 1.12
 language: go # woo I am a comment
@@ -373,7 +374,7 @@ os:
 script:
 - go test -v
 #TODO: I am a todo 
-"""))
+""", yaml_thing))
 
     def test_multiline_comment(self):
         expected = self.gen_default()
@@ -383,16 +384,63 @@ script:
         expected["multi_line_comment"] = 5
         expected["multi_line_comment_unique"] = 2
 
-        self.assertEqual(expected, get_comment_stats_yaml("# hello world\n#cats\n#dogs\nfoo bar\n# another testt\n#foo"))
+        self.assertEqual(expected,
+                         get_comment_stats("# hello world\n#cats\n#dogs\nfoo bar\n# another testt\n#foo", yaml_thing))
+
+
+class JavaThing(unittest.TestCase):
+
+    def test_basic(self):
+        self.assertEqual(["//hello"], java_thing(["//hello"]))
+
+    def test_basic2(self):
+        self.assertEqual(["//hello"], java_thing(["asdf//hello"]))
+
+    def test_basic_with_strings(self):
+        self.assertEqual([""], java_thing(["'//hello"]))
+
+    def test_basic_with_strings2(self):
+        self.assertEqual(["//cats"], java_thing(["'//hello'//cats"]))
+
+    def test_multi_line_single_line(self):
+        # so we can have a multi line comment in this style that is in fact a single line comment as such
+        self.assertEqual(["/*hello*/"], java_thing(["/*hello*/"]))
+
+    def test_multi_line_single_line_complex(self):
+        self.assertEqual(["/*hello*/"], java_thing(["asdfasdf/*hello*/asdfsdaasdf*/"]))
+
+    def test_two_comments_one_line(self):
+        self.assertEqual(["/*hello*//*hello*/"], java_thing(["/*hello*/ some code /*hello*/"]))
+
+    def test_two_comments_one_line_with_strings(self):
+        self.assertEqual([""], java_thing(["'/*hello*/ some code /*hello*/"]))
+
+    def test_multiple_lines_empty(self):
+        self.assertEqual(["", "", "", ""], java_thing(["hello", "world", "this /", "is a test"]))
+
+    def test_multiple_lines_with_content(self):
+        self.assertEqual(["", "/* world", "this /", "is a test*/"],
+                         java_thing(["hello", "/* world", "this /", "is a test*/"]))
 
 
 class JenkinsCommentTest(GetCommentStat):
-    def test_multiline_comment(self):
+
+    def test_single_line_comment(self):
         expected = self.gen_default()
         expected["file_lines"] = 1
         expected["comments"] = 1
+        expected["single_line_comment"] = 1
 
-        self.assertEqual(expected, get_comment_stats_kotlin_style("//hello"))
+        self.assertEqual(expected, get_comment_stats("//hello", java_thing))
+
+    def test_multi_line_comment(self):
+        expected = self.gen_default()
+        expected["file_lines"] = 3
+        expected["comments"] = 3
+        expected["multi_line_comment"] = 3
+        expected["multi_line_comment_unique"] = 1
+
+        self.assertEqual(expected, get_comment_stats("/*hello\nworld\nthis is a test*/", java_thing))
 
 
 if __name__ == '__main__':
