@@ -84,7 +84,7 @@ def check_for_empty_repo(repo, path, count=0):
     except GithubException as e:
         if e.status == 404 and "This repository is empty." in e.data:
             raise EmptyRepository()
-        elif e.status == 500 and count < 5:
+        elif e.status >= 500 and e.status < 600 and count < 5:
             # note: this will cause a horrible stacktrace error
             logging.error("first 50 characters: " + e.data[:50])
             return check_for_empty_repo(repo, path, count+1)
