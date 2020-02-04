@@ -23,9 +23,9 @@ FILTERS = {
 }
 
 FIELDS = [*FILTERS.keys(), "comments", "blank_lines", "code", "config", "lang", "yaml_encoding_error",
-          "code_with_comments", "lines",
+          "code_with_comments", "lines  ",
           "percentage", "stars", "sub", "data", "id", "single_line_comment", "config_name", "multi_line_comment_unique",
-          "multi_line_comment", "yaml_file_lines"]
+          "multi_line_comment", "file_lines", "yaml"]
 
 dtypes = {"comments": int, "blank_lines": int, "code": int, "config": str,
           "lang": str,
@@ -82,8 +82,14 @@ def appendData(name, data, fields):
         write_to_csv(name, data, fields)
         global_lock.release()
 
+def handle_multiple(multi, result):
+    if multi > 1:
+        result["multi_line_comment"] += multi
+        result["multi_line_comment_unique"] += 1
+        result["single_line_comment"] -= multi
+    return result
 
-def get_comment_stats(file_as_string):
+def get_comment_stats_kotlin_style(file_as_string):
     yaml_file_lines = file_as_string.split("\n")
     result = {}
 
@@ -95,10 +101,7 @@ def get_comment_stats(file_as_string):
         yaml_line = yaml_file_lines[i]
 
         if yaml_line.replace(" ", "") == "":
-            if multi > 1:
-                result["multi_line_comment"] += multi
-                result["multi_line_comment_unique"] += 1
-                result["single_line_comment"] -= multi
+            result = handle_multiple(multi, result)
             multi = 0
 
             result["blank_lines"] += 1
@@ -116,21 +119,13 @@ def get_comment_stats(file_as_string):
                     result["single_line_comment"] += 1
                     multi += 1
                 else:
-                    if multi > 1:
-                        result["multi_line_comment"] += multi
-                        result["multi_line_comment_unique"] += 1
-                        result["single_line_comment"] -= multi
-
+                    result = handle_multiple(multi, result)
                     multi = 0
 
                     result["code"] += 1
                     result["code_with_comments"] += 1
             else:
-                if multi > 1:
-                    result["multi_line_comment"] += multi
-                    result["multi_line_comment_unique"] += 1
-                    result["single_line_comment"] -= multi
-
+                result = handle_multiple(multi, result)
                 multi = 0
 
                 # moved this into an else as is_commment_in_string returns just the comment
@@ -138,16 +133,85 @@ def get_comment_stats(file_as_string):
                 # in doing this it should tidy up the raitos of code to comments
                 result["code"] += 1
 
-    if multi > 1:
-        result["multi_line_comment"] += multi
-        result["multi_line_comment_unique"] += 1
-        result["single_line_comment"] -= multi
-
-    result["yaml_file_lines"] = len(yaml_file_lines)
+    result = handle_multiple(multi, result)
+    result["file_lines"] = len(yaml_file_lines)
     return result
 
 
-def process(config_data, config_name, line, config_type):
+def get_comment_stats_yaml(file_as_string):
+    yaml_file_lines = file_as_string.split("\n")
+    result = {}
+
+    for filter_type in [*FILTERS.keys(), "comments", "blank_lines", "code_with_comments", "code",
+                        "multi_line_comment_unique", "single_line_comment", "multi_line_comment"]:
+        result[filter_type] = 0
+    multi = 0
+    comments = [is_comment_in_string(yaml_line) for yaml_line in yaml_file_lines]
+    for i in range(len(yaml_file_lines)):
+        yaml_line = yaml_file_lines[i]
+
+        if yaml_line.replace(" ", "") == "":
+            result = handle_multiple(multi, result)
+            multi = 0
+
+            result["blank_lines"] += 1
+        else:
+
+            comment = is_comment_in_string(yaml_line)
+            if comment != "":
+                result["comments"] += 1
+
+                for filter_type in FILTERS.keys():
+                    if re.findall(FILTERS[filter_type]["search"], comment):
+                        result[filter_type] += 1
+
+                if len(comment) == len(yaml_line):
+                    result["single_line_comment"] += 1
+                    multi += 1
+                else:
+                    result = handle_multiple(multi, result)
+                    multi = 0
+
+                    result["code"] += 1
+                    result["code_with_comments"] += 1
+            else:
+                result = handle_multiple(multi, result)
+                multi = 0
+
+                # moved this into an else as is_commment_in_string returns just the comment
+                # therefore if it is empty then it must be code
+                # in doing this it should tidy up the raitos of code to comments
+                result["code"] += 1
+
+    result = handle_multiple(multi, result)
+    result["file_lines"] = len(yaml_file_lines)
+    return result
+
+
+def process_jenkins_teamcity_style_config(config_data, config_name, line, config_type):
+    """
+    :param config_data str: hash of the config
+    :param config_name str: filename of that config
+    :param line dictionary: all the data for that line
+    :param config_type str: the type of configuration this config belongs too
+    :returns dictionary: of values to be saved:
+    """
+    fileasstring = lib.base64Decode(config_data)
+    if fileasstring:
+        print(fileasstring)
+        return {**{
+            "config": config_type,
+            "config_name": config_name,
+            "yaml_encoding_error": "",
+            "lang": line.get("language"),
+            "stars": line["stargazers_count"],
+            "sub": line.get("subscribers_count"),
+            "data": config_data,
+            "yaml": False,
+            "id": line.get("id")}, **get_comment_stats_yaml(fileasstring)}
+
+
+def process_yaml_files(config_data, config_name, line, config_type):
     """
     :param config_data str: hash of the config
     :param config_name str: filename of that config
@@ -180,11 +244,11 @@ def process(config_data, config_name, line, config_type):
             "stars": line["stargazers_count"],
             "sub": line.get("subscribers_count"),
             "data": config_data,
-            "id": line.get("id")}, **get_comment_stats(fileasstring)}
+            "yaml": True,
+            "id": line.get("id")}, **get_comment_stats_yaml(fileasstring)}
 
 
 def process_line(line, name):
-    print(line.get("name"))
     yaml_stats = []
     for key in config.PATHS.keys():
         for j in range(NUMBER_OF_POTENTAIL_FILES):
@@ -192,8 +256,12 @@ def process_line(line, name):
             config_name = line.get("{}{}_file".format(key, j))
 
             if config_data:
-                dataToSave = process(config_data, config_name, line, key)
-                yaml_stats.append(dataToSave)
+                if key in config.NONE_YAML:
+                    print(line.get("name"))
+                    process_jenkins_teamcity_style_config(config_data, config_name, line, key)
+                else:
+                    dataToSave = process_yaml_files(config_data, config_name, line, key)
+                    yaml_stats.append(dataToSave)
 
     appendData(name, yaml_stats, FIELDS)
 
@@ -232,6 +300,7 @@ def run_main(num_worker_threads, data, name):
 def check_output(name):
     data = csvReader.readfile(name)
     print(data[0])
+
 
 def main(name, data):
     """
