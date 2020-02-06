@@ -23,9 +23,9 @@ FILTERS = {
 }
 
 FIELDS = [*FILTERS.keys(), "comments", "blank_lines", "code", "config", "lang", "yaml_encoding_error",
-          "code_with_comments", "lines",
+          "code_with_comments", "lines  ",
           "percentage", "stars", "sub", "data", "id", "single_line_comment", "config_name", "multi_line_comment_unique",
-          "multi_line_comment", "yaml_file_lines"]
+          "multi_line_comment", "file_lines", "yaml"]
 
 dtypes = {"comments": int, "blank_lines": int, "code": int, "config": str,
           "lang": str,
@@ -33,40 +33,6 @@ dtypes = {"comments": int, "blank_lines": int, "code": int, "config": str,
           "sub": int, "data": str, "id": int}
 
 global_lock = threading.Lock()
-
-
-def is_comment_in_string(message) -> str:
-    """
-    :returns str: the comment
-    """
-    search = "#"
-    if message.startswith(search):
-        return message
-    if search in message:
-        inString = False
-        inStringQuoted = False
-        specailCharacter = False
-        for i in range(len(message)):
-            c = message[i]
-            if c == search and not inString and not specailCharacter and not inStringQuoted:
-                return message[i:]
-
-            specailCharacter = False
-            if not inStringQuoted:
-                if c == "'" and not inString:
-                    inString = True
-                elif inString and c == "'":
-                    inString = False
-            if not inString:
-                if c == '"' and not inStringQuoted:
-                    inStringQuoted = True
-                elif inStringQuoted and c == '"':
-                    inStringQuoted = False
-
-            elif not (inString or inStringQuoted) and c == '\\':
-                specailCharacter = True
-    return ""
-
 
 def write_to_csv(name, data, fields):
     with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
@@ -83,7 +49,135 @@ def appendData(name, data, fields):
         global_lock.release()
 
 
-def get_comment_stats(file_as_string):
+def is_comment_in_yaml(message) -> str:
+    """
+    :returns str: the comment
+    """
+    search = "#"
+    if message.startswith(search):
+        return message
+    if search in message:
+        inString = False
+        inStringQuoted = False
+        specailCharacter = False
+        for i in range(len(message)):
+            c = message[i]
+            if c == search and not inString and not specailCharacter and not inStringQuoted:
+                return message[i:]
+
+            inString, inStringQuoted, specailCharacter = handle_specail_character_and_strings(c, inString,
+                                                                                              inStringQuoted)
+
+    return ""
+
+
+def handle_multiple(multi, result):
+    if multi > 1:
+        result["multi_line_comment"] += multi
+        result["multi_line_comment_unique"] += 1
+        result["single_line_comment"] -= multi
+    return result
+
+
+def yaml_thing(yaml_file_lines):
+    return [is_comment_in_yaml(yaml_line) for yaml_line in yaml_file_lines]
+
+
+def handle_specail_character_and_strings(c, inString, inStringQuoted):
+    specailCharacter = False
+    if not inStringQuoted:
+        if c == "'" and not inString:
+            inString = True
+        elif inString and c == "'":
+            inString = False
+    if not inString:
+        if c == '"' and not inStringQuoted:
+            inStringQuoted = True
+        elif inStringQuoted and c == '"':
+            inStringQuoted = False
+
+    elif not (inString or inStringQuoted) and c == '\\':
+        specailCharacter = True
+    return inString, inStringQuoted, specailCharacter
+
+
+def java_thing(file_lines):
+    multi_line = False
+    comments = []
+    line_count = 0
+    open_comment = -1
+
+    for message in file_lines:
+        if multi_line:
+            if "*/" in message:
+                multi_line = False
+            else:
+                comments.append(message)
+        else:
+            if message.startswith("//"):
+                comments.append(message)
+            else:
+                open_comment = -1
+                inString = False
+                inStringQuoted = False
+                specailCharacter = False
+                for i in range(len(message)):
+                    c = message[i]
+                    if i + 1 <= len(message) and not inString and not specailCharacter and not inStringQuoted:
+                        if message[i - 1:i + 1] == "//":
+                            comments.append(message[i - 1:])
+                            break
+                        elif message[i - 1:i + 1] == "/*":
+                            open_comment = i - 1
+                        elif message[i - 1:i + 1] == "*/" and open_comment != -1:
+                            if len(comments) - 1 == line_count:
+                                # in the case that we have more than one comment on the line
+                                # we append it onto the line of the comments
+                                # this is a little bit hacky as the system is currently only designed to handle
+                                # 1 comment per line as it was written for yaml
+                                comments[line_count] += message[open_comment:i + 1]
+                            else:
+                                comments.append(message[open_comment:i + 1])
+
+                            # so this is stupid, what it does is stops the parser from picking up:
+                            # "/*hello*//*world*/" as "/*hello*/" and then "//*world/"
+                            # yeah...
+                            message = message[:i] + "@" + message[i + 1:]
+
+                            open_comment = -1
+                            # we could still have more comments after here so we do not break the loop
+
+                    inString, inStringQuoted, specailCharacter = handle_specail_character_and_strings(c, inString,
+                                                                                                      inStringQuoted)
+
+        if open_comment != -1 and not multi_line and len(message) > 0:
+            multi_line = True
+            # if we are starting or ending the multi-line comment
+            # this is where that comment proportion gets appended on
+            if len(comments) - 1 == line_count:
+                # in the case that we have more than one comment on the line
+                # we append it onto the line of the comments
+                # this is a little bit hacky as the system is currently only designed to handle
+                # 1 comment per line as it was written for yaml
+                comments[line_count] += message[open_comment:]
+            else:
+                if len(message) == open_comment:
+                    comments.append(message)
+                else:
+                    comments.append(message[open_comment:])
+
+
+        line_count += 1
+
+        # so if we did not find a comment we need to have a blank line representing that
+        if len(comments) != line_count:
+            comments.append("")
+
+
+    return comments
+
+
+def get_comment_stats(file_as_string, func_comments):
     yaml_file_lines = file_as_string.split("\n")
     result = {}
 
@@ -91,20 +185,17 @@ def get_comment_stats(file_as_string):
                         "multi_line_comment_unique", "single_line_comment", "multi_line_comment"]:
         result[filter_type] = 0
     multi = 0
+    comments = func_comments(yaml_file_lines)
     for i in range(len(yaml_file_lines)):
         yaml_line = yaml_file_lines[i]
 
         if yaml_line.replace(" ", "") == "":
-            if multi > 1:
-                result["multi_line_comment"] += multi
-                result["multi_line_comment_unique"] += 1
-                result["single_line_comment"] -= multi
+            result = handle_multiple(multi, result)
             multi = 0
 
             result["blank_lines"] += 1
         else:
-
-            comment = is_comment_in_string(yaml_line)
+            comment = comments[i]
             if comment != "":
                 result["comments"] += 1
 
@@ -116,21 +207,13 @@ def get_comment_stats(file_as_string):
                     result["single_line_comment"] += 1
                     multi += 1
                 else:
-                    if multi > 1:
-                        result["multi_line_comment"] += multi
-                        result["multi_line_comment_unique"] += 1
-                        result["single_line_comment"] -= multi
-
+                    result = handle_multiple(multi, result)
                     multi = 0
 
                     result["code"] += 1
                     result["code_with_comments"] += 1
             else:
-                if multi > 1:
-                    result["multi_line_comment"] += multi
-                    result["multi_line_comment_unique"] += 1
-                    result["single_line_comment"] -= multi
-
+                result = handle_multiple(multi, result)
                 multi = 0
 
                 # moved this into an else as is_commment_in_string returns just the comment
@@ -138,16 +221,31 @@ def get_comment_stats(file_as_string):
                 # in doing this it should tidy up the raitos of code to comments
                 result["code"] += 1
 
-    if multi > 1:
-        result["multi_line_comment"] += multi
-        result["multi_line_comment_unique"] += 1
-        result["single_line_comment"] -= multi
-
-    result["yaml_file_lines"] = len(yaml_file_lines)
+    result = handle_multiple(multi, result)
+    result["file_lines"] = len(yaml_file_lines)
     return result
 
 
-def process(config_data, config_name, line, config_type):
+def get_yaml_encoding_error(fileasstring):
+    yaml_encoding_error = ""
+    # TODO: do we ever want to pass on the yaml blob to anywhere?
+    blob = None
+    try:
+        blob = yaml.safe_load(fileasstring)
+    except yaml.composer.ComposerError:
+        yaml_encoding_error = "composer error"
+    except yaml.scanner.ScannerError:
+        yaml_encoding_error = "scanner error"
+    except yaml.parser.ParserError:
+        yaml_encoding_error = "parse error"
+    except yaml.constructor.ConstructorError:
+        yaml_encoding_error = "constructor error"
+    except yaml.reader.ReaderError:
+        yaml_encoding_error = "reader error"
+    return yaml_encoding_error
+
+
+def process_yaml_files(config_data, config_name, line, config_type):
     """
     :param config_data str: hash of the config
     :param config_name str: filename of that config
@@ -157,34 +255,47 @@ def process(config_data, config_name, line, config_type):
     """
     fileasstring = lib.base64Decode(config_data)
     if fileasstring:
-        yaml_encoding_error = ""
-        blob = None
-        try:
-            blob = yaml.safe_load(fileasstring)
-        except yaml.composer.ComposerError:
-            yaml_encoding_error = "composer error"
-        except yaml.scanner.ScannerError:
-            yaml_encoding_error = "scanner error"
-        except yaml.parser.ParserError:
-            yaml_encoding_error = "parse error"
-        except yaml.constructor.ConstructorError:
-            yaml_encoding_error = "constructor error"
-        except yaml.reader.ReaderError:
-            yaml_encoding_error = "reader error"
-
         return {**{
             "config": config_type,
             "config_name": config_name,
-            "yaml_encoding_error": yaml_encoding_error,
+            "yaml_encoding_error": get_yaml_encoding_error(fileasstring),
             "lang": line.get("language"),
             "stars": line["stargazers_count"],
             "sub": line.get("subscribers_count"),
             "data": config_data,
-            "id": line.get("id")}, **get_comment_stats(fileasstring)}
+            "yaml": True,
+            "id": line.get("id")}, **get_comment_stats(fileasstring, yaml_thing)}
+    else:
+        print("error")
+
+
+def process_config(config_data, config_type, config_name, line, is_yaml):
+    # TODO: for teamcity config should we try and parse all of it for comments???
+    # as we going to ignore it in later stages as well
+    # but as it will be included in the stats of overall data it either needs parsing or being
+    # removed from the commment data set.
+    # Difficulty and pain point being that it is <!-- --> xml comments ahaha :(
+    fileasstring = lib.base64Decode(config_data)
+    if is_yaml:
+        comment_stats = get_comment_stats(fileasstring, yaml_thing)
+    else:
+        comment_stats = get_comment_stats(fileasstring, java_thing)
+    if fileasstring:
+        return {**{
+            "config": config_type,
+            "config_name": config_name,
+            "lang": line.get("language"),
+            "stars": line["stargazers_count"],
+            "sub": line.get("subscribers_count"),
+            "data": config_data,
+            "yaml_encoding_error": get_yaml_encoding_error(fileasstring) if is_yaml else "",
+            "yaml": is_yaml,
+            "id": line.get("id")}, **comment_stats}
+    else:
+        print("error")
 
 
 def process_line(line, name):
-    print(line.get("name"))
     yaml_stats = []
     for key in config.PATHS.keys():
         for j in range(NUMBER_OF_POTENTAIL_FILES):
@@ -192,7 +303,10 @@ def process_line(line, name):
             config_name = line.get("{}{}_file".format(key, j))
 
             if config_data:
-                dataToSave = process(config_data, config_name, line, key)
+                if key in config.NONE_YAML:
+                    dataToSave = process_config(config_data, key, config_name, line, False)
+                else:
+                    dataToSave = process_config(config_data, key, config_name, line, True)
                 yaml_stats.append(dataToSave)
 
     appendData(name, yaml_stats, FIELDS)
@@ -232,6 +346,13 @@ def run_main(num_worker_threads, data, name):
 def check_output(name):
     data = csvReader.readfile(name)
     print(data[0])
+    print(data[0]["yaml"])
+    print(type(data[0]["yaml"]))
+    for line in data:
+        if line.get("yaml") == "False":
+            print(line)
+            break
+
 
 def main(name, data):
     """
@@ -256,4 +377,4 @@ def main(name, data):
 
 if __name__ == '__main__':
     # main("yaml threaded", csvReader.readfile("combined0.csv"))
-    check_output("yaml threaded2.csv")
+    check_output("yaml threaded5.csv")
