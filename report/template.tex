@@ -8,6 +8,7 @@
 \usepackage{natbib}
 % add line numbers
 \usepackage{lineno}
+\usepackage[final]{pdfpages}
 \usepackage{xcolor}
 \linenumbers
 \definecolor{periwinkle}{rgb}{0.8, 0.8, 1.0}
@@ -106,7 +107,6 @@ Additionally the assumption that all repositories are of programming projects wi
 
 \todo[size=\scriptsize]{Additionally the paper suggests looking a for recent commits but I don't think that is necessary just yet... but would be a good indication later on size/dating the projects when comparing CI/CD systems.}
 
-\input{../src/histogram.pgf}
 
 \vspace*{-0.05in}
 \subsection{CI/CD spread in the sample}
@@ -116,6 +116,9 @@ Additionally the assumption that all repositories are of programming projects wi
 - note: something along the lines of multiple configuration files
 - what naming convention do they use for the files? (in order to understand common practices)
 
+\includepdf[pages=-,pagecommand={},width=\textwidth]{../src/sample over time.pdf}
+
+\includepdf[pages=-,pagecommand={},width=\textwidth]{../src/spreadscatter_starsandsubs.pdf}
 
 this will follow on from the previous graphs looking at spread of CI/CD configs found in the whole sample
 
