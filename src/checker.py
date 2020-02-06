@@ -87,7 +87,6 @@ def checkfiles(mypath, regexp=""):
         total += check(join(mypath, f))
     print(total)
 
-
 if __name__ == '__main__':
-    checkfiles("../new data", "loga")
-    merge("../new data", query="loga", save=False)
+    checkfiles(".", "socket")
+    merge(".", query="socket", save=False)
