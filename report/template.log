@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  30 JAN 2020 09:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  6 FEB 2020 12:51
 entering extended mode
 **c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
 (c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
@@ -45,6 +45,37 @@ Package: lineno 2005/11/02 line numbers on paragraphs v4.41
 \bframesep=\dimen107
 \bframebox=\box27
 LaTeX Info: Redefining \\ on input line 3056.
+) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pdfpages\pdfpages.sty"
+Package: pdfpages 2020/01/28 v0.5q Insert pages of external PDF documents (AM)
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\calc.sty"
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count96
+\calc@Bcount=\count97
+\calc@Adimen=\dimen108
+\calc@Bdimen=\dimen109
+\calc@Askip=\skip45
+\calc@Bskip=\skip46
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count98
+\calc@Cskip=\skip47
+) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/eso-pic\eso-pic.sty"
+Package: eso-pic 2018/04/12 v2.0h eso-pic (RN)
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\atbegshi.sty"
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\infwarerr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ltxcmds.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifpdf.sty"
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\iftex.sty"
+Package: iftex 2019/11/07 v1.0c TeX engine tests
+))) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks15
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcolor\xcolor.sty"
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\color.cfg"
@@ -63,29 +94,7 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
-) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.sty"
-Package: geometry 2020/01/02 v5.9 Page Geometry
- ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyval.sty"
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks15
-) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifvtex.sty"
-Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
- ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\iftex.sty"
-Package: iftex 2019/11/07 v1.0c TeX engine tests
-))
-\Gm@cnth=\count96
-\Gm@cntv=\count97
-\c@Gm@tempcnt=\count98
-\Gm@bindingoffset=\dimen108
-\Gm@wd@mp=\dimen109
-\Gm@odd@mp=\dimen110
-\Gm@even@mp=\dimen111
-\Gm@layoutwidth=\dimen112
-\Gm@layoutheight=\dimen113
-\Gm@layouthoffset=\dimen114
-\Gm@layoutvoffset=\dimen115
-\Gm@dimlist=\toks16
- ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.cfg")) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
+)) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphics.sty"
 Package: graphics 2019/11/01 v1.3d Standard LaTeX Graphics (DPC,SPQR)
@@ -96,27 +105,54 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 105.
 )
-\Gin@req@height=\dimen116
-\Gin@req@width=\dimen117
-) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/todonotes\todonotes.sty"
+\Gin@req@height=\dimen110
+\Gin@req@width=\dimen111
+)
+\AM@pagewidth=\dimen112
+\AM@pageheight=\dimen113
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pdfpages\pppdftex.def"
+File: pppdftex.def 2020/01/28 v0.5q Pdfpages driver for pdfTeX (AM)
+)
+\AM@pagebox=\box28
+\AM@global@opts=\toks16
+\AM@pagecnt=\count99
+\AM@toc@title=\toks17
+\c@AM@survey=\count100
+\AM@templatesizebox=\box29
+) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.sty"
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifvtex.sty"
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count101
+\Gm@cntv=\count102
+\c@Gm@tempcnt=\count103
+\Gm@bindingoffset=\dimen114
+\Gm@wd@mp=\dimen115
+\Gm@odd@mp=\dimen116
+\Gm@even@mp=\dimen117
+\Gm@layoutwidth=\dimen118
+\Gm@layoutheight=\dimen119
+\Gm@layouthoffset=\dimen120
+\Gm@layoutvoffset=\dimen121
+\Gm@dimlist=\toks18
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry.cfg")) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/todonotes\todonotes.sty"
 Package: todonotes 2019/01/24 v1.1.2 Todonotes source and documentation.
 Package: todonotes 2018/11/22
- ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ifthen.sty"
-Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
-) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xkeyval\xkeyval.sty"
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xkeyval\xkeyval.sty"
 Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xkeyval\xkeyval.tex" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xkeyval\xkvutils.tex"
-\XKV@toks=\toks17
-\XKV@tempa@toks=\toks18
+\XKV@toks=\toks19
+\XKV@tempa@toks=\toks20
 )
-\XKV@depth=\count99
+\XKV@depth=\count104
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/frontendlayer\tikz.sty" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/basiclayer\pgf.sty" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/utilities\pgfrcs.sty" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfutil-common.tex"
-\pgfutil@everybye=\toks19
-\pgfutil@tempdima=\dimen118
-\pgfutil@tempdimb=\dimen119
+\pgfutil@everybye=\toks21
+\pgfutil@tempdima=\dimen122
+\pgfutil@tempdimb=\dimen123
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfutil-common-lists.tex")) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfutil-latex.def"
-\pgfutil@abb=\box28
+\pgfutil@abb=\box30
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/ms\everyshi.sty"
 Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
 )) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfrcs.code.tex" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf\pgf.revision.tex")
@@ -126,31 +162,31 @@ Package: pgf 2019/12/21 v3.1.5a (3.1.5a)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/basiclayer\pgfcore.sty" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/systemlayer\pgfsys.sty" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pgfsys.code.tex"
 Package: pgfsys 2019/12/21 v3.1.5a (3.1.5a)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfkeys.code.tex"
-\pgfkeys@pathtoks=\toks20
-\pgfkeys@temptoks=\toks21
+\pgfkeys@pathtoks=\toks22
+\pgfkeys@temptoks=\toks23
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfkeysfiltered.code.tex"
-\pgfkeys@tmptoks=\toks22
+\pgfkeys@tmptoks=\toks24
 ))
-\pgf@x=\dimen120
-\pgf@y=\dimen121
-\pgf@xa=\dimen122
-\pgf@ya=\dimen123
-\pgf@xb=\dimen124
-\pgf@yb=\dimen125
-\pgf@xc=\dimen126
-\pgf@yc=\dimen127
-\pgf@xd=\dimen128
-\pgf@yd=\dimen129
+\pgf@x=\dimen124
+\pgf@y=\dimen125
+\pgf@xa=\dimen126
+\pgf@ya=\dimen127
+\pgf@xb=\dimen128
+\pgf@yb=\dimen129
+\pgf@xc=\dimen130
+\pgf@yc=\dimen131
+\pgf@xd=\dimen132
+\pgf@yd=\dimen133
 \w@pgf@writea=\write3
 \r@pgf@reada=\read1
-\c@pgf@counta=\count100
-\c@pgf@countb=\count101
-\c@pgf@countc=\count102
-\c@pgf@countd=\count103
-\t@pgf@toka=\toks23
-\t@pgf@tokb=\toks24
-\t@pgf@tokc=\toks25
-\pgf@sys@id@count=\count104
+\c@pgf@counta=\count105
+\c@pgf@countb=\count106
+\c@pgf@countc=\count107
+\c@pgf@countd=\count108
+\t@pgf@toka=\toks25
+\t@pgf@tokb=\toks26
+\t@pgf@tokc=\toks27
+\pgf@sys@id@count=\count109
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pgf.cfg"
 File: pgf.cfg 2019/12/21 v3.1.5a (3.1.5a)
 )
@@ -161,59 +197,59 @@ File: pgfsys-pdftex.def 2019/12/21 v3.1.5a (3.1.5a)
 File: pgfsys-common-pdf.def 2019/12/21 v3.1.5a (3.1.5a)
 ))) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pgfsyssoftpath.code.tex"
 File: pgfsyssoftpath.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgfsyssoftpath@smallbuffer@items=\count105
-\pgfsyssoftpath@bigbuffer@items=\count106
+\pgfsyssoftpath@smallbuffer@items=\count110
+\pgfsyssoftpath@bigbuffer@items=\count111
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/systemlayer\pgfsysprotocol.code.tex"
 File: pgfsysprotocol.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 )) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcore.code.tex"
 Package: pgfcore 2019/12/21 v3.1.5a (3.1.5a)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath.code.tex" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathcalc.code.tex" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathutil.code.tex") ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathparser.code.tex"
-\pgfmath@dimen=\dimen130
-\pgfmath@count=\count107
-\pgfmath@box=\box29
-\pgfmath@toks=\toks26
-\pgfmath@stack@operand=\toks27
-\pgfmath@stack@operation=\toks28
+\pgfmath@dimen=\dimen134
+\pgfmath@count=\count112
+\pgfmath@box=\box31
+\pgfmath@toks=\toks28
+\pgfmath@stack@operand=\toks29
+\pgfmath@stack@operation=\toks30
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.code.tex" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.basic.code.tex") ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.trigonometric.code.tex") ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.random.code.tex") ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.comparison.code.tex") ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.base.code.tex") ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.round.code.tex") ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.misc.code.tex") ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.integerarithmetics.code.tex"))) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfloat.code.tex"
-\c@pgfmathroundto@lastzeros=\count108
+\c@pgfmathroundto@lastzeros=\count113
 )) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfint.code.tex") ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcorepoints.code.tex"
 File: pgfcorepoints.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgf@picminx=\dimen131
-\pgf@picmaxx=\dimen132
-\pgf@picminy=\dimen133
-\pgf@picmaxy=\dimen134
-\pgf@pathminx=\dimen135
-\pgf@pathmaxx=\dimen136
-\pgf@pathminy=\dimen137
-\pgf@pathmaxy=\dimen138
-\pgf@xx=\dimen139
-\pgf@xy=\dimen140
-\pgf@yx=\dimen141
-\pgf@yy=\dimen142
-\pgf@zx=\dimen143
-\pgf@zy=\dimen144
+\pgf@picminx=\dimen135
+\pgf@picmaxx=\dimen136
+\pgf@picminy=\dimen137
+\pgf@picmaxy=\dimen138
+\pgf@pathminx=\dimen139
+\pgf@pathmaxx=\dimen140
+\pgf@pathminy=\dimen141
+\pgf@pathmaxy=\dimen142
+\pgf@xx=\dimen143
+\pgf@xy=\dimen144
+\pgf@yx=\dimen145
+\pgf@yy=\dimen146
+\pgf@zx=\dimen147
+\pgf@zy=\dimen148
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcorepathconstruct.code.tex"
 File: pgfcorepathconstruct.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgf@path@lastx=\dimen145
-\pgf@path@lasty=\dimen146
+\pgf@path@lastx=\dimen149
+\pgf@path@lasty=\dimen150
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcorepathusage.code.tex"
 File: pgfcorepathusage.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgf@shorten@end@additional=\dimen147
-\pgf@shorten@start@additional=\dimen148
+\pgf@shorten@end@additional=\dimen151
+\pgf@shorten@start@additional=\dimen152
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcorescopes.code.tex"
 File: pgfcorescopes.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgfpic=\box30
-\pgf@hbox=\box31
-\pgf@layerbox@main=\box32
-\pgf@picture@serial@count=\count109
+\pgfpic=\box32
+\pgf@hbox=\box33
+\pgf@layerbox@main=\box34
+\pgf@picture@serial@count=\count114
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcoregraphicstate.code.tex"
 File: pgfcoregraphicstate.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgflinewidth=\dimen149
+\pgflinewidth=\dimen153
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcoretransformations.code.tex"
 File: pgfcoretransformations.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgf@pt@x=\dimen150
-\pgf@pt@y=\dimen151
-\pgf@pt@temp=\dimen152
+\pgf@pt@x=\dimen154
+\pgf@pt@y=\dimen155
+\pgf@pt@temp=\dimen156
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcorequick.code.tex"
 File: pgfcorequick.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcoreobjects.code.tex"
@@ -222,17 +258,17 @@ File: pgfcoreobjects.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 File: pgfcorepathprocessing.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcorearrows.code.tex"
 File: pgfcorearrows.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgfarrowsep=\dimen153
+\pgfarrowsep=\dimen157
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcoreshade.code.tex"
 File: pgfcoreshade.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgf@max=\dimen154
-\pgf@sys@shading@range@num=\count110
-\pgf@shadingcount=\count111
+\pgf@max=\dimen158
+\pgf@sys@shading@range@num=\count115
+\pgf@shadingcount=\count116
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcoreimage.code.tex"
 File: pgfcoreimage.code.tex 2019/12/21 v3.1.5a (3.1.5a)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcoreexternal.code.tex"
 File: pgfcoreexternal.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgfexternal@startupbox=\box33
+\pgfexternal@startupbox=\box35
 )) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcorelayers.code.tex"
 File: pgfcorelayers.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/basiclayer\pgfcoretransparency.code.tex"
@@ -243,52 +279,52 @@ File: pgfcorepatterns.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 File: pgfcorerdf.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 ))) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/modules\pgfmoduleshapes.code.tex"
 File: pgfmoduleshapes.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgfnodeparttextbox=\box34
+\pgfnodeparttextbox=\box36
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/modules\pgfmoduleplot.code.tex"
 File: pgfmoduleplot.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/compatibility\pgfcomp-version-0-65.sty"
 Package: pgfcomp-version-0-65 2019/12/21 v3.1.5a (3.1.5a)
-\pgf@nodesepstart=\dimen155
-\pgf@nodesepend=\dimen156
+\pgf@nodesepstart=\dimen159
+\pgf@nodesepend=\dimen160
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/compatibility\pgfcomp-version-1-18.sty"
 Package: pgfcomp-version-1-18 2019/12/21 v3.1.5a (3.1.5a)
 )) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/utilities\pgffor.sty" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/utilities\pgfkeys.sty" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgfkeys.code.tex")) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pgf/math\pgfmath.sty" ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath.code.tex")) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/utilities\pgffor.code.tex"
 Package: pgffor 2019/12/21 v3.1.5a (3.1.5a)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/math\pgfmath.code.tex")
-\pgffor@iter=\dimen157
-\pgffor@skip=\dimen158
-\pgffor@stack=\toks29
-\pgffor@toks=\toks30
+\pgffor@iter=\dimen161
+\pgffor@skip=\dimen162
+\pgffor@stack=\toks31
+\pgffor@toks=\toks32
 )) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/frontendlayer/tikz\tikz.code.tex"
 Package: tikz 2019/12/21 v3.1.5a (3.1.5a)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/libraries\pgflibraryplothandlers.code.tex"
 File: pgflibraryplothandlers.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgf@plot@mark@count=\count112
-\pgfplotmarksize=\dimen159
+\pgf@plot@mark@count=\count117
+\pgfplotmarksize=\dimen163
 )
-\tikz@lastx=\dimen160
-\tikz@lasty=\dimen161
-\tikz@lastxsaved=\dimen162
-\tikz@lastysaved=\dimen163
-\tikz@lastmovetox=\dimen164
-\tikz@lastmovetoy=\dimen165
-\tikzleveldistance=\dimen166
-\tikzsiblingdistance=\dimen167
-\tikz@figbox=\box35
-\tikz@figbox@bg=\box36
-\tikz@tempbox=\box37
-\tikz@tempbox@bg=\box38
-\tikztreelevel=\count113
-\tikznumberofchildren=\count114
-\tikznumberofcurrentchild=\count115
-\tikz@fig@count=\count116
+\tikz@lastx=\dimen164
+\tikz@lasty=\dimen165
+\tikz@lastxsaved=\dimen166
+\tikz@lastysaved=\dimen167
+\tikz@lastmovetox=\dimen168
+\tikz@lastmovetoy=\dimen169
+\tikzleveldistance=\dimen170
+\tikzsiblingdistance=\dimen171
+\tikz@figbox=\box37
+\tikz@figbox@bg=\box38
+\tikz@tempbox=\box39
+\tikz@tempbox@bg=\box40
+\tikztreelevel=\count118
+\tikznumberofchildren=\count119
+\tikznumberofcurrentchild=\count120
+\tikz@fig@count=\count121
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/modules\pgfmodulematrix.code.tex"
 File: pgfmodulematrix.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-\pgfmatrixcurrentrow=\count117
-\pgfmatrixcurrentcolumn=\count118
-\pgf@matrix@numberofcolumns=\count119
+\pgfmatrixcurrentrow=\count122
+\pgfmatrixcurrentcolumn=\count123
+\pgf@matrix@numberofcolumns=\count124
 )
-\tikz@expandcount=\count120
+\tikz@expandcount=\count125
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarytopaths.code.tex"
 File: tikzlibrarytopaths.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 ))) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarypositioning.code.tex"
@@ -299,59 +335,44 @@ File: tikzlibraryshadows.code.tex 2019/12/21 v3.1.5a (3.1.5a)
 File: tikzlibraryfadings.code.tex 2019/12/21 v3.1.5a (3.1.5a)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pgf/libraries\pgflibraryfadings.code.tex"
 File: pgflibraryfadings.code.tex 2019/12/21 v3.1.5a (3.1.5a)
-))) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\calc.sty"
-Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count121
-\calc@Bcount=\count122
-\calc@Adimen=\dimen168
-\calc@Bdimen=\dimen169
-\calc@Askip=\skip45
-\calc@Bskip=\skip46
-LaTeX Info: Redefining \setlength on input line 80.
-LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count123
-\calc@Cskip=\skip47
-)
-\c@@todonotes@numberoftodonotes=\count124
+)))
+\c@@todonotes@numberoftodonotes=\count126
 ) (c:/Users/Joe/workspace/researchProject/scraper/report\template.aux)
 \openout1 = `template.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+\AtBeginShipoutBox=\box41
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count125
-\scratchdimen=\dimen170
-\scratchbox=\box39
-\nofMPsegments=\count126
-\nofMParguments=\count127
-\everyMPshowfont=\toks31
-\MPscratchCnt=\count128
-\MPscratchDim=\dimen171
-\MPnumerator=\count129
-\makeMPintoPDFobject=\count130
-\everyMPtoPDFconversion=\toks32
+\scratchcounter=\count127
+\scratchdimen=\dimen172
+\scratchbox=\box42
+\nofMPsegments=\count128
+\nofMParguments=\count129
+\everyMPshowfont=\toks33
+\MPscratchCnt=\count130
+\MPscratchDim=\dimen173
+\MPnumerator=\count131
+\makeMPintoPDFobject=\count132
+\everyMPtoPDFconversion=\toks34
 ) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/epstopdf-pkg\epstopdf-base.sty"
 Package: epstopdf-base 2019/11/24 v2.7 Base part for package epstopdf
- ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\infwarerr.sty"
-Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
-) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\grfext.sty"
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\grfext.sty"
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\kvdefinekeys.sty"
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
- ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ltxcmds.sty"
-Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
-))) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\kvoptions.sty"
+)) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\kvoptions.sty"
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\kvsetkeys.sty"
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
@@ -369,7 +390,15 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 44
 Package grfext Info: Graphics extension search list:
 (grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 460.
+) ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\pdflscape.sty"
+Package: pdflscape 2016/05/14 v0.11 Display of landscape pages in PDF (HO)
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\lscape.sty"
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
 )
+Package pdflscape Info: Auto-detected driver: pdftex on input line 84.
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifxetex.sty"
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+))
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -433,24 +462,24 @@ ABD: EveryShipout initializing macros
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 30.
+(Font)              <14.4> on input line 31.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 30.
+(Font)              <7> on input line 31.
 <Kent_Comp_294_RGB.pdf, id=28, 483.8075pt x 126.4725pt>
 File: Kent_Comp_294_RGB.pdf Graphic file (type pdf)
 <use Kent_Comp_294_RGB.pdf>
-Package pdftex.def Info: Kent_Comp_294_RGB.pdf  used on input line 30.
+Package pdftex.def Info: Kent_Comp_294_RGB.pdf  used on input line 31.
 (pdftex.def)             Requested size: 290.28674pt x 75.88408pt.
  [1
 
 
 {C:/Users/Joe/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <c:/Users/Joe/workspace/researchProject/scraper/report/Kent_Comp_294_RGB.pdf>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 41.
+(Font)              <12> on input line 42.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 41.
+(Font)              <8> on input line 42.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 41.
+(Font)              <6> on input line 42.
  [1
 
 ]
@@ -461,10 +490,10 @@ LaTeX Warning: Marginpar on page 2 moved.
 <2020-01-30-08-29-04.png, id=58, 895.09406pt x 213.79875pt>
 File: 2020-01-30-08-29-04.png Graphic file (type png)
 <use 2020-01-30-08-29-04.png>
-Package pdftex.def Info: 2020-01-30-08-29-04.png  used on input line 94.
+Package pdftex.def Info: 2020-01-30-08-29-04.png  used on input line 95.
 (pdftex.def)             Requested size: 447.54593pt x 106.89911pt.
 
-Overfull \hbox (75.17075pt too wide) in paragraph at lines 94--95
+Overfull \hbox (75.17075pt too wide) in paragraph at lines 95--96
 [][]
  []
 
@@ -472,56 +501,118 @@ Overfull \hbox (75.17075pt too wide) in paragraph at lines 94--95
 
 LaTeX Warning: Marginpar on page 4 moved.
 
-[4 <c:/Users/Joe/workspace/researchProject/scraper/report/2020-01-30-08-29-04.png>] [5]
+<../src/sample over time.pdf, id=62, 462.52798pt x 346.89601pt>
+File: ../src/sample over time.pdf Graphic file (type pdf)
+<use ../src/sample over time.pdf>
+Package pdftex.def Info: ../src/sample over time.pdf  used on input line 119.
+(pdftex.def)             Requested size: 462.52684pt x 346.89516pt.
+File: ../src/sample over time.pdf Graphic file (type pdf)
+<use ../src/sample over time.pdf>
+Package pdftex.def Info: ../src/sample over time.pdf  used on input line 119.
+(pdftex.def)             Requested size: 462.52684pt x 346.89516pt.
+<../src/sample over time.pdf, id=65, page=1, 462.52798pt x 346.89601pt>
+File: ../src/sample over time.pdf Graphic file (type pdf)
+<use ../src/sample over time.pdf, page 1>
+Package pdftex.def Info: ../src/sample over time.pdf , page1 used on input line 119.
+(pdftex.def)             Requested size: 390.0pt x 292.51282pt.
+File: ../src/sample over time.pdf Graphic file (type pdf)
+<use ../src/sample over time.pdf, page 1>
+Package pdftex.def Info: ../src/sample over time.pdf , page1 used on input line 119.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+[4 <c:/Users/Joe/workspace/researchProject/scraper/report/2020-01-30-08-29-04.png>]
+File: ../src/sample over time.pdf Graphic file (type pdf)
+<use ../src/sample over time.pdf, page 1>
+Package pdftex.def Info: ../src/sample over time.pdf , page1 used on input line 119.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+File: ../src/sample over time.pdf Graphic file (type pdf)
+<use ../src/sample over time.pdf, page 1>
+Package pdftex.def Info: ../src/sample over time.pdf , page1 used on input line 119.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+File: ../src/sample over time.pdf Graphic file (type pdf)
+<use ../src/sample over time.pdf, page 1>
+Package pdftex.def Info: ../src/sample over time.pdf , page1 used on input line 119.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+ [5 <../src/sample over time.pdf>]
+<../src/spreadscatter_starsandsubs.pdf, id=104, 462.52798pt x 346.89601pt>
+File: ../src/spreadscatter_starsandsubs.pdf Graphic file (type pdf)
+<use ../src/spreadscatter_starsandsubs.pdf>
+Package pdftex.def Info: ../src/spreadscatter_starsandsubs.pdf  used on input line 121.
+(pdftex.def)             Requested size: 462.52684pt x 346.89516pt.
+File: ../src/spreadscatter_starsandsubs.pdf Graphic file (type pdf)
+<use ../src/spreadscatter_starsandsubs.pdf>
+Package pdftex.def Info: ../src/spreadscatter_starsandsubs.pdf  used on input line 121.
+(pdftex.def)             Requested size: 462.52684pt x 346.89516pt.
+<../src/spreadscatter_starsandsubs.pdf, id=107, page=1, 462.52798pt x 346.89601pt>
+File: ../src/spreadscatter_starsandsubs.pdf Graphic file (type pdf)
+<use ../src/spreadscatter_starsandsubs.pdf, page 1>
+Package pdftex.def Info: ../src/spreadscatter_starsandsubs.pdf , page1 used on input line 121.
+(pdftex.def)             Requested size: 390.0pt x 292.51282pt.
+File: ../src/spreadscatter_starsandsubs.pdf Graphic file (type pdf)
+<use ../src/spreadscatter_starsandsubs.pdf, page 1>
+Package pdftex.def Info: ../src/spreadscatter_starsandsubs.pdf , page1 used on input line 121.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+File: ../src/spreadscatter_starsandsubs.pdf Graphic file (type pdf)
+<use ../src/spreadscatter_starsandsubs.pdf, page 1>
+Package pdftex.def Info: ../src/spreadscatter_starsandsubs.pdf , page1 used on input line 121.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+File: ../src/spreadscatter_starsandsubs.pdf Graphic file (type pdf)
+<use ../src/spreadscatter_starsandsubs.pdf, page 1>
+Package pdftex.def Info: ../src/spreadscatter_starsandsubs.pdf , page1 used on input line 121.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+File: ../src/spreadscatter_starsandsubs.pdf Graphic file (type pdf)
+<use ../src/spreadscatter_starsandsubs.pdf, page 1>
+Package pdftex.def Info: ../src/spreadscatter_starsandsubs.pdf , page1 used on input line 121.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+ [6 <../src/spreadscatter_starsandsubs.pdf>] [7]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [6]
+ [8]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 271.
+(Font)              <5> on input line 275.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [7] [8]
-Overfull \hbox (25.31677pt too wide) in paragraph at lines 387--388
+ [9] [10]
+Overfull \hbox (25.31677pt too wide) in paragraph at lines 391--392
  [] 
  []
 
 
 Underfull \vbox (badness 5288) has occurred while \output is active []
 
- [9] [10]
-Overfull \hbox (64.14633pt too wide) in paragraph at lines 507--507
+ [11] [12]
+Overfull \hbox (64.14633pt too wide) in paragraph at lines 511--511
 []      \OT1/cmtt/m/n/10.95 Let VALUES = list of possible values for VAR in ascending order according[] 
  []
 
 
-Overfull \hbox (12.40814pt too wide) in paragraph at lines 507--507
+Overfull \hbox (12.40814pt too wide) in paragraph at lines 511--511
 []                   \OT1/cmtt/m/n/10.95 to number of conflicts with variables in VARS-LEFT.[] 
  []
 
 
-Overfull \hbox (35.4029pt too wide) in paragraph at lines 507--507
+Overfull \hbox (35.4029pt too wide) in paragraph at lines 511--511
 []        \OT1/cmtt/m/n/10.95 If VALUE does not conflict with any variable that is in VARS-DONE,[] 
  []
 
 
-Overfull \hbox (41.15158pt too wide) in paragraph at lines 507--507
+Overfull \hbox (41.15158pt too wide) in paragraph at lines 511--511
 []     \OT1/cmtt/m/n/10.95 Let VARS-LEFT = list of all variables, each assigned an initial value.[] 
  []
 
-[11] [12] [13] (c:/Users/Joe/workspace/researchProject/scraper/report\template.bbl) [14] (c:/Users/Joe/workspace/researchProject/scraper/report\template.aux) ) 
+[13] [14] [15] (c:/Users/Joe/workspace/researchProject/scraper/report\template.bbl) [16] (c:/Users/Joe/workspace/researchProject/scraper/report\template.aux) ) 
 Here is how much of TeX's memory you used:
- 13749 strings out of 492484
- 278787 string characters out of 3122508
- 329768 words of memory out of 3000000
- 17820 multiletter control sequences out of 15000+200000
+ 14511 strings out of 492484
+ 292340 string characters out of 3122508
+ 343524 words of memory out of 3000000
+ 18552 multiletter control sequences out of 15000+200000
  11054 words of font info for 39 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,11n,83p,749b,971s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 68i,18n,83p,749b,971s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/latxfont/lcircle1.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/latxfont/line10.pfb>
-Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (15 pages, 289580 bytes).
+Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (17 pages, 348902 bytes).
 PDF statistics:
- 163 PDF objects out of 1000 (max. 8388607)
+ 243 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 119 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 159 words of extra memory for PDF output out of 10000 (max. 10000000)
 
