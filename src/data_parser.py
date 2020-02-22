@@ -23,16 +23,19 @@ FILTERS = {
 }
 
 FIELDS = [*FILTERS.keys(), "comments", "blank_lines", "code", "config", "lang", "yaml_encoding_error",
-          "code_with_comments", "lines  ",
-          "percentage", "stars", "sub", "data", "id", "single_line_comment", "config_name", "multi_line_comment_unique",
+          "code_with_comments",
+          "stars", "sub", "data", "id", "single_line_comment", "config_name", "multi_line_comment_unique",
           "multi_line_comment", "file_lines", "yaml"]
 
-dtypes = {"comments": int, "blank_lines": int, "code": int, "config": str,
-          "lang": str,
-          "yaml_encoding_error": str, "code_with_comments": int, "lines": int, "percentage": float, "stars": int,
-          "sub": int, "data": str, "id": int}
+dtypes = {**{"comments": int, "blank_lines": int, "code": int, "config": str,
+             "lang": str,
+             "yaml_encoding_error": str, "code_with_comments": int, "stars": int,
+             "sub": int, "data": str, "id": int, "single_line_comment": int, "config_name": str,
+             "multi_line_comment_unique": int, "multi_line_comment": int, "file_lines": int, "yaml": bool},
+          **dict([(k, int) for k in FILTERS.keys()])}
 
 global_lock = threading.Lock()
+
 
 def write_to_csv(name, data, fields):
     with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
@@ -166,13 +169,11 @@ def java_thing(file_lines):
                 else:
                     comments.append(message[open_comment:])
 
-
         line_count += 1
 
         # so if we did not find a comment we need to have a blank line representing that
         if len(comments) != line_count:
             comments.append("")
-
 
     return comments
 
@@ -295,6 +296,36 @@ def process_config(config_data, config_type, config_name, line, is_yaml):
         print("error")
 
 
+def check_readme(readme):
+    """
+    methadology search for commonly used methods of showing the CI/CD status in a ReadMe
+    then filter the results dependant on whether or not it has a url. The url is used to
+    provide a small svg.
+
+    :return: config data or empty string
+    """
+    config = ""
+    if readme:
+        readme = lib.base64Decode(readme)
+
+        if 'alt="Build Status"' in readme:
+            config = readme.split('alt="Build Status"')[1].split("\n")[0]
+        elif "alt='Build Status'" in readme:
+            config = readme.split("alt='Build Status'")[1].split("\n")[0]
+        elif "status" in readme:
+            config = readme.split("status")[1].split("\n")[0]
+        elif "Status" in readme:
+            config = readme.split("Status")[1].split("\n")[0]
+
+        if config and len(re.findall("(http:\/\/)|(https:\/\/)", config)) == 0:
+            config = ""
+
+    return config
+
+
+results = []
+
+
 def process_line(line, name):
     yaml_stats = []
     for key in config.PATHS.keys():
@@ -308,6 +339,12 @@ def process_line(line, name):
                 else:
                     dataToSave = process_config(config_data, key, config_name, line, True)
                 yaml_stats.append(dataToSave)
+
+    if len(yaml_stats) == 0:
+        temp = check_readme(line.get("readme"))
+        if temp:
+            results.append(temp)
+            # print("{} {} {}".format(line.get("name"), line.get("stargazers_count"), line.get("subscribers_count")))
 
     appendData(name, yaml_stats, FIELDS)
 
@@ -353,12 +390,41 @@ def check_output(name):
             print(line)
             break
 
+def pretty_print_percentage():
+    pass
+
+def write_to_latex(name, no_repos, name_of_filtered):
+    filtered = {}
+    filtered_data = csvReader.readfile_low_memory(f"{name_of_filtered}.csv")
+
+    for value in filtered_data:
+        filtered[value[21]] = 0
+
+    data = """
+    \\begin{{table}}[h]
+\\begin{{tabular}}{{|l|l|l|l|l|}}
+\\hline
+    CI/CD & \\textbf{{count}} & \\textbf{{repos with config}} & \\textbf{{no. multiple}} & \\textbf{{multiple percent}}   \\\\ \\hline
+config file(s) &           {}     & {:.0%}                                & {}          & {:.0%}             \\\\ \\hline
+found in ReadMe & {}     & {:.0%}                                &             &             \\\\ \\hline
+none found &            {}     & {:.0%}                                &             &             \\\\ \\hline
+\\end{{tabular}}
+\\end{{table}}
+    """.format(len(filtered), len(filtered)/no_repos, len(filtered_data) - len(filtered), (len(filtered_data) - len(filtered))/len(filtered) ,
+               len(results), len(results)/no_repos,
+               no_repos - len(filtered_data) - len(results), (no_repos - len(filtered_data) - len(results))/no_repos)
+    data = data.replace("%", "\\%") # because latex
+    with open(name, "w", encoding="utf-8") as f:
+        f.write(data)
+
+    print(f"written to {name} the table of stats on the data")
+
 
 def main(name, data):
     """
     sets up the files to write the
     """
-    num_worker_threads = 5
+    num_worker_threads = 3
 
     name = csvReader.check_name(name)
 
@@ -373,8 +439,10 @@ def main(name, data):
         writer.writeheader()
 
     run_main(num_worker_threads, data, name)
+    write_to_latex("generated_table.tex", len(data), name)
 
 
 if __name__ == '__main__':
-    # main("yaml threaded", csvReader.readfile("combined0.csv"))
-    check_output("yaml threaded5.csv")
+    main("yaml threaded", csvReader.readfile("combined1.csv"))
+
+    # check_output("yaml threaded5.csv")

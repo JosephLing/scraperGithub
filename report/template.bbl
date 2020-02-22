@@ -1,4 +1,4 @@
-\begin{thebibliography}{6}
+\begin{thebibliography}{11}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -11,6 +11,12 @@ Cito, J., Schermann, G., Wittern, J.~E., Leitner, P., Zumberi, S. and Gall,
   {Conference} on {Mining} {Software} {Repositories} ({MSR})}, pp. 323--333,
   iSSN: null.
 
+\bibitem[{Copeland(2010)}]{Copeland2010}
+Copeland, P. (2010). Google's {Innovation} {Factory}: {Testing}, {Culture}, and
+  {Infrastructure}. In \textit{Proceedings of the 2010 {Third} {International}
+  {Conference} on {Software} {Testing}, {Verification} and {Validation}},
+  Washington, DC, USA: IEEE Computer Society, {ICST} '10, pp. 11--14.
+
 \bibitem[{Gallaba and McIntosh(2018)}]{Gallaba2018}
 Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
   {Integration} {Features}: {An} {Empirical} {Study} of {Projects} that
@@ -21,15 +27,35 @@ Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
 github (2017). https://github.blog/2017-11-07-github-welcomes-all-ci-tools/. In
   github.com, ed., \textit{github welcomes all ci tools}.
 
+\bibitem[{Gitlab(2020)}]{GitlabDocs2020}
+Gitlab (2020). https://docs.gitlab.com/ee/api/lint.html. In \textit{Gitlab
+  docs}.
+
+\bibitem[{Jenkins(2020)}]{JenkkinsDocs2020}
+Jenkins (2020). https://jenkins.io/doc/book/pipeline/development/. In
+  \textit{Jenkins documentation}.
+
 \bibitem[{Kalliamvakou et~al.(2014)}]{Kalliamvakou2014}
 Kalliamvakou, E., Gousios, G., Blincoe, K., Singer, L., German, D.~M. and
   Damian, D. (2014). The promises and perils of mining {GitHub}. Hyderabad,
   India: Association for Computing Machinery, {MSR} 2014, pp. 92--101.
 
+\bibitem[{Michael~Hilton, Marinov and Dig(2016)}]{Hilton2016}
+Michael~Hilton, K.~H., Timothy~Tunnell, Marinov, D. and Dig, D. (2016). Usage,
+  costs, and benefits of continuous integration in open-source projects
+  {\textbar} {Proceedings} of the 31st {IEEE}/{ACM} {International}
+  {Conference} on {Automated} {Software} {Engineering}.
+
 \bibitem[{Rahman, Mahdavi-Hezaveh and Williams(2019)}]{Rahman2019}
 Rahman, A., Mahdavi-Hezaveh, R. and Williams, L. (2019). A systematic mapping
   study of infrastructure as code research. \textit{Information and Software
   Technology}, 108, pp. 65--77.
+
+\bibitem[{Shahin, Ali~Babar and Zhu(2017)}]{Shahin2017}
+Shahin, M., Ali~Babar, M. and Zhu, L. (2017). Continuous {Integration},
+  {Delivery} and {Deployment}: {A} {Systematic} {Review} on {Approaches},
+  {Tools}, {Challenges} and {Practices}. \textit{IEEE Access}, 5, pp.
+  3909--3943.
 
 \bibitem[{Sharma, Fragkoulis and Spinellis(2016)}]{Sharma2016}
 Sharma, T., Fragkoulis, M. and Spinellis, D. (2016). Does {Your}
