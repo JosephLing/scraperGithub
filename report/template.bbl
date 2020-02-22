@@ -1,4 +1,4 @@
-\begin{thebibliography}{9}
+\begin{thebibliography}{11}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -26,6 +26,14 @@ Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
 \bibitem[{github(2017)}]{Github2017}
 github (2017). https://github.blog/2017-11-07-github-welcomes-all-ci-tools/. In
   github.com, ed., \textit{github welcomes all ci tools}.
+
+\bibitem[{Gitlab(2020)}]{GitlabDocs2020}
+Gitlab (2020). https://docs.gitlab.com/ee/api/lint.html. In \textit{Gitlab
+  docs}.
+
+\bibitem[{Jenkins(2020)}]{JenkkinsDocs2020}
+Jenkins (2020). https://jenkins.io/doc/book/pipeline/development/. In
+  \textit{Jenkins documentation}.
 
 \bibitem[{Kalliamvakou et~al.(2014)}]{Kalliamvakou2014}
 Kalliamvakou, E., Gousios, G., Blincoe, K., Singer, L., German, D.~M. and

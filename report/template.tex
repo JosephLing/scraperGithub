@@ -62,32 +62,31 @@ This can get complicated quickly therefore configuration as code (or infrastruct
 
 
 In terms of looking at usage we are going do a similar look at the data as did \cite{Hilton2016}. The importanat aspect will be looking at how usage has changed over the last 5 years along with looking more closely at which repositories are more likely to use CI/CD. For this we are going to focus on the following research questions:
-- usage of CI vs non usage
-- mulitple CI used
-- per language CI usage
-- stars, subscribers and commits for likehood of using CI
+\begin{itemize}
+  \item usage of CI vs non usage
+  \item multiple CI used
+  \item per language CI usage
+  \item stars, subscribers and commits for likehood of using CI
+\end{itemize}
 
 This should give us a better understanding of the sample of repositories from Github. From there we look at the structure of the configuration files to understand how certain aspects of it are used.
-- configuration errors when loading the config (just yaml parsing errors atm)
-- how are comments used in the configuration?
-- how scripts with the configuration files? (need to elloborate more on this one)
+\begin{itemize}
+  \item configuratizon errors when loading the config (just yaml parsing errors atm)
+  \item how are comments used in the configuration?
+  \item  how scripts with the configuration files? (need to elloborate more on this one)
+\end{itemize}
 
 A key aspect is that these questions do not look too deeply into the individual implementation of each CI system. This is because there are already some good papers looking \cite{Gallaba2018} at this but in order to be able to compare the different configuration types it is important to compare similar attributes (there is also a time factor in here as well). 
 
-\todo[size=\scriptsize]{need to carefully plan out how to gage the size of repo, as I don't want to have too download repos}
 \section{Previous Works}
 \label{config as code}
 
-\todo[size=\scriptsize]{Config as code is not necessarily infrastructure as code is slightly differently. So the comparison isn't fair necessarily or accurate.}
+Configuration as code or infrastructure as code has been an increasing area of research over the last few years. There seems to be slightly more research in infrastructure as code \cite{Rahman2019}. The has been a focus on Puppet and Chef, for example in \cite{Sharma2016} looks at code quality by the measure of "code smell" of Puppet code. This tackles the problem by defining by best practices and analyzing the code against that. In the case of \cite{Cito2017} it uses the docker linter in order to be able to analyse the files. 
+For the continous integeration systems we pick we will look into the tooling around that to aid the analysis.
 
+\label{Continous integeration}
 
-Configuration as code or infrastructure as code has been an increasing area of research over the last few years. There seems to be slightly more research in infrastructure as code \cite{Rahman2019} . The has been a focus on Puppet and Chef, for example in \cite{Sharma2016} looks at code quality by the measure of "code smell" of Puppet code. This tackles the problem by defining by best practices and analyzing the code against that. In the case of \cite{Cito2017} it uses the docker linter in order to be able to analyse the files. 
-
-
-15, 18, 23, 30
-
-
-docker, puppet, travis analysis 
+\cite{Hilton2016}
 
 \section{Methodology}
 \label{methodology}
@@ -95,15 +94,11 @@ docker, puppet, travis analysis
 In order to get repositories with CI/CD configuration from Github we have a number of approaches. The first is too use the search for particular files but this is limited to only 1000 results. The alternative is to search for repositories and we bypass the 1000 result limit to an extent by getting results for every 'star' count (stars are used to like or upvote a repository). Although this will be giving us a lot of results it will still only be a sample of the population but will give us a wider range of results. As their is rate limiting multiple github api keys can be used to speed up the scraping of data (ghtorrent could also be used to speed up the process I think).
 
 After we have got a repository we need to get the CI/CD files from it. This is fairly easy as the CI/CD systems normally require a strict naming convention and location within the repository. However as most of them are yaml based you can have ".yml" and ".yaml" and users can use all sorts of mixtures of upper and lower case. We try to account for this but won't get every scenario. This combined with the fact that we are only looking for top configuration files based on \cite{Github2017} along with github actions and azure pipelines. Is why we also check repositories for their ReadMe.md file to check if it has a build tag.
-sdfghjkl
 
 \includegraphics[scale=0.5]{2020-01-30-08-29-04.png}
 \todo[size=\scriptsize]{where did this image come from?? reference it man}
-fghjk
-In doing so it should give a wider net when sampling and help to understand when a CI system is either not using configuration as code or using a different CI system.
 
-Results and the spread of the actual data with the watches vs stars 
-maybe the star count over time to demonstrate the floors in the data gathering process
+In doing so it should give a wider net when sampling and help to understand when a CI system is either not using configuration as code or using a different CI system.
 
 There are dangers in scraping data off github in terms of assumptions to do with the population as found in \cite{Kalliamvakou2014}. In Github you can fork a repository which copies in order to remove these we check for fork flag on the repository. This causes are dataset to go from NUMBER to OTHER\_NUMBER.
 
@@ -111,9 +106,15 @@ Additionally the assumption that all repositories are of programming projects wi
 
 \todo[size=\scriptsize]{Additionally the paper suggests looking a for recent commits but I don't think that is necessary just yet... but would be a good indication later on size/dating the projects when comparing CI/CD systems.}
 
+Tooling for the configuration files, I looked into Travis, Github Actions and Jenkins to work out whether or not it could aid in the research or not. As a key part of understanding the first relies on knowing whether or not it is valid. 
+In terms for travis there is currently two parsers to validate the configuration. One which is depracted since 2017 (https://github.com/travis-ci/travis-yaml/) the other which is currently in development (https://github.com/travis-ci/travis-yml). Both didn't provided the necessary results with the most recent one not being able to handle default fields.
+For Github Actions as it's still a new tooling for it hasn't been developed outside of the Github editor web page (https://github.community/t5/GitHub-Actions/YAML-validator-for-Github-Actions-possible-expansion-of/td-p/29557).
+For Jenkins which is older solution allows validation through http/ssh request to the Jenkins server (Gitlab follows this style as well) \cite{JenkkinsDocs2020} \cite{GitlabDocs2020}. This could work well although would require setting up a server for each configuration type and might not validate if varaibles from the config aren't defined on the server. As well as it would be best to be able to validate them all or none of them in terms of being able to compare results easily.
+
+\section{Usage of CI}
 
 \vspace*{-0.05in}
-\subsection{CI/CD spread in the sample}
+\subsection{configuration errors when loading the config (just yaml parsing errors atm)}
 \vspace*{-0.05in}
 
 This leads us to get the following data:

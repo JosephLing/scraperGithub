@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  22 FEB 2020 11:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  22 FEB 2020 14:57
 entering extended mode
 **c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
 (c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
@@ -482,97 +482,113 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 42.
  [1
 
-] [2]
-
-LaTeX Warning: Marginpar on page 3 moved.
-
-[3]
+]
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 66.
+ ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 66.
+ [2] [3]
 <2020-01-30-08-29-04.png, id=61, 895.09406pt x 213.79875pt>
 File: 2020-01-30-08-29-04.png Graphic file (type png)
 <use 2020-01-30-08-29-04.png>
-Package pdftex.def Info: 2020-01-30-08-29-04.png  used on input line 100.
+Package pdftex.def Info: 2020-01-30-08-29-04.png  used on input line 98.
 (pdftex.def)             Requested size: 447.54593pt x 106.89911pt.
 
-Overfull \hbox (75.17075pt too wide) in paragraph at lines 100--104
+Overfull \hbox (75.17075pt too wide) in paragraph at lines 98--100
 [][]
  []
 
 
-LaTeX Warning: Marginpar on page 4 moved.
+Underfull \vbox (badness 4181) has occurred while \output is active []
+
+ [4 <c:/Users/Joe/workspace/researchProject/scraper/report/2020-01-30-08-29-04.png>]
+
+LaTeX Warning: Marginpar on page 5 moved.
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Overfull \hbox (56.1037pt too wide) in paragraph at lines 109--113
+\OT1/cmr/m/n/12 ci/travis-yaml/) the other which is cur-rently in de-vel-op-ment (https://github.com/travis-
+ []
 
- [4 <c:/Users/Joe/workspace/researchProject/scraper/report/2020-01-30-08-29-04.png>] (../src/generated_table.tex
+(../src/generated_table.tex
 Overfull \hbox (48.0839pt too wide) in paragraph at lines 2--9
 [][] 
  []
 
-)
-<../src/sub vs stars.pdf, id=65, 462.52798pt x 346.89601pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [5]
+<../src/sub vs stars.pdf, id=69, 462.52798pt x 346.89601pt>
 File: ../src/sub vs stars.pdf Graphic file (type pdf)
 <use ../src/sub vs stars.pdf>
-Package pdftex.def Info: ../src/sub vs stars.pdf  used on input line 132.
+Package pdftex.def Info: ../src/sub vs stars.pdf  used on input line 133.
 (pdftex.def)             Requested size: 462.52684pt x 346.89516pt.
 File: ../src/sub vs stars.pdf Graphic file (type pdf)
 <use ../src/sub vs stars.pdf>
-Package pdftex.def Info: ../src/sub vs stars.pdf  used on input line 132.
+Package pdftex.def Info: ../src/sub vs stars.pdf  used on input line 133.
 (pdftex.def)             Requested size: 462.52684pt x 346.89516pt.
-<../src/sub vs stars.pdf, id=68, page=1, 462.52798pt x 346.89601pt>
+<../src/sub vs stars.pdf, id=72, page=1, 462.52798pt x 346.89601pt>
 File: ../src/sub vs stars.pdf Graphic file (type pdf)
 <use ../src/sub vs stars.pdf, page 1>
-Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 132.
+Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 133.
 (pdftex.def)             Requested size: 390.0pt x 292.51282pt.
 File: ../src/sub vs stars.pdf Graphic file (type pdf)
 <use ../src/sub vs stars.pdf, page 1>
-Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 132.
+Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 133.
 (pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
- [5]
+ [6]
 File: ../src/sub vs stars.pdf Graphic file (type pdf)
 <use ../src/sub vs stars.pdf, page 1>
-Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 132.
-(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
-File: ../src/sub vs stars.pdf Graphic file (type pdf)
-<use ../src/sub vs stars.pdf, page 1>
-Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 132.
+Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 133.
 (pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
 File: ../src/sub vs stars.pdf Graphic file (type pdf)
 <use ../src/sub vs stars.pdf, page 1>
-Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 132.
+Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 133.
 (pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
- [6 <../src/sub vs stars.pdf>]
-<../src/spread over time.pdf, id=109, 462.52798pt x 346.89601pt>
+File: ../src/sub vs stars.pdf Graphic file (type pdf)
+<use ../src/sub vs stars.pdf, page 1>
+Package pdftex.def Info: ../src/sub vs stars.pdf , page1 used on input line 133.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+ [7 <../src/sub vs stars.pdf>]
+<../src/spread over time.pdf, id=113, 462.52798pt x 346.89601pt>
 File: ../src/spread over time.pdf Graphic file (type pdf)
 <use ../src/spread over time.pdf>
-Package pdftex.def Info: ../src/spread over time.pdf  used on input line 136.
+Package pdftex.def Info: ../src/spread over time.pdf  used on input line 137.
 (pdftex.def)             Requested size: 462.52684pt x 346.89516pt.
 File: ../src/spread over time.pdf Graphic file (type pdf)
 <use ../src/spread over time.pdf>
-Package pdftex.def Info: ../src/spread over time.pdf  used on input line 136.
+Package pdftex.def Info: ../src/spread over time.pdf  used on input line 137.
 (pdftex.def)             Requested size: 462.52684pt x 346.89516pt.
-<../src/spread over time.pdf, id=112, page=1, 462.52798pt x 346.89601pt>
+<../src/spread over time.pdf, id=116, page=1, 462.52798pt x 346.89601pt>
 File: ../src/spread over time.pdf Graphic file (type pdf)
 <use ../src/spread over time.pdf, page 1>
-Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 136.
+Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 137.
 (pdftex.def)             Requested size: 390.0pt x 292.51282pt.
 File: ../src/spread over time.pdf Graphic file (type pdf)
 <use ../src/spread over time.pdf, page 1>
-Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 136.
+Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 137.
 (pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
- [7]
+ [8]
 File: ../src/spread over time.pdf Graphic file (type pdf)
 <use ../src/spread over time.pdf, page 1>
-Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 136.
-(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
-File: ../src/spread over time.pdf Graphic file (type pdf)
-<use ../src/spread over time.pdf, page 1>
-Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 136.
+Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 137.
 (pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
 File: ../src/spread over time.pdf Graphic file (type pdf)
 <use ../src/spread over time.pdf, page 1>
-Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 136.
+Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 137.
 (pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
- [8 <../src/spread over time.pdf>] ("../src/configuration type count.tex") ("../src/yaml config errors.tex"
+File: ../src/spread over time.pdf Graphic file (type pdf)
+<use ../src/spread over time.pdf, page 1>
+Package pdftex.def Info: ../src/spread over time.pdf , page1 used on input line 137.
+(pdftex.def)             Requested size: 708.61827pt x 531.46375pt.
+ [9 <../src/spread over time.pdf>] ("../src/configuration type count.tex"
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) ("../src/yaml config errors.tex"
 Overfull \hbox (59.93935pt too wide) in paragraph at lines 1--11
 [][] 
  []
@@ -580,69 +596,67 @@ Overfull \hbox (59.93935pt too wide) in paragraph at lines 1--11
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-)
-Underfull \vbox (badness 2753) has occurred while \output is active []
-
- [9] [10]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+) [10]
+Underfull \vbox (badness 1917) has occurred while \output is active []
 
  [11]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 303.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
  [12]
-Overfull \hbox (25.31677pt too wide) in paragraph at lines 419--420
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 304.
+ [13]
+Overfull \hbox (25.31677pt too wide) in paragraph at lines 420--421
  [] 
  []
 
-[13]
+[14]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [14] [15]
-Overfull \hbox (64.14633pt too wide) in paragraph at lines 539--539
+ [15] [16]
+Overfull \hbox (64.14633pt too wide) in paragraph at lines 540--540
 []      \OT1/cmtt/m/n/10.95 Let VALUES = list of possible values for VAR in ascending order according[] 
  []
 
 
-Overfull \hbox (12.40814pt too wide) in paragraph at lines 539--539
+Overfull \hbox (12.40814pt too wide) in paragraph at lines 540--540
 []                   \OT1/cmtt/m/n/10.95 to number of conflicts with variables in VARS-LEFT.[] 
  []
 
 
-Overfull \hbox (35.4029pt too wide) in paragraph at lines 539--539
+Overfull \hbox (35.4029pt too wide) in paragraph at lines 540--540
 []        \OT1/cmtt/m/n/10.95 If VALUE does not conflict with any variable that is in VARS-DONE,[] 
  []
 
 
-Overfull \hbox (41.15158pt too wide) in paragraph at lines 539--539
+Overfull \hbox (41.15158pt too wide) in paragraph at lines 540--540
 []     \OT1/cmtt/m/n/10.95 Let VARS-LEFT = list of all variables, each assigned an initial value.[] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [16]
+ [17]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [17] (c:/Users\Joe\workspace\researchProject\scraper\report\template.bbl [18]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 38.
- ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 38.
-) [19] (c:/Users\Joe\workspace\researchProject\scraper\report\template.aux) ) 
+ [18] (c:/Users\Joe\workspace\researchProject\scraper\report\template.bbl [19]
+Underfull \hbox (badness 6078) in paragraph at lines 35--37
+[]\OT1/cmr/m/n/12 Jenkins (2020). https://jenkins.io/doc/book/pipeline/development/. In
+ []
+
+) [20] (c:/Users\Joe\workspace\researchProject\scraper\report\template.aux) ) 
 Here is how much of TeX's memory you used:
- 14535 strings out of 492484
- 292835 string characters out of 3122508
- 347134 words of memory out of 3000000
- 18563 multiletter control sequences out of 15000+200000
+ 14527 strings out of 492484
+ 292641 string characters out of 3122508
+ 346016 words of memory out of 3000000
+ 18555 multiletter control sequences out of 15000+200000
  11054 words of font info for 39 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,18n,83p,749b,969s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/latxfont/lcircle1.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/latxfont/line10.pfb>
-Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (20 pages, 415030 bytes).
+Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (21 pages, 416201 bytes).
 PDF statistics:
- 250 PDF objects out of 1000 (max. 8388607)
+ 253 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  159 words of extra memory for PDF output out of 10000 (max. 10000000)
 
