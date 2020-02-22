@@ -401,11 +401,11 @@ def write_to_latex(name, no_repos, name_of_filtered):
         filtered[value[21]] = 0
 
     data = """
-    \\begin{{table}}[]
+    \\begin{{table}}[h]
 \\begin{{tabular}}{{|l|l|l|l|l|}}
 \\hline
-    CI/CD & \\textbf{{count}} & \\textbf{{configs per repo}} & \\textbf{{duplicates}} & \\textbf{{duplicate percent}}   \\\\ \\hline
-config file &           {}     & {:.0%}                                & {}          & {:.0%}             \\\\ \\hline
+    CI/CD & \\textbf{{count}} & \\textbf{{repos with config}} & \\textbf{{no. multiple}} & \\textbf{{multiple percent}}   \\\\ \\hline
+config file(s) &           {}     & {:.0%}                                & {}          & {:.0%}             \\\\ \\hline
 found in ReadMe & {}     & {:.0%}                                &             &             \\\\ \\hline
 none found &            {}     & {:.0%}                                &             &             \\\\ \\hline
 \\end{{tabular}}

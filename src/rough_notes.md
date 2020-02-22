@@ -64,4 +64,28 @@ re-run data gathering to make sure that jenkins data is gathered
 Concise answerable research questions?
 
 some teasers: different language behaviour in CI
-meaty: comment structure, understanding CI
+meaty: comment structure, understanding CI#
+
+
+
+----------------------
+
+branching thing for percentages 
+
+programming languages, config, thign
+
+
+lines of code box plot
+
+white svg
+
+
+
+comment analysis
+visualising spread - in particular langauges
+remove abstract (aim for less text)
+size raito for use of CI (compare difference in sub vs stars and if time after poster commit count)
+script tags
+
+
+look through outline - juggle the different questions to see how things fit
