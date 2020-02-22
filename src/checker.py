@@ -89,4 +89,4 @@ def checkfiles(mypath, regexp=""):
 
 if __name__ == '__main__':
     checkfiles(".", "socket")
-    merge(".", query="socket", save=False)
+    merge(".", query="socket", save=True)

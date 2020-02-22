@@ -261,7 +261,7 @@ def getReposStuff(name, stars_start, stars_end):
     page = pages.get_page(pageination_page)
     searches = 0
     while len(page) >= 1 and pageination_page < MAX_NO_OF_PAGES and searches < RATE_LIMITING:
-        file_name = name + time.strftime("%X").replace(":", "_") + "stars{}{}".format(stars_start, stars_end)
+        file_name = name + time.strftime("%X").replace(":", "_") + "stars{} {}".format(stars_start, stars_end)
 
         logging.info("getting page: {}".format(pageination_page))
 
@@ -369,7 +369,11 @@ def main():
     if GITHUB_TOKEN is None:
         logging.info("place a github token in the .env file")
     else:
-        main_scraper()
+        try:
+            main_scraper()
+        except Exception as e:
+            logging.error(e)
+            raise e
     logging.info("finished running main")
 
 
