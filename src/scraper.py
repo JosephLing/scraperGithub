@@ -91,6 +91,33 @@ def check_for_empty_repo(repo, path, count=0):
         else:
             raise e
 
+def get_commits_info(repo):
+    """
+    The key here is that we want the commit dates for the last 3 commits as that will give us some info
+    on how often it is updated. For example one of the test repos got test data committed to it last month. But before
+    that hadn't been committed too for a year at least.
+    """
+    dictionary = {}
+    commits = repo.get_commits()
+    dictionary["commits"] = commits.totalCount
+    if commits.totalCount >= 3:
+        dictionary["recent_commit1"] = commits[0].commit.committer.date
+        dictionary["recent_commit2"] = commits[1].commit.committer.date
+        dictionary["recent_commit3"] = commits[2].commit.committer.date
+    elif commits.totalCount == 2:
+        dictionary["recent_commit1"] = commits[0].commit.committer.date
+        dictionary["recent_commit2"] = commits[1].commit.committer.date
+        dictionary["recent_commit3"] = 0
+    elif commits.totalCount == 1:
+        dictionary["recent_commit1"] = commits[0].commit.committer.date
+        dictionary["recent_commit2"] = 0
+        dictionary["recent_commit3"] = 0
+    else:
+        dictionary["recent_commit1"] = 0
+        dictionary["recent_commit2"] = 0
+        dictionary["recent_commit3"] = 0
+
+    return dictionary
 
 def save_repo(repo, content):
     logging.info("saving >>> {}".format(repo.name))
@@ -132,7 +159,7 @@ def save_repo(repo, content):
     dictionary["config"] = content
     dictionary["watch"] = repo.watchers_count
 
-    return dictionary
+    return {**dictionary, **get_commits_info(repo)}
 
 
 def save_repos(repos, contents):
@@ -297,6 +324,53 @@ def getReposStuff(name, stars_start, stars_end):
     logging.info("finished")
     logging.info("finished going through {} pages of results and got {} results".format(pageination_page, searches))
 
+def get_commits_from_ids(name, ids):
+    """
+    @param name str
+    @param ids [int]
+    """
+    g = Github(GITHUB_TOKEN, timeout=REQUEST_TIMEOUT, per_page=NO_PAGES)
+    file_name = name
+    searches = 0
+    len_ids = len(ids)
+    data = []
+    for repo_id in ids:
+        logging.info("getting repo: {}".format(repo_id))
+        repo = None
+        try:
+            repo = g.get_repo(repo_id)  # 1 request
+        except UnknownObjectException:
+            pass
+
+        if repo:
+            try:
+                data.append({
+                    **{"id":repo_id},
+                    **get_commits_info(repo)
+                })
+            except RateLimitExceededException as e:
+                logging.error(e.__str__())
+                logging.info(f"searches at: {searches} {repo_id} {data}")
+                logging.info("error occured sleeping for 2 mins to allow for correction")
+                time.sleep(120)
+
+        data = tidyup_dictinary_keys(data)
+        if data:
+            csvReader.writeToCsv(data, file_name)
+
+
+        if searches == 10:
+            data = []
+            time.sleep(TIMEOUT)
+            logging.info("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
+            logging.info("progress >>> {}%".format((searches / len_ids) * 100))
+        searches += 1
+
+        time.sleep(TIMEOUT)
+
+    logging.info("finished")
+
+
 
 def get_config_from_ids(name, ids):
     """
@@ -328,10 +402,12 @@ def get_config_from_ids(name, ids):
                 logging.info("error occured sleeping for 2 mins to allow for correction")
                 time.sleep(120)
 
-        if searches == 10 and data:
-            data = tidyup_dictinary_keys(data)
-
+        data = tidyup_dictinary_keys(data)
+        if data:
             csvReader.writeToCsv(data, file_name)
+
+
+        if searches == 10:
             data = []
             time.sleep(TIMEOUT)
             logging.info("sleeping for: {}s to avoid 403 errors due to rate limiting".format(TIMEOUT))
@@ -363,7 +439,7 @@ def main_rerun_scrape():
 def test_cases():
     logging.info("test cases...")
     ids = [106607705, 155825745]
-    get_config_from_ids(FILE_NAME, ids)
+    get_commits_from_ids(FILE_NAME, ids)
 
 def main():
     if GITHUB_TOKEN is None:
