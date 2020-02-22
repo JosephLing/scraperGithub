@@ -17,8 +17,8 @@
 \usepackage{graphicx}
 \renewcommand{\baselinestretch}{1.3}
 \usepackage{todonotes}
-
-\title{An empirical comparison of the structure of configuration files of continuous integration and build systems}
+% An empirical comparison of the structure of configuration files of continuous integration and build systems
+\title{Usage and structure of continous integration in open source projects }
 \author{Joseph Ling\\\vspace{10mm}
        \url{jl653@kent.ac.uk} \\ \vspace{5mm}
        \includegraphics[scale=0.6]{Kent_Comp_294_RGB} \\
@@ -52,23 +52,27 @@ be most effective.
 \section{Introduction}
 \label{Introduction}
 
-\todo[size=\scriptsize]{need more introduction into CI like the travis paper probably?}
+https://arxiv.org/ftp/arxiv/papers/1703/1703.07019.pdf
 
-For continuous integration (CI) and build systems/continuous delivery a lot of it is configured with code as configuration. The main kind of configuration format used for this is yaml (reference to what it is??) followed by xml and java based scripting formats. As CI has become increasingly more popular and practical (\todo[size=\scriptsize]{cite needed here to backup})................For software development teams there are roles for just looking after and managing CI and the deployment infrastructure. Understanding how code as configuration is used for CI is an emerging area of research because of this.
+Continous integeration (CI) is becoming more popular over the last few years. This can be seen by how major version control hosting services Github, Bitbucket and Gitlab have all started to or have been improving their CI product. In terms of research, configuration as code \cite{Rahman2019} and continuous integeration \cite{Copeland2010} with \cite{Shahin2017} demonstrating breadth of the research.
 
-The first stage in order to answer this question is to get a dataset of configuration files from different ci/cd systems. In doing so answering the questions of:
-- what is the spread of ci/cd systems for public github repositories? this will take into account operating system, programming language, star count, subscriber count
-- note: something along the lines of multiple configuration files
-- what naming convention do they use for the files? (in order to understand common practices)
+Continous integeration is a process of automatically running compiling, running tests and checking that the product works. This is can be combined with Continous Delivery where the product is deployed or released after it has gone through CI. 
 
-After getting all that data then it will be need to analysed to how it is used. The key questions for this that will be focused on will be:
-- how are comments used in the configuration?
-- how are stages (named sections of the process) named for configuration files?
-  - branch names
+This can get complicated quickly therefore configuration as code (or infrastructure as code) is used to configure it. The main kind of configuration format used for this is yaml (reference to what it is??) followed by xml and java based scripting formats.
+
+
+In terms of looking at usage we are going do a similar look at the data as did \cite{Hilton2016}. The importanat aspect will be looking at how usage has changed over the last 5 years along with looking more closely at which repositories are more likely to use CI/CD. For this we are going to focus on the following research questions:
+- usage of CI vs non usage
+- mulitple CI used
+- per language CI usage
+- stars, subscribers and commits for likehood of using CI
+
+This should give us a better understanding of the sample of repositories from Github. From there we look at the structure of the configuration files to understand how certain aspects of it are used.
 - configuration errors when loading the config (just yaml parsing errors atm)
+- how are comments used in the configuration?
 - how scripts with the configuration files? (need to elloborate more on this one)
 
-A key aspect is that these questions do not look too deeply into the individual implementation of each of unique piece of configuration for each type. This is because there are already some good papers looking \cite{Gallaba2018} at this but in order to be able to compare the different configuration types it is important to compare similar attributes (there is also a time factor in here as well). 
+A key aspect is that these questions do not look too deeply into the individual implementation of each CI system. This is because there are already some good papers looking \cite{Gallaba2018} at this but in order to be able to compare the different configuration types it is important to compare similar attributes (there is also a time factor in here as well). 
 
 \todo[size=\scriptsize]{need to carefully plan out how to gage the size of repo, as I don't want to have too download repos}
 \section{Previous Works}
@@ -77,7 +81,7 @@ A key aspect is that these questions do not look too deeply into the individual 
 \todo[size=\scriptsize]{Config as code is not necessarily infrastructure as code is slightly differently. So the comparison isn't fair necessarily or accurate.}
 
 
-Configuration as code or infrastructure as code has been an increasing area of research over the last few years. There seems to be slightly more research in infrastructure as code \cite{Rahman2019}. The has been a focus on Puppet and Chef, for example in \cite{Sharma2016} looks at code quality by the measure of "code smell" of Puppet code. This tackles the problem by defining by best practices and analyzing the code against that. In the case of \cite{Cito2017} it uses the docker linter in order to be able to analyse the files. 
+Configuration as code or infrastructure as code has been an increasing area of research over the last few years. There seems to be slightly more research in infrastructure as code \cite{Rahman2019} . The has been a focus on Puppet and Chef, for example in \cite{Sharma2016} looks at code quality by the measure of "code smell" of Puppet code. This tackles the problem by defining by best practices and analyzing the code against that. In the case of \cite{Cito2017} it uses the docker linter in order to be able to analyse the files. 
 
 
 15, 18, 23, 30
@@ -91,17 +95,17 @@ docker, puppet, travis analysis
 In order to get repositories with CI/CD configuration from Github we have a number of approaches. The first is too use the search for particular files but this is limited to only 1000 results. The alternative is to search for repositories and we bypass the 1000 result limit to an extent by getting results for every 'star' count (stars are used to like or upvote a repository). Although this will be giving us a lot of results it will still only be a sample of the population but will give us a wider range of results. As their is rate limiting multiple github api keys can be used to speed up the scraping of data (ghtorrent could also be used to speed up the process I think).
 
 After we have got a repository we need to get the CI/CD files from it. This is fairly easy as the CI/CD systems normally require a strict naming convention and location within the repository. However as most of them are yaml based you can have ".yml" and ".yaml" and users can use all sorts of mixtures of upper and lower case. We try to account for this but won't get every scenario. This combined with the fact that we are only looking for top configuration files based on \cite{Github2017} along with github actions and azure pipelines. Is why we also check repositories for their ReadMe.md file to check if it has a build tag.
+sdfghjkl
 
-\includegraphics[scale=0.5]{2020-01-30-08-29-04.png} \todo[size=\scriptsize]{where did this image come from?? reference it man}
-
+\includegraphics[scale=0.5]{2020-01-30-08-29-04.png}
+\todo[size=\scriptsize]{where did this image come from?? reference it man}
+fghjk
 In doing so it should give a wider net when sampling and help to understand when a CI system is either not using configuration as code or using a different CI system.
 
 Results and the spread of the actual data with the watches vs stars 
 maybe the star count over time to demonstrate the floors in the data gathering process
 
 There are dangers in scraping data off github in terms of assumptions to do with the population as found in \cite{Kalliamvakou2014}. In Github you can fork a repository which copies in order to remove these we check for fork flag on the repository. This causes are dataset to go from NUMBER to OTHER\_NUMBER.
-
-graph of data again
 
 Additionally the assumption that all repositories are of programming projects with code in them is wrong. A number of repositories can be used for storage, experimental, academic and other things. However they to all some extent can use CI/CD for their work as a number of books were found when looking through the dataset could use CI/CD. \todo[size=\scriptsize]{Analyse of readme can be used to try and classify but I don't think that is necessary. I think the key factor is that any concluding remarks anywhere take this into account.}
 
@@ -112,13 +116,32 @@ Additionally the assumption that all repositories are of programming projects wi
 \subsection{CI/CD spread in the sample}
 \vspace*{-0.05in}
 
+This leads us to get the following data:
+
+\input{../src/generated_table.tex}
+
+
+
+A repository on github is like a folder so can contain any number of configuration files in it. Therefore we can get any number of configuration files in that folder. This is taken into account with the second pair of columns for the first row. It demonstrates that their a large number of repositories with multiple kinds of configuration (todo make sure that github actions multiple file thing isn't calculated here).
+
+The next row is for when we couldn't pick up the configuration used for CI/CD and check the ReadMe.md file for build status tag. 
+
+The final row is shows the repositories that either don't have any configuration or no configuration that could be found.
+
+However that doesn't give us too much insight into the dataset. Here is a graph showing the subscribers plotted against the number of stars. The key here to understand is not potentially any correlation but to see the spread of data that the table is showing. 
+\includepdf[pages=-,pagecommand={},width=\textwidth]{../src/sub vs stars.pdf}
+
+The second graph helps give a understanding to the give a depth of the data for where the graph is just blue. This is because on Github you get more repositories with smaller star counts than large ones.
+
+\includepdf[pages=-,pagecommand={},width=\textwidth]{../src/spread over time.pdf}
+
 - what is the spread of ci/cd systems for public github repositories? this will take into account operating system, programming language, star count, subscriber count
 - note: something along the lines of multiple configuration files
 - what naming convention do they use for the files? (in order to understand common practices)
 
-\includepdf[pages=-,pagecommand={},width=\textwidth]{../src/sample over time.pdf}
 
-\includepdf[pages=-,pagecommand={},width=\textwidth]{../src/spreadscatter_starsandsubs.pdf}
+
+
 
 this will follow on from the previous graphs looking at spread of CI/CD configs found in the whole sample
 
@@ -134,6 +157,11 @@ perhaps a small look at naming conventions used???
 \vspace*{-0.05in}
 \subsection{configuration errors when loading the config (just yaml parsing errors atm)}
 \vspace*{-0.05in}
+
+\input{../src/configuration type count.tex}
+
+\input{../src/yaml config errors.tex}
+
 
 \vspace*{-0.05in}
 \subsection{How are comments used in configuration?}
