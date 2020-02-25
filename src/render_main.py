@@ -34,6 +34,19 @@ def spread_of_data_sub_to_stars(data):
     return plot
 
 
+def spread_of_data_v2(data, sorted_data):
+    plot = spread_of_data_sub_to_stars(data)
+
+    x = []
+    y = []
+    for line in sorted_data:
+        x.append(int(line.get("stars")))
+        y.append(int(line.get("sub")))
+    plot.scatter(x, y, s=1, alpha=0.3)
+
+    return plot
+
+
 def spread_data_issues_vs_stars(data):
     plot = plt
     plot.xlabel('stars')
@@ -53,8 +66,62 @@ def spread_data_issues_vs_stars(data):
     return plot
 
 
-def save_as_pdf(plot, name):
-    plot.savefig(f'{name}.svg', format="svg")
+def spread_of_data_line_star(data, sorted_data):
+    stars = {}
+    for line in data:
+        stars[int(line.get("id"))] = (int(line.get("stargazers_count")), 0)
+
+    for line in sorted_data:
+        stars[int(line.get("id"))] = (int(line.get("stars")), 1)
+    return create_percentage_bar_graphs(list(stars.values()), "percentage of stars that use CI")
+
+
+def spread_of_data_line_sub(data, sorted_data):
+    stars = {}
+    for line in data:
+        stars[int(line.get("id"))] = (int(line.get("subscribers_count")), 0)
+
+    for line in sorted_data:
+        stars[int(line.get("id"))] = (int(line.get("sub")), 1)
+    return create_percentage_bar_graphs(list(stars.values()), "percentage of subcriptions that use CI")
+
+
+def create_percentage_bar_graphs(stars, name, grouping_amount=540):
+    stars.sort(key=lambda x: x[0])
+    groups = []
+    j = 0
+    i = 1
+    while j < len(stars):
+        group = []
+        while j < grouping_amount * i and j < len(stars):
+            group.append(stars[j][1])
+            # group.append((stars[keys[j]], keys[j]))
+            j += 1
+        groups.append((stars[j - 1][0], group))
+        i += 1
+
+    heights = []
+    bottom = []
+    for group in groups:
+        print(group)
+        bottom.append(group[0])
+        if len(group[1]) != 0:
+            heights.append((sum(group[1]) / len(group[1])) * 100)
+        else:
+            heights.append(0)
+
+    plot = plt
+    plot.bar([str(a) for a in bottom], heights)
+    plot.xticks(rotation=90)
+    plot.rc(({'font.size': 10}))
+    plot.title(name)
+    plot.ylim(0, 100)
+
+    return plot
+
+
+def save_as_pdf(plot, name, encoding="pdf"):
+    plot.savefig(f'{name}.{encoding}')
     # delete the graph
     plot.clf()
 
@@ -132,31 +199,24 @@ def config_type_split(name, dataset):
         tf.write(s)
 
 
-def main(experimenting):
-    """
-    failed:
-    - stars box plot
-    """
+def main(experimenting, name1, name2, image_encoding, output="."):
     if experimenting:
-        # dataset = load_dataframe("yaml threaded5.csv")
-        # print(dataset[["config_name", "config", "file_lines"]].head(5))
-        # print("-----------")
-        # print(dataset.loc[dataset["config"] == "travis"].head(5))
-        # yaml_config_errors(plt, dataset).show()
-        # temp(plt, [])
-        # yaml_config_errors_per_config(plt, dataset).show()
-        # blank lines, comments, code, total lines
-        dataset = load_dataframe("yaml threaded6.csv")
-        # config_bargraph(plt, dataset).show()
+        data = csvReader.readfile("combined1.csv")
+        sorted_data = csvReader.readfile("yaml threaded6.csv")
+        # spread_of_data_v2(data, sorted_data).show()
+        # plt.clf()
+        # spread_of_data_line_sub(data, sorted_data).show()
+        save_as_pdf(spread_of_data_line_star(data, sorted_data), f"{output}/percentage stars with CI")
+        save_as_pdf(spread_of_data_line_sub(data, sorted_data), f"{output}/percentage sub with CI")
 
     else:
-        data = csvReader.readfile("combined.csv")
+        data = csvReader.readfile(name1)
 
-        save_as_pdf(spread_of_data_sub_to_stars(data), "sub vs stars")
-        save_as_pdf(spread_over_time_stars(data), "spread over time")
-        save_as_pdf(spread_data_issues_vs_stars(data), "issues vs stars")
+        save_as_pdf(spread_of_data_sub_to_stars(data), f"{output}/sub vs stars", image_encoding)
+        save_as_pdf(spread_over_time_stars(data), f"{output}/spread over time", image_encoding)
+        save_as_pdf(spread_data_issues_vs_stars(data), f"{output}/issues vs stars", image_encoding)
 
-        dataset = load_dataframe("yaml threaded6.csv")
+        dataset = load_dataframe(name2)
         yaml_config_errors_to_latex("yaml config errors.tex", dataset)
         config_type_split("configuration type count.tex", dataset)
 
@@ -164,5 +224,5 @@ def main(experimenting):
 
 
 if __name__ == '__main__':
-    main(False)
-    # main(True)
+    # main(False, "combined1.csv", "yaml threaded6.csv", "svg")
+    main(True, "combined1.csv", "yaml threaded6.csv", "svg", "results")
