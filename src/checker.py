@@ -78,6 +78,8 @@ def merge(mypath, save=True, query="raptor"):
             csvReader.writeToCsv(list(combined.values()), name)
         else:
             print("too many combined copies already found")
+        return name
+    return None
 
 
 def checkfiles(mypath, regexp=""):

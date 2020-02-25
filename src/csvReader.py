@@ -3,14 +3,13 @@ import csv
 import config
 import logging
 from os.path import exists
+
 NUMBER_OF_KEYS_PER_CONFIG = 24
 
 KEYS_TO_TRY = ['config']
 for k in config.PATHS.keys():
     for i in range(NUMBER_OF_KEYS_PER_CONFIG):
         KEYS_TO_TRY.append("{}{}".format(k, i))
-
-
 
 maxInt = maxsize
 
@@ -33,6 +32,7 @@ def readfile(filename, fields=None):
             lines.append(row)
     return lines
 
+
 def readfile_low_memory(filename):
     lines = []
     with open(filename, "r", encoding="utf-8") as csvFile:
@@ -40,7 +40,6 @@ def readfile_low_memory(filename):
         for row in reader:
             lines.append(row)
     return lines
-
 
 
 def writeToCsv(data, name, fields=None):
@@ -62,6 +61,7 @@ def writeToCsv(data, name, fields=None):
     else:
         logger.info("no data found")
 
+
 def check_name(name, debug=True) -> str:
     new_name = name
     count = 0
@@ -73,3 +73,23 @@ def check_name(name, debug=True) -> str:
         if count > 10:
             return ""
     return new_name
+
+
+def get_latest_name(name) -> str:
+    new_name = name
+    count = 0
+    while exists("{}.csv".format(new_name)):
+        new_name = f"{name}{count}"
+        count += 1
+
+        if count > 10:
+            return ""
+
+    # if the file doesn't exist return empty
+    if count == 0:
+        return ""
+
+    if count == 1:
+        return name
+
+    return f"{name}{count - 2}"

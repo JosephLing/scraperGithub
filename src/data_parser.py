@@ -431,6 +431,7 @@ def main(name, data):
     if name == "":
         print("file already found for the files for the main file so can't write to disk")
         return
+
     print(f"writing to {name}.csv")
 
     with open(f"{name}.csv", "a", newline="", encoding="utf-8") as csvfile:
@@ -440,6 +441,7 @@ def main(name, data):
 
     run_main(num_worker_threads, data, name)
     write_to_latex("generated_table.tex", len(data), name)
+    return name
 
 
 if __name__ == '__main__':
