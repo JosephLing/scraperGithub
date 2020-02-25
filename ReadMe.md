@@ -14,8 +14,13 @@ pip install -r requirements.txt
 
 create .env file with token inside named GITHUB_TOKEN
 
-python main.py to run
+scraper.py to create the data 
 
+then run main.py with the .env setup to CHECK and then RENDER to create all the things
+
+orca will be required in order to render the plotly sankey graph
+
+`npm install -g electron@1.8.4 orca1`
 
 ## notes from latests meeting (12/11/2019)
 
