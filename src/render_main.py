@@ -11,9 +11,9 @@ graphing guides:
 import matplotlib.pyplot as plt
 import csvReader
 import pandas as pd
+
+import render_sankey_diagram
 from data_parser import dtypes
-import numpy as np
-import config
 
 
 def spread_of_data_sub_to_stars(data):
@@ -206,8 +206,7 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # spread_of_data_v2(data, sorted_data).show()
         # plt.clf()
         # spread_of_data_line_sub(data, sorted_data).show()
-        save_as_pdf(spread_of_data_line_star(data, sorted_data), f"{output}/percentage stars with CI")
-        save_as_pdf(spread_of_data_line_sub(data, sorted_data), f"{output}/percentage sub with CI")
+
 
     else:
         data = csvReader.readfile(name1)
@@ -216,9 +215,16 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         save_as_pdf(spread_over_time_stars(data), f"{output}/spread over time", image_encoding)
         save_as_pdf(spread_data_issues_vs_stars(data), f"{output}/issues vs stars", image_encoding)
 
-        dataset = load_dataframe(name2)
-        yaml_config_errors_to_latex("yaml config errors.tex", dataset)
-        config_type_split("configuration type count.tex", dataset)
+        sorted_data = load_dataframe(name2)
+        yaml_config_errors_to_latex("yaml config errors.tex", sorted_data)
+        config_type_split("configuration type count.tex", sorted_data)
+
+        save_as_pdf(spread_of_data_line_star(data, sorted_data), f"{output}/percentage stars with CI", image_encoding)
+        save_as_pdf(spread_of_data_line_sub(data, sorted_data), f"{output}/percentage sub with CI", image_encoding)
+
+        render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey",
+                                                                         pd.read_csv(name2, dtype=dtypes), True, True,
+                                                                         image_encoding)
 
         print("finished building")
 
