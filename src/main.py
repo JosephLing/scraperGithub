@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 from os import getenv
 import time
 
-Path("/results").mkdir(parents=True, exist_ok=True)
+OUTPUT_RESULTS_PATH = OUTPUT_RESULTS_PATH
+
+Path(OUTPUT_RESULTS_PATH).mkdir(parents=True, exist_ok=True)
 
 load_dotenv()
 
@@ -37,13 +39,13 @@ if CHECK:
 if (MERGE and user_input == "") or user_input in ["yes", "y"]:
     print("running merge")
     name1 = checker.merge("./newData", query="socket", save=True)
-    name2 = data_parser.main(name2_base_name, csvReader.readfile(name1))
+    name2 = data_parser.main(name2_base_name, csvReader.readfile(name1), OUTPUT_RESULTS_PATH)
 
 if PARSE:
     print("parsing data")
     if name1 == "":
         name1 = csvReader.get_latest_name(name1_base_name)
-    name2 = data_parser.main(name2_base_name, csvReader.readfile(name1))
+    name2 = data_parser.main(name2_base_name, csvReader.readfile(name1), OUTPUT_RESULTS_PATH)
 
 if RENDER:
     print("rendering")
@@ -51,7 +53,7 @@ if RENDER:
         name1 = csvReader.get_latest_name(name1_base_name)
     if name2 == "":
         name2 = csvReader.get_latest_name(name2_base_name)
-    render_main.main(False, name1, name2, "pdf", "./results")
+    render_main.main(False, name1, name2, "pdf", OUTPUT_RESULTS_PATH)
 
 if not RENDER and not PARSE and not MERGE and not CHECK:
     print("no options were selected")

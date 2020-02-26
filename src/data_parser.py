@@ -423,7 +423,7 @@ none found &            {}     & {:.0%}                                &        
     print(f"written to {name} the table of stats on the data")
 
 
-def main(name, data):
+def main(name, data, output_for_latex):
     """
     sets up the files to write the
     """
@@ -443,11 +443,11 @@ def main(name, data):
         writer.writeheader()
 
     run_main(num_worker_threads, data, name)
-    write_to_latex("generated_table.tex", len(data), name)
+    write_to_latex(f"{output_for_latex}/generated_table.tex", len(data), name)
     return f"{name}.csv"
 
 
 if __name__ == '__main__':
-    main("yaml threaded", csvReader.readfile("combined1.csv"))
+    main("yaml threaded", csvReader.readfile("combined1.csv"), "./results")
 
     # check_output("yaml threaded5.csv")
