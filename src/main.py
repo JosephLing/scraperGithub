@@ -56,7 +56,7 @@ if RENDER:
         print("check2")
         name2 = csvReader.get_latest_name(name2_base_name)
     print(f"reading data from {name1} and {name2}")
-    render_main.main(False, name1, name2, "pdf", OUTPUT_RESULTS_PATH)
+    render_main.main(False, name1, name2, "svg", OUTPUT_RESULTS_PATH)
 
 if not RENDER and not PARSE and not MERGE and not CHECK:
     print("no options were selected")

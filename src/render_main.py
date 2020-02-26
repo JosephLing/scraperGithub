@@ -7,7 +7,7 @@ graphing guides:
 
 
 """
-
+import math
 import matplotlib.pyplot as plt
 import csvReader
 import pandas as pd
@@ -165,16 +165,29 @@ def load_dataframe(name):
 
 
 def _value_counts_bar_graph(plot, data):
-    data.pop("travis")
-    data.pop("github")
+    # data.pop("travis")
+    # data.pop("github")
     plot.bar(list(data.keys()), [data[k] for k in data.keys()])
+    plot.xticks(rotation=45)
+    return plot
+
+
+def _value_counts_bar_graph_log(plot, data):
+    print(data.head(5))
+    data = data.to_frame()
+    print(data.columns)
+    print(data.index)
+    print(data.keys())
+    plot.bar(list(data.keys()), [data[k] for k in data.keys()], width=0.5)
+    plot.xticks(rotation=45)
+    plot.rc(({'font.size': 5}))
     return plot
 
 
 def config_bargraph(plot, dataset):
     # returns the config count for all config types
     # note: this doesn't matter if we have multiple configurations in the repo
-    return _value_counts_bar_graph(plot, dataset["config"].value_counts())
+    return _value_counts_bar_graph_log(plot, dataset.groupby(["id", "lang"])["lang"].value_counts())
 
 
 def yaml_config_errors_to_latex(name, dataset):
@@ -184,6 +197,26 @@ def yaml_config_errors_to_latex(name, dataset):
             "\\bottomrule", "").replace("\\\\", "\\\\ \\hline").replace("lrrrr", "|l|l|l|l|l|") + "\\end {table}"
         s = "\n".join([v for v in s.split("\n") if not v.startswith("config")])
         tf.write(s)
+
+
+def foo(dataset):
+    langs = {}
+    for lang in dataset.groupby(["id", "lang"]).size().keys():
+        k = lang[1]
+        if langs.get(lang[1]) is None:
+            langs[lang[1]] = 0
+        langs[lang[1]] += 1
+
+    top = list(langs.items())
+    top.sort(key=lambda x: int(x[1]))
+    top = top[len(top) - 15:]
+    top = dict(top)
+    # plt.rcParams.update({'font.size': 5})
+
+    plot = plt
+    plot.bar(["{}".format(k) for k in top.keys() if k is not None], [top[k] for k in top.keys()])
+    plot.xticks(rotation=45)
+    return plot
 
 
 def config_type_split(name, dataset):
@@ -202,13 +235,14 @@ def config_type_split(name, dataset):
 
 def main(experimenting, name1, name2, image_encoding, output="."):
     if experimenting:
-        data = csvReader.readfile("combined1.csv")
-        sorted_data = csvReader.readfile("yaml threaded6.csv")
+        # data = csvReader.readfile("combined1.csv")
+        # sorted_data = csvReader.readfile("yaml threaded6.csv")
         # spread_of_data_v2(data, sorted_data).show()
         # plt.clf()
         # spread_of_data_line_sub(data, sorted_data).show()
-
-
+        sorted_data = load_dataframe(name2)
+        save_as_pdf(foo(sorted_data), "./results/top15_langs", "svg")
+        save_as_pdf(foo(sorted_data), "./results/top15_langs", "pdf")
     else:
         data = csvReader.readfile(name1)
 
@@ -221,7 +255,8 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         config_type_split(f"{output}/configuration type count.tex", sorted_data)
 
         sorted_data_csv = csvReader.readfile(name2)
-        save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI", image_encoding)
+        save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI",
+                    image_encoding)
         save_as_pdf(spread_of_data_line_sub(data, sorted_data_csv), f"{output}/percentage sub with CI", image_encoding)
 
         render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey",
@@ -232,5 +267,5 @@ def main(experimenting, name1, name2, image_encoding, output="."):
 
 
 if __name__ == '__main__':
-    # main(False, "combined1.csv", "yaml threaded6.csv", "svg")
-    main(True, "combined1.csv", "yaml threaded6.csv", "svg", "results")
+    main(True, "combined1.csv", "yaml threaded6.csv", "svg")
+    # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")
