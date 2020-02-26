@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from os import getenv
 import time
 
-OUTPUT_RESULTS_PATH = OUTPUT_RESULTS_PATH
+OUTPUT_RESULTS_PATH = "./results"
 
 Path(OUTPUT_RESULTS_PATH).mkdir(parents=True, exist_ok=True)
 
@@ -50,9 +50,12 @@ if PARSE:
 if RENDER:
     print("rendering")
     if name1 == "":
+        print("check1")
         name1 = csvReader.get_latest_name(name1_base_name)
     if name2 == "":
+        print("check2")
         name2 = csvReader.get_latest_name(name2_base_name)
+    print(f"reading data from {name1} and {name2}")
     render_main.main(False, name1, name2, "pdf", OUTPUT_RESULTS_PATH)
 
 if not RENDER and not PARSE and not MERGE and not CHECK:

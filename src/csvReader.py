@@ -83,7 +83,7 @@ def get_latest_name(name) -> str:
         count += 1
 
         if count > 10:
-            return ""
+            return f"{name}{count-2}.csv"
 
     # if the file doesn't exist return empty
     if count == 0:
