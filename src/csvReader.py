@@ -90,6 +90,6 @@ def get_latest_name(name) -> str:
         return ""
 
     if count == 1:
-        return name
+        return f"{name}.csv"
 
-    return f"{name}{count - 2}"
+    return f"{name}{count - 2}.csv"

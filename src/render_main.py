@@ -121,6 +121,7 @@ def create_percentage_bar_graphs(stars, name, grouping_amount=540):
 
 
 def save_as_pdf(plot, name, encoding="pdf"):
+    print(f'writing: {name}.{encoding}')
     plot.savefig(f'{name}.{encoding}')
     # delete the graph
     plot.clf()
@@ -219,8 +220,9 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         yaml_config_errors_to_latex("yaml config errors.tex", sorted_data)
         config_type_split("configuration type count.tex", sorted_data)
 
-        save_as_pdf(spread_of_data_line_star(data, sorted_data), f"{output}/percentage stars with CI", image_encoding)
-        save_as_pdf(spread_of_data_line_sub(data, sorted_data), f"{output}/percentage sub with CI", image_encoding)
+        sorted_data_csv = csvReader.readfile(name2)
+        save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI", image_encoding)
+        save_as_pdf(spread_of_data_line_sub(data, sorted_data_csv), f"{output}/percentage sub with CI", image_encoding)
 
         render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey",
                                                                          pd.read_csv(name2, dtype=dtypes), True, True,

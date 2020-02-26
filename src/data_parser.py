@@ -390,8 +390,10 @@ def check_output(name):
             print(line)
             break
 
+
 def pretty_print_percentage():
     pass
+
 
 def write_to_latex(name, no_repos, name_of_filtered):
     filtered = {}
@@ -410,10 +412,11 @@ found in ReadMe & {}     & {:.0%}                                &             &
 none found &            {}     & {:.0%}                                &             &             \\\\ \\hline
 \\end{{tabular}}
 \\end{{table}}
-    """.format(len(filtered), len(filtered)/no_repos, len(filtered_data) - len(filtered), (len(filtered_data) - len(filtered))/len(filtered) ,
-               len(results), len(results)/no_repos,
-               no_repos - len(filtered_data) - len(results), (no_repos - len(filtered_data) - len(results))/no_repos)
-    data = data.replace("%", "\\%") # because latex
+    """.format(len(filtered), len(filtered) / no_repos, len(filtered_data) - len(filtered),
+               (len(filtered_data) - len(filtered)) / len(filtered),
+               len(results), len(results) / no_repos,
+               no_repos - len(filtered_data) - len(results), (no_repos - len(filtered_data) - len(results)) / no_repos)
+    data = data.replace("%", "\\%")  # because latex
     with open(name, "w", encoding="utf-8") as f:
         f.write(data)
 
@@ -441,7 +444,7 @@ def main(name, data):
 
     run_main(num_worker_threads, data, name)
     write_to_latex("generated_table.tex", len(data), name)
-    return name
+    return f"{name}.csv"
 
 
 if __name__ == '__main__':

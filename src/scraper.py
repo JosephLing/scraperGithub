@@ -71,6 +71,16 @@ REPO_KEYS = ["name", "id", "description", "language", "open_issues",
              "stargazers_count", "topics",
              "subscribers_count", "fork", "forks_url"]
 
+FIELDS = REPO_KEYS[:]
+for key in config.PATHS.keys():
+    for j in range(NUMBER_OF_POTENTAIL_FILES):
+        FIELDS.append("{}{}".format(key, j))
+        FIELDS.append("{}{}_file".format(key, j))
+
+for recent_commit in ["recent_commit1", "commits", "recent_commit2", "recent_commit3", "config", "watchers", "readme",
+                      "watch"]:
+    FIELDS.append(recent_commit)
+
 logging.info(f"file name {FILE_NAME}, no page {NO_PAGES}, request timeout {REQUEST_TIMEOUT}, "
              f"iteration f{ITERATION_START} - f{ITERATION_END} incrementing by f{ITERATION_DIFFERENCE}")
 logging.info(f"no of potential config files for github actions: f{NUMBER_OF_POTENTAIL_FILES}, "
@@ -82,14 +92,15 @@ def check_for_empty_repo(repo, path, count=0):
     try:
         return repo.get_contents(path)
     except GithubException as e:
-        if e.status == 404 and e.data.get("message") is not None and  "This repository is empty." in e.data["message"]:
+        if e.status == 404 and e.data.get("message") is not None and "This repository is empty." in e.data["message"]:
             raise EmptyRepository()
         elif e.status >= 500 and e.status < 600 and count < 5:
             # note: this will cause a horrible stacktrace error
             logging.error("first 50 characters: " + e.data[:50])
-            return check_for_empty_repo(repo, path, count+1)
+            return check_for_empty_repo(repo, path, count + 1)
         else:
             raise e
+
 
 def get_commits_info(repo):
     """
@@ -118,6 +129,7 @@ def get_commits_info(repo):
         dictionary["recent_commit3"] = 0
 
     return dictionary
+
 
 def save_repo(repo, content):
     logging.info("saving >>> {}".format(repo.name))
@@ -177,6 +189,7 @@ def fixEncoding(value):
     else:
         return value
 
+
 def get_yaml_from_directory(repo, path):
     """
     @param repo github.Repository object
@@ -201,7 +214,6 @@ def get_yaml_from_directory(repo, path):
         return []
     except EmptyRepository:
         return []
-
 
 
 def process_repo_ci_files(repo):
@@ -324,6 +336,7 @@ def getReposStuff(name, stars_start, stars_end):
     logging.info("finished")
     logging.info("finished going through {} pages of results and got {} results".format(pageination_page, searches))
 
+
 def get_commits_from_ids(name, ids):
     """
     @param name str
@@ -345,7 +358,7 @@ def get_commits_from_ids(name, ids):
         if repo:
             try:
                 data.append({
-                    **{"id":repo_id},
+                    **{"id": repo_id},
                     **get_commits_info(repo)
                 })
             except RateLimitExceededException as e:
@@ -358,7 +371,6 @@ def get_commits_from_ids(name, ids):
         if data:
             csvReader.writeToCsv(data, file_name)
 
-
         if searches == 10:
             data = []
             time.sleep(TIMEOUT)
@@ -369,7 +381,6 @@ def get_commits_from_ids(name, ids):
         time.sleep(TIMEOUT)
 
     logging.info("finished")
-
 
 
 def get_config_from_ids(name, ids):
@@ -406,7 +417,6 @@ def get_config_from_ids(name, ids):
         if data:
             csvReader.writeToCsv(data, file_name)
 
-
         if searches == 10:
             data = []
             time.sleep(TIMEOUT)
@@ -440,6 +450,7 @@ def test_cases():
     logging.info("test cases...")
     ids = [106607705, 155825745]
     get_commits_from_ids(FILE_NAME, ids)
+
 
 def main():
     if GITHUB_TOKEN is None:

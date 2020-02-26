@@ -3,6 +3,8 @@ import lib
 from os import listdir
 from os.path import isfile, join
 
+from scraper import FIELDS
+
 
 def parseFile(config):
     y = None
@@ -75,10 +77,10 @@ def merge(mypath, save=True, query="raptor"):
     if save:
         name = csvReader.check_name("combined")
         if name:
-            csvReader.writeToCsv(list(combined.values()), name)
+            csvReader.writeToCsv(list(combined.values()), name, fields=FIELDS)
         else:
             print("too many combined copies already found")
-        return name
+        return f"{name}.csv"
     return None
 
 
