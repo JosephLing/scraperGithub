@@ -391,8 +391,8 @@ def check_output(name):
             break
 
 
-def pretty_print_percentage():
-    pass
+def format_as_percentage(n):
+    return "{}%".format(round(n * 100,2))
 
 
 def write_to_latex(name, no_repos, name_of_filtered):
@@ -407,15 +407,16 @@ def write_to_latex(name, no_repos, name_of_filtered):
 \\begin{{tabular}}{{|l|l|l|l|l|}}
 \\hline
     CI/CD & \\textbf{{count}} & \\textbf{{repos with config}} & \\textbf{{no. multiple}} & \\textbf{{multiple percent}}   \\\\ \\hline
-config file(s) &           {}     & {:.0%}                                & {}          & {:.0%}             \\\\ \\hline
-found in ReadMe & {}     & {:.0%}                                &             &             \\\\ \\hline
-none found &            {}     & {:.0%}                                &             &             \\\\ \\hline
+config file(s) &           {}     & {}                                & {}          & {}             \\\\ \\hline
+found in ReadMe & {}     & {}                                &             &             \\\\ \\hline
+none found &            {}     & {}                                &             &             \\\\ \\hline
 \\end{{tabular}}
+\caption[Percentage of CI used for projects]{Percentage of CI used for projects}
 \\end{{table}}
-    """.format(len(filtered), len(filtered) / no_repos, len(filtered_data) - len(filtered),
-               (len(filtered_data) - len(filtered)) / len(filtered),
-               len(results), len(results) / no_repos,
-               no_repos - len(filtered_data) - len(results), (no_repos - len(filtered_data) - len(results)) / no_repos)
+    """.format(len(filtered), format_as_percentage(len(filtered) / no_repos), len(filtered_data) - len(filtered),
+               format_as_percentage((len(filtered_data) - len(filtered)) / len(filtered)),
+               len(results), format_as_percentage(len(results) / no_repos),
+               no_repos - len(filtered) - len(results), format_as_percentage((no_repos - len(filtered) - len(results)) / no_repos))
     data = data.replace("%", "\\%")  # because latex
     with open(name, "w", encoding="utf-8") as f:
         f.write(data)
@@ -448,6 +449,6 @@ def main(name, data, output_for_latex):
 
 
 if __name__ == '__main__':
-    main("yaml threaded", csvReader.readfile("combined1.csv"), "./results")
+    main("yaml threaded", csvReader.readfile("combined5.csv"), "./results")
 
     # check_output("yaml threaded5.csv")

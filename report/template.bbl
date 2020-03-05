@@ -1,4 +1,4 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -17,6 +17,10 @@ Copeland, P. (2010). Google's {Innovation} {Factory}: {Testing}, {Culture}, and
   {Conference} on {Software} {Testing}, {Verification} and {Validation}},
   Washington, DC, USA: IEEE Computer Society, {ICST} '10, pp. 11--14.
 
+\bibitem[{Fowler(2010)}]{CI2010_MartinFowler}
+Fowler, M. (2010). Continous integration. In
+  \textit{https://www.martinfowler.com/articles/continuousIntegration.html}.
+
 \bibitem[{Gallaba and McIntosh(2018)}]{Gallaba2018}
 Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
   {Integration} {Features}: {An} {Empirical} {Study} of {Projects} that
@@ -26,6 +30,10 @@ Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
 \bibitem[{github(2017)}]{Github2017}
 github (2017). https://github.blog/2017-11-07-github-welcomes-all-ci-tools/. In
   github.com, ed., \textit{github welcomes all ci tools}.
+
+\bibitem[{GitHub(2020)}]{WreckerOpenSourceGithubSearch}
+GitHub (2020). github filename search for wrecker.yml files. In \textit{github
+  filename search for wrecker.yml files}.
 
 \bibitem[{Gitlab(2020)}]{GitlabDocs2020}
 Gitlab (2020). https://docs.gitlab.com/ee/api/lint.html. In \textit{Gitlab
@@ -62,5 +70,23 @@ Sharma, T., Fragkoulis, M. and Spinellis, D. (2016). Does {Your}
   {Configuration} {Code} {Smell}? In \textit{2016 {IEEE}/{ACM} 13th {Working}
   {Conference} on {Mining} {Software} {Repositories} ({MSR})}, pp. 189--200,
   iSSN: null.
+
+\bibitem[{travis(2017)}]{TravisYamlParserOld2017}
+travis (2017). travis yaml (old repository). In
+  \textit{https://github.com/travis-ci/travis-yaml/}.
+
+\bibitem[{travis(2020)}]{TravisYamlParserNew2020}
+travis (2020). travis yaml new implementation. In
+  \textit{https://github.com/travis-ci/travis-yml/}.
+
+\bibitem[{Vasilescu et~al.(2015)}]{Vasilescu2015}
+Vasilescu, B., Yu, Y., Wang, H., Devanbu, P. and Filkov, V. (2015). Quality and
+  productivity outcomes relating to continuous integration in {GitHub}.
+  Bergamo, Italy: Association for Computing Machinery, {ESEC}/{FSE} 2015, pp.
+  805--816.
+
+\bibitem[{Wrecker and Oracle(2018)}]{WreckerDocs}
+Wrecker and Oracle (2018). Wrecker ci development blog. In \textit{Wrecker CI
+  development blog}.
 
 \end{thebibliography}

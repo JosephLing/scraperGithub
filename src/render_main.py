@@ -193,8 +193,8 @@ def config_bargraph(plot, dataset):
 def yaml_config_errors_to_latex(name, dataset):
     df = dataset.groupby(['config', 'yaml_encoding_error']).size().unstack(fill_value=0)
     with open(name, 'w') as tf:
-        s = "\\begin {table}[h]" + df.to_latex().replace("\\midrule", "").replace("\\toprule", "\\hline").replace(
-            "\\bottomrule", "").replace("\\\\", "\\\\ \\hline").replace("lrrrr", "|l|l|l|l|l|") + "\\end {table}"
+        s = "\\begin {table}[!htbp]" + df.to_latex(caption="cats", bold_rows=True).replace("\\midrule", "").replace("\\toprule", "\\hline").replace(
+            "\\bottomrule", "").replace("\\begin{table}", "").replace("\centering", "").replace("\\\\", "\\\\ \\hline").replace("lrrr", "|l|l|l|l|")
         s = "\n".join([v for v in s.split("\n") if not v.startswith("config")])
         tf.write(s)
 
@@ -208,14 +208,15 @@ def foo(dataset):
         langs[lang[1]] += 1
 
     top = list(langs.items())
-    top.sort(key=lambda x: int(x[1]))
-    top = top[len(top) - 15:]
+    top.sort(key=lambda x: x[1])
+    top = top[len(top) - 10:]
     top = dict(top)
     # plt.rcParams.update({'font.size': 5})
 
     plot = plt
-    plot.bar(["{}".format(k) for k in top.keys() if k is not None], [top[k] for k in top.keys()])
+    plot.bar(["{}".format(k) for k in top.keys() if k is not None and k != ""], [top[k] for k in top.keys()])
     plot.xticks(rotation=45)
+    # plot.show()
     return plot
 
 
@@ -226,8 +227,8 @@ def config_type_split(name, dataset):
     df = df.to_frame()
     df["percentage"] = values
 
-    s = "\\begin {table}[h]" + df.to_latex().replace("\\midrule", "").replace("\\toprule", "\\hline").replace(
-        "\\bottomrule", "").replace("\\\\", "\\\\ \\hline").replace("lrrrr", "|l|l|l|l|l|") + "\\end {table}"
+    s = "\\begin {table}[!htbp]" + df.to_latex(caption="dogs").replace("\\midrule", "").replace("\\toprule", "\\hline").replace(
+        "\\bottomrule", "").replace("\\begin{table}", "").replace("\centering", "").replace("\\\\", "\\\\ \\hline").replace("lrrrr", "|l|l|l|l|l|")
 
     with open(name, 'w') as tf:
         tf.write(s)
@@ -245,27 +246,33 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         save_as_pdf(foo(sorted_data), "./results/top15_langs", "pdf")
     else:
         data = csvReader.readfile(name1)
-
-        save_as_pdf(spread_of_data_sub_to_stars(data), f"{output}/sub vs stars", image_encoding)
-        save_as_pdf(spread_over_time_stars(data), f"{output}/spread over time", image_encoding)
-        save_as_pdf(spread_data_issues_vs_stars(data), f"{output}/issues vs stars", image_encoding)
+        #
+        # save_as_pdf(spread_of_data_sub_to_stars(data), f"{output}/sub vs stars", image_encoding)
+        # save_as_pdf(spread_over_time_stars(data), f"{output}/spread over time", image_encoding)
+        # save_as_pdf(spread_data_issues_vs_stars(data), f"{output}/issues vs stars", image_encoding)
 
         sorted_data = load_dataframe(name2)
         yaml_config_errors_to_latex(f"{output}/yaml config errors.tex", sorted_data)
         config_type_split(f"{output}/configuration type count.tex", sorted_data)
 
-        sorted_data_csv = csvReader.readfile(name2)
-        save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI",
-                    image_encoding)
-        save_as_pdf(spread_of_data_line_sub(data, sorted_data_csv), f"{output}/percentage sub with CI", image_encoding)
+        # sorted_data_csv = csvReader.readfile(name2)
+        # save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI",
+        #             image_encoding)
+        # save_as_pdf(spread_of_data_line_sub(data, sorted_data_csv), f"{output}/percentage sub with CI", image_encoding)
 
-        render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey",
-                                                                         pd.read_csv(name2, dtype=dtypes), True, True,
-                                                                         image_encoding)
+        # render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey",
+        #                                                                  pd.read_csv(name2, dtype=dtypes), False, False,
+        #                                                                  image_encoding)
+        # render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey2",
+        #                                                                  pd.read_csv(name2, dtype=dtypes), False, True,
+        #                                                                  image_encoding)
+        # render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey3",
+        #                                                                  pd.read_csv(name2, dtype=dtypes), True, False,
+        #                                                                  image_encoding)
 
         print("finished building")
 
 
 if __name__ == '__main__':
-    main(True, "combined1.csv", "yaml threaded6.csv", "svg")
+    main(False, "combined5.csv", "yaml threaded9.csv", "pdf", "./results")
     # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")
