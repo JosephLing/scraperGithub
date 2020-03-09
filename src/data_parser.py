@@ -412,6 +412,7 @@ found in ReadMe & {}     & {}                                &             &    
 none found &            {}     & {}                                &             &             \\\\ \\hline
 \\end{{tabular}}
 \caption[Percentage of CI used for projects]{Percentage of CI used for projects}
+\\label{{table_ci_usage}}
 \\end{{table}}
     """.format(len(filtered), format_as_percentage(len(filtered) / no_repos), len(filtered_data) - len(filtered),
                format_as_percentage((len(filtered_data) - len(filtered)) / len(filtered)),
