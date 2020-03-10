@@ -311,7 +311,10 @@ class GetCommentStat(unittest.TestCase):
                 'single_line_comment': 0,
                 'todo': 0,
                 'version': 0,
-                'file_lines': 0}
+                'file_lines': 0,
+                'powershell':0,
+                'bash':0
+                }
 
 
 class GetCommentStatsYaml(GetCommentStat):
@@ -351,8 +354,28 @@ class GetCommentStatsYaml(GetCommentStat):
         expected["file_lines"] = 119
         expected["blank_lines"] = 2
         expected["code"] = 117
+        expected["bash"] = 1
 
         self.assertEqual(expected, get_comment_stats(example_files_test_cases[1], yaml_thing))
+
+    def test_code_with_comment_comment_having_bash(self):
+        expected = self.gen_default()
+        expected["code_with_comments"] = 1
+        expected["code"] = 1
+        expected["comments"] = 1
+        expected["file_lines"] = 1
+
+        self.assertEqual(expected, get_comment_stats("cats # dogs.sh", yaml_thing))
+
+    def test_code_with_comment_code_having_bash(self):
+        expected = self.gen_default()
+        expected["code_with_comments"] = 1
+        expected["code"] = 1
+        expected["comments"] = 1
+        expected["file_lines"] = 1
+        expected["bash"] = 1
+
+        self.assertEqual(expected, get_comment_stats("cats.sh # dogs", yaml_thing))
 
     def test_todo_comment(self):
         expected = self.gen_default()

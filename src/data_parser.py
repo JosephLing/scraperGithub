@@ -25,7 +25,7 @@ FILTERS = {
 FIELDS = [*FILTERS.keys(), "comments", "blank_lines", "code", "config", "lang", "yaml_encoding_error",
           "code_with_comments",
           "stars", "sub", "data", "id", "single_line_comment", "config_name", "multi_line_comment_unique",
-          "multi_line_comment", "file_lines", "yaml"]
+          "multi_line_comment", "file_lines", "yaml", "bash", "powershell"]
 
 dtypes = {**{"comments": int, "blank_lines": int, "code": int, "config": str,
              "lang": str,
@@ -183,7 +183,7 @@ def get_comment_stats(file_as_string, func_comments):
     result = {}
 
     for filter_type in [*FILTERS.keys(), "comments", "blank_lines", "code_with_comments", "code",
-                        "multi_line_comment_unique", "single_line_comment", "multi_line_comment"]:
+                        "multi_line_comment_unique", "single_line_comment", "multi_line_comment", "bash", "powershell"]:
         result[filter_type] = 0
     multi = 0
     comments = func_comments(yaml_file_lines)
@@ -210,12 +210,23 @@ def get_comment_stats(file_as_string, func_comments):
                 else:
                     result = handle_multiple(multi, result)
                     multi = 0
+                    yaml_line = yaml_line.replace(comment, "")  # get rid of the comment from the line of code
+                    if yaml_line and len(re.findall("\w+\.sh", yaml_line)) != 0:
+                        result["bash"] += 1
+                    if yaml_line and len(re.findall("\w+\.ps1", yaml_line)) != 0:
+                        result["powershell"] += 1
 
                     result["code"] += 1
                     result["code_with_comments"] += 1
             else:
                 result = handle_multiple(multi, result)
                 multi = 0
+
+                if yaml_line and len(re.findall("\w+\.sh", yaml_line)) != 0:
+                    result["bash"] += 1
+
+                if yaml_line and len(re.findall("\w+\.ps1", yaml_line)) != 0:
+                    result["powershell"] += 1
 
                 # moved this into an else as is_commment_in_string returns just the comment
                 # therefore if it is empty then it must be code

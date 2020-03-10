@@ -34,6 +34,19 @@ def spread_of_data_sub_to_stars(data):
     return plot
 
 
+def lines_against_scripts(data):
+    data["scripts"] = data["bash"] + data["powershell"]
+    plot = plt
+    plot.xlabel('no. lines in file')
+    plot.ylabel('no. scripts used in file')
+    data = data.sort_values(by=["code"])
+
+    plot.boxplot(data["code"], data["scripts"])
+
+    plot.legend()
+    return plot
+
+
 def spread_of_data_v2(data, sorted_data):
     plot = spread_of_data_sub_to_stars(data)
 
@@ -202,6 +215,22 @@ def config_bargraph(plot, dataset):
     return _value_counts_bar_graph_log(plot, dataset.groupby(["id", "lang"])["lang"].value_counts())
 
 
+def scripts_latex(name, sorted_data):
+    df = sorted_data[(sorted_data["powershell"] > 0) | (sorted_data["bash"] > 0)].groupby("config")[
+        ["bash", "powershell"]].sum()
+
+    with open(name, 'w') as tf:
+        s = df.to_latex(caption="sum of scripts used", label="table:scripts used",
+                                                bold_rows=True).replace("\\midrule", "").replace("\\toprule",
+                                                                                                 "\\hline").replace(
+            "\\bottomrule", "").replace("\\begin{table}", "").replace("\centering", "").replace("\\\\",
+                                                                                                "\\\\ \\hline").replace(
+            "lrr", "|l|l|l|")
+        s = "\n".join([v for v in s.split("\n") if not v.startswith("\\textbf{config")]).replace(
+            "yaml\_encoding\_error", "config")
+        tf.write(s)
+
+
 def yaml_config_errors_to_latex(name, dataset):
     df = dataset.groupby(['config', 'yaml_encoding_error']).size().unstack(fill_value=0)
     thing = dataset[dataset["yaml"]]["config"].value_counts()
@@ -340,6 +369,33 @@ def comment_usage(data):
     return plt
 
 
+def script_usage(data):
+    import numpy as np
+    # set width of bar
+    barWidth = 0.25
+
+    df = data[(data["powershell"] > 0) | (data["bash"] > 0)].groupby("config")[["bash", "powershell"]].mean()
+    bars = []
+    for config in df.columns:
+        bars.append(list(df[config]))
+
+    # Set position of bar on X axis
+    r1 = np.arange(len(bars[0]))
+    r2 = [x + barWidth for x in r1]
+
+    # Make the plot
+    plt.bar(r1, bars[0], color='#7f6d5f', width=barWidth, edgecolor='white', label=df.columns[0])
+    plt.bar(r2, bars[1], color='#557f2d', width=barWidth, edgecolor='white', label=df.columns[1])
+
+    # Add xticks on the middle of the group bars
+    plt.ylabel("average")
+    plt.xlabel('configuration', fontweight='bold')
+    plt.xticks([r + barWidth for r in range(len(bars[0]))], list(df.index))
+    plt.xticks(rotation=45)
+    plt.legend()
+    return plt
+
+
 def main(experimenting, name1, name2, image_encoding, output="."):
     if experimenting:
         # data = csvReader.readfile("combined1.csv")
@@ -375,11 +431,18 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         #                                                                  pd.read_csv(name2, dtype=dtypes), True, False,
         #
         # save_as_pdf(line_usage_configuration(sorted_data), f"{output}/basic comments bars", image_encoding)
-        save_as_pdf(comment_usage(sorted_data), f"{output}/comments usage bars", image_encoding)
+        # save_as_pdf(comment_usage(sorted_data), f"{output}/comments usage bars", image_encoding)
 
-        print("finished building")
+        # print(sorted_data.groupby("config").size().unstack(fill_value=0))
+        # print(sorted_data.groupby(["config", "powershell"]).size().to_frame())
+        # print(sorted_data.groupby(["config", "bash"]).size().to_frame())
+        # print("finished building")
+        # save_as_pdf(script_usage(sorted_data), f"{output}/scripts usage bars", image_encoding)
+        # scripts_latex(f"{output}/scripts table.tex", sorted_data)
+        save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
+        return sorted_data
 
 
 if __name__ == '__main__':
-    main(False, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
+    data = main(False, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
     # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")

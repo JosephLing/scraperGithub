@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  10 MAR 2020 12:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  10 MAR 2020 16:42
 entering extended mode
 **c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
 (c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
@@ -486,25 +486,25 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 ]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 75.
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 73.
  ("C:\Users\Joe\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 75.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 73.
  [2] [3] [4]
 <2020-01-30-08-29-04.png, id=64, 895.09406pt x 213.79875pt>
 File: 2020-01-30-08-29-04.png Graphic file (type png)
 <use 2020-01-30-08-29-04.png>
-Package pdftex.def Info: 2020-01-30-08-29-04.png  used on input line 120.
+Package pdftex.def Info: 2020-01-30-08-29-04.png  used on input line 118.
 (pdftex.def)             Requested size: 447.54593pt x 106.89911pt.
 
-Overfull \hbox (57.54593pt too wide) in paragraph at lines 120--121
+Overfull \hbox (57.54593pt too wide) in paragraph at lines 118--119
  [][] 
  []
 
 
-Overfull \hbox (22.44574pt too wide) in paragraph at lines 134--138
+Overfull \hbox (22.44574pt too wide) in paragraph at lines 132--136
 \OT1/cmr/m/n/12 Actions/YAML-validator-for-Github-Actions-possible-expansion-of/td-p/29557).
  []
 
@@ -517,12 +517,12 @@ Overfull \hbox (62.77277pt too wide) in paragraph at lines 3--10
 <../src/results/sub vs stars.pdf, id=73, 462.52798pt x 346.89601pt>
 File: ../src/results/sub vs stars.pdf Graphic file (type pdf)
 <use ../src/results/sub vs stars.pdf>
-Package pdftex.def Info: ../src/results/sub vs stars.pdf  used on input line 156.
+Package pdftex.def Info: ../src/results/sub vs stars.pdf  used on input line 154.
 (pdftex.def)             Requested size: 390.0pt x 292.51282pt.
 <../src/results/spread over time.pdf, id=74, 462.52798pt x 346.89601pt>
 File: ../src/results/spread over time.pdf Graphic file (type pdf)
 <use ../src/results/spread over time.pdf>
-Package pdftex.def Info: ../src/results/spread over time.pdf  used on input line 165.
+Package pdftex.def Info: ../src/results/spread over time.pdf  used on input line 163.
 (pdftex.def)             Requested size: 390.0pt x 292.51282pt.
 
 Underfull \vbox (badness 1478) has occurred while \output is active []
@@ -531,24 +531,24 @@ Underfull \vbox (badness 1478) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [9]
-Overfull \hbox (0.8391pt too wide) in paragraph at lines 183--184
+Overfull \hbox (0.8391pt too wide) in paragraph at lines 181--182
 \OT1/cmr/m/n/12 Below shows all the CI projects sorted then grouped to-gether per 540 projects.
  []
 
 <../src/results/percentage stars with CI.pdf, id=149, 462.52798pt x 346.89601pt>
 File: ../src/results/percentage stars with CI.pdf Graphic file (type pdf)
 <use ../src/results/percentage stars with CI.pdf>
-Package pdftex.def Info: ../src/results/percentage stars with CI.pdf  used on input line 189.
+Package pdftex.def Info: ../src/results/percentage stars with CI.pdf  used on input line 187.
 (pdftex.def)             Requested size: 168.47736pt x 126.35927pt.
 <../src/results/percentage sub with CI other paper source.pdf, id=150, 462.52798pt x 346.89601pt>
 File: ../src/results/percentage sub with CI other paper source.pdf Graphic file (type pdf)
 <use ../src/results/percentage sub with CI other paper source.pdf>
-Package pdftex.def Info: ../src/results/percentage sub with CI other paper source.pdf  used on input line 196.
+Package pdftex.def Info: ../src/results/percentage sub with CI other paper source.pdf  used on input line 194.
 (pdftex.def)             Requested size: 168.47736pt x 126.35927pt.
 <../src/results/percentage sub with CI.pdf, id=151, 462.52798pt x 346.89601pt>
 File: ../src/results/percentage sub with CI.pdf Graphic file (type pdf)
 <use ../src/results/percentage sub with CI.pdf>
-Package pdftex.def Info: ../src/results/percentage sub with CI.pdf  used on input line 209.
+Package pdftex.def Info: ../src/results/percentage sub with CI.pdf  used on input line 207.
 (pdftex.def)             Requested size: 117.00119pt x 87.75066pt.
 [10 <../src/results/percentage stars with CI.pdf> <../src/results/percentage sub with CI other paper source.pdf
 
@@ -568,49 +568,79 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 <../src/results/basic comments bars.pdf, id=262, 462.52798pt x 346.89601pt>
 File: ../src/results/basic comments bars.pdf Graphic file (type pdf)
 <use ../src/results/basic comments bars.pdf>
-Package pdftex.def Info: ../src/results/basic comments bars.pdf  used on input line 345.
+Package pdftex.def Info: ../src/results/basic comments bars.pdf  used on input line 343.
 (pdftex.def)             Requested size: 390.0pt x 292.51282pt.
 
-Underfull \hbox (badness 1342) in paragraph at lines 367--368
+Underfull \hbox (badness 1342) in paragraph at lines 365--366
 \OT1/cmr/m/n/12 were key dif-fer-ent types of com-
  []
 
 
-Underfull \hbox (badness 1028) in paragraph at lines 367--368
+Underfull \hbox (badness 1028) in paragraph at lines 365--366
 \OT1/cmr/m/n/12 (e.g. //todo). In or-der to in-
  []
 
 <../src/results/comments usage bars.pdf, id=263, 462.52798pt x 346.89601pt>
 File: ../src/results/comments usage bars.pdf Graphic file (type pdf)
 <use ../src/results/comments usage bars.pdf>
-Package pdftex.def Info: ../src/results/comments usage bars.pdf  used on input line 372.
+Package pdftex.def Info: ../src/results/comments usage bars.pdf  used on input line 370.
 (pdftex.def)             Requested size: 187.19833pt x 140.40213pt.
 [14 <../src/results/basic comments bars.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [15 <../src/results/comments usage bars.pdf>] [16] (c:/Users\Joe\workspace\researchProject\scraper\report\template.bbl [17]
+ [15 <../src/results/comments usage bars.pdf>]
+<../src/results/scripts usage bars.pdf, id=373, 462.52798pt x 346.89601pt>
+File: ../src/results/scripts usage bars.pdf Graphic file (type pdf)
+<use ../src/results/scripts usage bars.pdf>
+Package pdftex.def Info: ../src/results/scripts usage bars.pdf  used on input line 395.
+(pdftex.def)             Requested size: 187.19833pt x 140.40213pt.
+ ("../src/results/scripts table.tex"
+Overfull \hbox (15.28424pt too wide) in paragraph at lines 2--15
+[][] 
+ []
+
+)
+<../src/results/scripts vs lines.pdf, id=374, 462.52798pt x 346.89601pt>
+File: ../src/results/scripts vs lines.pdf Graphic file (type pdf)
+<use ../src/results/scripts vs lines.pdf>
+Package pdftex.def Info: ../src/results/scripts vs lines.pdf  used on input line 411.
+(pdftex.def)             Requested size: 390.0pt x 292.51282pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[16 <../src/results/scripts usage bars.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17 <../src/results/scripts vs lines.pdf>] [18]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [19]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20] (c:/Users\Joe\workspace\researchProject\scraper\report\template.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 21--23
 []\OT1/cmr/m/n/12 Fowler, M. (2010). Con-ti-nous in-te-gra-tion. In
  []
 
-
+[21]
 Underfull \hbox (badness 6078) in paragraph at lines 43--45
 []\OT1/cmr/m/n/12 Jenkins (2020). https://jenkins.io/doc/book/pipeline/development/. In
  []
 
-[18]) [19] (c:/Users\Joe\workspace\researchProject\scraper\report\template.aux) ) 
+[22]) [23] (c:/Users\Joe\workspace\researchProject\scraper\report\template.aux) ) 
 Here is how much of TeX's memory you used:
- 14859 strings out of 492484
- 297801 string characters out of 3122508
- 349784 words of memory out of 3000000
- 18882 multiletter control sequences out of 15000+200000
+ 14878 strings out of 492484
+ 298512 string characters out of 3122508
+ 349814 words of memory out of 3000000
+ 18896 multiletter control sequences out of 15000+200000
  10276 words of font info for 37 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,11n,83p,840b,969s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 68i,11n,83p,873b,969s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (20 pages, 448435 bytes).
+Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (24 pages, 484193 bytes).
 PDF statistics:
- 418 PDF objects out of 1000 (max. 8388607)
+ 508 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 154 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 164 words of extra memory for PDF output out of 10000 (max. 10000000)
 

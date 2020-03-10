@@ -61,8 +61,6 @@ United Kingdom \\ \vspace{10mm} \\ Word Count: 6,100}
 \section{Introduction}
 \label{Introduction}
 
-https://arxiv.org/ftp/arxiv/papers/1703/1703.07019.pdf
-
 Continous integeration (CI) is becoming more popular over the last few years. This can be seen by how major version control hosting services Github, Bitbucket and Gitlab have all started to or have been improving their CI product. In terms of research, configuration as code \cite{Rahman2019} and continuous integeration \cite{Copeland2010} with \cite{Shahin2017} demonstrating breadth of the research.
 
 Continous integeration is a process of automatically running compiling, running tests and checking that the product works. This is can be combined with Continous Delivery where the product is deployed or released after it has gone through CI. 
@@ -82,7 +80,7 @@ This should give us a better understanding of the sample of repositories from Gi
 \begin{itemize}
   \item configuratizon errors when loading the config (just yaml parsing errors atm)
   \item how are comments used in the configuration?
-  \item how scripts with the configuration files? (need to elloborate more on this one)
+  \item Are external scripts used within the configuration?
 \end{itemize}
 
 A key aspect is that these questions do not look too deeply into the individual implementation of each CI system. This is because there are already some good papers looking \cite{Gallaba2018} at this but in order to be able to compare the different configuration types it is important to compare similar attributes (there is also a time factor in here as well). 
@@ -383,29 +381,71 @@ Overall we have found that comments are not used a lot. In the cases that they a
 \pagebreak
 
 \vspace*{-0.05in}
-\subsection{How are script tags used?}
+\subsection{Are external scripts used within the configuration?}
 \vspace*{-0.05in}
 
-- how scripts with the configuration files? (need to elloborate more on this one)
+An external script is a bash or powershell script typically depending on the operating system. It can be used to build, deploy or do any step that CI takes. The key difference between it and the CI configutation is that it be executed on a users machine. Therefore you do get some setups where you have scripts defined for building and deploying the code that the users and CI both use. Most CI systems allow for "script" tags to be used which could be descibed as an internal script. Therefore external scripts are defined outside the CI configuration in the directory.
+
+The methodology we used to handle this was too look at how many bash or powershell scripts where used in CI. Using the code the parsed the yaml files for comments we were able to check do a using a regular expression for either of those files.  
+
+
+\begin{figure}[!ht]
+  \centering
+  \begin{minipage}[!t]{.48\textwidth}
+      \includegraphics[width=\textwidth]{../src/results/scripts usage bars.pdf}
+      \caption[alt text]{Comment types}
+      \label{fig:script_usage}  
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[!t]{.48\textwidth}
+    \input{../src/results/scripts table.tex}
+  \end{minipage}
+\end{figure}
+
+
+In Figure \ref{fig:script_usage} we have the average number of times a script is used for a configuration file that already has a script being used.
+
+As some of the necessary actions are being done in the scripts and not in the CI file. Potentailly there could be less lines of code in the configuration for files that use scripts. However in Figure \ref{fig:script_scatter_lines} we can see that the data is all over the place.
+
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../src/results/scripts vs lines.pdf}
+  \caption[alt text]{Comment types}
+  \label{fig:script_scatter_lines}  
+\end{figure}
+
+To conclude we can see that scripts are used but that much. And their no correlation between lines of code and usage of external scripts.
+
+
+\pagebreak
 
 \section{Threats to validatity}
 
-strength and validaltiy section 
-- possible issues
-- baise assume in the data
-- e.g. sampling vai star
-- focusing on github
-- problematic of scraping tool
+The major and most obivious threat is the sample gathered from scraping the data from Github. This has already been touched on in the \ref{methodology} section but now we are going to look at it in more detail.
+
+Firstly if we assume that the scraping works perfectly then it's only at maximum a 1000 open source projects per star. That is excluding closed source projects which would range from personal projects to companies. As well as it is only data from Github not from gitlab, bitbucket or other version control hosting services. This leads to bais in the data for example if gitlab was also scraped then we would get a lot more gitlab ci files. However in order to get best spread of data Github has the best api and most servies do not tie you down to use only their service. As well although we could get a 1000 projects per star we were still able to get around 30,000 projects and a wide spread across Github. The key aspect being that because it was a sample we focused on getting a good spread of data.
+
+Secondly the scraping script is not perfect in how it finds configuration files. As it only looks in the top level directory for the file name pattern described in their docs or unique folder. Therefore if the systems allowed many different names or different names in past it wouldn't have picked it CI system. Additionally we only decided to scrape for certain CI files. Yet we chose a good scope based on previous research into the top CI files. As well the scraping script has been tested worked on to try and minimise any bugs. In the case that we did not pick up a CI file we ran a regexp against the ReadMe file to get a better understanding of the error bounds.
+
+Thirdly identifying which projects are programming projects or would have a need for CI. Based on the research \cite{Kalliamvakou2014} it is important to filter out repositories that aren't part of the question being asked. Therefore we could have looked to try and filter out github static sites and other none software based projects. However if assume a certain type of project won't be using CI then we would be introducing bais when trying to answer how CI is used. For further research better labelling of what kind of projects are which would potentailly benefical though.
+
+% strength and validaltiy section 
+% - possible issues
+% - baise assume in the data
+% - e.g. sampling vai star
+% - focusing on github
+% - problematic of scraping tool
 
 
+\pagebreak
 
 
 
 \section{Summary}
 
 asdfasdf
+should be another 400 words
 
-55df26ae2061a09c5830423efc280783897fe8c9
+
 \vspace*{-0.05in}
 \subsection{Discussion and further research}
 \vspace*{-0.05in}
