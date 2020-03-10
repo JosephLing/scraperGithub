@@ -12,6 +12,7 @@
 
 
 future:
+- graph axis labelling not working it is being cut off
 - bar graph done properly
   - x axis labelling being clearer
     - review write up to put some numbers to this when this is done!!!

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  10 MAR 2020 09:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  10 MAR 2020 10:21
 entering extended mode
 **c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
 (c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
@@ -579,43 +579,43 @@ Overfull \hbox (4.05441pt too wide) in paragraph at lines 332--332
 []              \OT1/cmtt/m/n/8 pip install -r requirements.txt[] 
  []
 
-<../src/results/sankey.pdf, id=259, 530.98375pt x 380.42125pt>
-File: ../src/results/sankey.pdf Graphic file (type pdf)
-<use ../src/results/sankey.pdf>
-Package pdftex.def Info: ../src/results/sankey.pdf  used on input line 345.
-(pdftex.def)             Requested size: 390.0pt x 279.41759pt.
+<../src/results/basic comments bars.pdf, id=259, 462.52798pt x 346.89601pt>
+File: ../src/results/basic comments bars.pdf Graphic file (type pdf)
+<use ../src/results/basic comments bars.pdf>
+Package pdftex.def Info: ../src/results/basic comments bars.pdf  used on input line 347.
+(pdftex.def)             Requested size: 390.0pt x 292.51282pt.
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[13] [14 <../src/results/sankey.pdf
-
-pdfTeX warning: pdflatex (file ../src/results/sankey.pdf): PDF inclusion: invalid other resource which is no dict (key 'ProcSets', type <array>); ignored.
->]
 Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [13]
+Underfull \vbox (badness 4193) has occurred while \output is active []
+
+ [14 <../src/results/basic comments bars.pdf>]
+Underfull \vbox (badness 6125) has occurred while \output is active []
 
  [15] (c:/Users\Joe\workspace\researchProject\scraper\report\template.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 21--23
 []\OT1/cmr/m/n/12 Fowler, M. (2010). Con-ti-nous in-te-gra-tion. In
  []
 
-
+[16]
 Underfull \hbox (badness 6078) in paragraph at lines 43--45
 []\OT1/cmr/m/n/12 Jenkins (2020). https://jenkins.io/doc/book/pipeline/development/. In
  []
 
-[16]) [17] (c:/Users\Joe\workspace\researchProject\scraper\report\template.aux) ) 
+[17]) [18] (c:/Users\Joe\workspace\researchProject\scraper\report\template.aux) ) 
 Here is how much of TeX's memory you used:
  14851 strings out of 492484
- 297420 string characters out of 3122508
+ 297500 string characters out of 3122508
  350766 words of memory out of 3000000
  18875 multiletter control sequences out of 15000+200000
  10276 words of font info for 37 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,11n,83p,840b,969s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (18 pages, 427428 bytes).
+Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (19 pages, 427744 bytes).
 PDF statistics:
- 318 PDF objects out of 1000 (max. 8388607)
+ 363 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  149 words of extra memory for PDF output out of 10000 (max. 10000000)
 
