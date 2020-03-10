@@ -13,9 +13,9 @@
 \usepackage{etoolbox}
 \makeatletter
 \patchcmd{\@verbatim}
-  {\verbatim@font}
-  {\verbatim@font\scriptsize}
-  {}{}
+{\verbatim@font}
+{\verbatim@font\scriptsize}
+{}{}
 \makeatother
 \usepackage[final]{pdfpages}
 \usepackage{xcolor}
@@ -29,11 +29,11 @@
 % An empirical comparison of the structure of configuration files of continuous integration and build systems
 \title{Usage and structure of continuous integration as configuration?}
 \author{Joseph Ling\\\vspace{10mm}
-       \url{jl653@kent.ac.uk} \\ \vspace{5mm}
-       \includegraphics[scale=0.6]{Kent_Comp_294_RGB} \\
-       School of Computing \\
-       University of Kent \\
-       United Kingdom \\ \vspace{10mm} \\ Word Count: 6,100}
+\url{jl653@kent.ac.uk} \\ \vspace{5mm}
+\includegraphics[scale=0.6]{Kent_Comp_294_RGB} \\
+School of Computing \\
+University of Kent \\
+United Kingdom \\ \vspace{10mm} \\ Word Count: 6,100}
 \begin{document}
 
 \newgeometry{hmarginratio=1:1}    %% make layout symmetric
@@ -41,21 +41,21 @@
 \restoregeometry              %% restore the layout
 
 \begin{abstract}
-This paper describes a simple heuristic approach to solving large-scale
-constraint satisfaction and scheduling problems.  In this approach one
-starts with an inconsistent assignment for a set of variables and
-searches through the space of possible repairs. The search can be guided
-by a value-ordering heuristic, the {\em min-conflicts heuristic}, that
-attempts to minimize the number of constraint violations after each
-step.  The heuristic can be used with a variety of different search
-strategies.  We demonstrate empirically that on the $n$-queens problem, 
-a technique
-based on this approach performs orders of magnitude better than
-traditional backtracking techniques.  We also describe a
-scheduling application where the approach has been used successfully.  A
-theoretical analysis is presented both to explain why this method works
-well on certain types of problems and to predict when it is likely to
-be most effective.
+  This paper describes a simple heuristic approach to solving large-scale
+  constraint satisfaction and scheduling problems.  In this approach one
+  starts with an inconsistent assignment for a set of variables and
+  searches through the space of possible repairs. The search can be guided
+  by a value-ordering heuristic, the {\em min-conflicts heuristic}, that
+  attempts to minimize the number of constraint violations after each
+  step.  The heuristic can be used with a variety of different search
+  strategies.  We demonstrate empirically that on the $n$-queens problem, 
+  a technique
+  based on this approach performs orders of magnitude better than
+  traditional backtracking techniques.  We also describe a
+  scheduling application where the approach has been used successfully.  A
+  theoretical analysis is presented both to explain why this method works
+  well on certain types of problems and to predict when it is likely to
+  be most effective.
 \end{abstract}
 
 \section{Introduction}
@@ -118,7 +118,7 @@ After we have got a repository we need to get the CI/CD files from it. This is f
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.5]{2020-01-30-08-29-04.png}
-
+  
   \caption[alt text]{Example of CI tag for Github ReadMe}
   \label{ExampleGitHubReadme}
 \end{figure}
@@ -200,7 +200,7 @@ Below shows all the CI projects sorted then grouped together per 540 projects. T
   \caption{In Figure \ref{fig:test1} is the results from this research and in Figure \ref{fig:test2} is the results from \cite{Hilton2016}.
   }
 \end{figure}
-  
+
 Here we are comparing whether or not in the last 4 years the number of stars increases the CI being used. Their seems to a steeper gradient in the more recent datasets. However as \ref{fig:test1} starts at zero stars and \ref{fig:test2} starts at 100 stars their is signifacant dip at the start of the first graph.
 
 \begin{figure}[!h]
@@ -235,15 +235,15 @@ In looking at this metric the hypothesis was that it would have a sharper rise i
   \begin{minipage}[t]{.48\textwidth}
     \begin{verbatim}
       definitions: 
-        steps:
-          - step: &build-test
-              name: Build and test
-              script:
-                - mvn package
-          - step: &build-test
-              name: deploy
-              script:
-                  - ./deploy.sh target/my-app.jar
+      steps:
+      - step: &build-test
+      name: Build and test
+      script:
+      - mvn package
+      - step: &build-test
+      name: deploy
+      script:
+      - ./deploy.sh target/my-app.jar
     \end{verbatim}
   \end{minipage}
 \end{figure}
@@ -303,7 +303,7 @@ An example configuration file below for Github actions using the default templat
   \centering
   \begin{minipage}[t]{.48\textwidth}
     In order to pick up on all these different types of comments. All the CI files were parsed and then regular expressions were used to pick on up key factors such as "note:". Along with multiple single line comments which made up a block/multi-line comment.
-
+    
     For example in to the left there is an example Github Action yaml file. If were it would be parsed we would get: one multi line comment, 15 lines of code, 1 single line comment, a total of 5 comments and 20 lines in the file. Therefore their is a their is a raito of 4:1 for code in this config file.
   \end{minipage}%
   \hfill
@@ -312,41 +312,73 @@ An example configuration file below for Github actions using the default templat
       name: Python package
       on: [push]
       jobs:
-        build:
-          runs-on: ubuntu-latest
-          steps:
-          - uses: actions/checkout@v2
-          - name: Set up Python
-            uses: actions/setup-python@v1
-            # note: only works with python 3
-            with:
-              python-version: 3.8
-          - name: Install dependencies
-            run: |
-              python -m pip install --upgrade pip
-              pip install -r requirements.txt
-    #      - name: Test with pytest
-    #        run: |
-    #          pip install pytest
-    #          pytest ./src
-      \end{verbatim}
+      build:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+      uses: actions/setup-python@v1
+      # note: only works with python 3
+      with:
+      python-version: 3.8
+      - name: Install dependencies
+      run: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+      #      - name: Test with pytest
+      #        run: |
+      #          pip install pytest
+      #          pytest ./src
+    \end{verbatim}
   \end{minipage}
 \end{figure}
 
+% NOTE: NEED TO EXPLAIN CODE_WITH_COMMENTS
 
+Initally before we look at the comments it is important to understand how the rest of the file is made up. In the graph below (Figure \ref{fig:bar_comments_lines}) it shows how each configuration type is made up by mean of each part of the file. For all the yaml based configurations lines of code and number of lines in total are very close. Then for the number of commments being very very small on average.
 
+In the case for Jenkins pipelines and teamcity there is a much higher usage of having code with commments. 
 
-
-
-line count box plots for each config type
-
-% total:code:blank_lines:comments (code_with_comments)
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{../src/results/basic comments bars.pdf}
-  \caption[alt text]{Sankey daigram}
+  \caption[alt text]{Mean of line counts}
+  \label{fig:bar_comments_lines}
 \end{figure}
+
+Raitos:
+\begin{itemize}
+  \item{code: comments}
+  \item{code: line total}
+  \item{code: blank lines}
+  \item{single line comment: multiline comment}
+  \item{single line comment: code with comment}
+\end{itemize}
+
+
+
+
+
+
+\begin{figure}[!ht]
+  \centering
+  \begin{minipage}[!t]{.48\textwidth}
+    In Figure \ref{fig:comment_types} a regular expression was used to label the comments. There were key different types of comment that we wanted to find. The first being the commented out code which we did by searching for version numbers in commments. The second being useful information about the structure of the CI file such todo, note, importanat comments (e.g. //todo). In order to increase the search for this we included searching for urls and seperation comments (e.g. //===).
+    
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[!t]{.48\textwidth}
+    \includegraphics[width=\textwidth]{../src/results/comments usage bars.pdf}
+    \caption[alt text]{Comment types}
+    \label{fig:comment_types}  
+  \end{minipage}
+\end{figure}
+
+From labelling the comments in Figure \ref{fig:comment_types} we can see that having commments with versions in and urls is most common. This could indicate comments from templates or how they are commented. Although yet again the amount of labels found on average is still very low.
+
+Overall we have found that comments are not used a lot. In the cases that they are used it's more likely to be from a configuration template or commenting out configuration.
+% NOTE: update this when raitos are done
 
 \pagebreak
 
@@ -361,7 +393,7 @@ line count box plots for each config type
 strength and validaltiy section 
 - possible issues
 - baise assume in the data
-	 - e.g. sampling vai star
+- e.g. sampling vai star
 - focusing on github
 - problematic of scraping tool
 

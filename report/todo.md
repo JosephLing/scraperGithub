@@ -1,5 +1,4 @@
 - comments 
-  - size 
   - raitos of comments to line and code per config
 
 - threats section needs writing
@@ -27,3 +26,5 @@ future:
 done:
 - labels
 - look into how to compare with other paper properly as currently they are using similar method but not the same
+- comments 
+  - size 

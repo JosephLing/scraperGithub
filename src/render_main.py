@@ -261,11 +261,12 @@ def config_type_split(name, dataset):
         tf.write(s)
 
 
-def line_usage_configuration(data):
+def line_usage_configuration(data, only_comments=False):
     import numpy as np
     # set width of bar
     barWidth = 0.25
-
+    if only_comments:
+        data = data[data["comments"] > 0]
     df = data.groupby("config")[["blank_lines", "comments", "code", "file_lines", "code_with_comments"]].mean()
 
     # set height of bar
@@ -293,6 +294,45 @@ def line_usage_configuration(data):
 
     # Add xticks on the middle of the group bars
     plt.ylabel("lines")
+    plt.xlabel('configuration', fontweight='bold')
+    plt.xticks([r + barWidth for r in range(len(bars[0]))], list(df.index))
+    plt.xticks(rotation=45)
+    plt.legend()
+    return plt
+
+
+def comment_usage(data):
+    import numpy as np
+    # set width of bar
+    barWidth = 0.25
+
+    df = data[data["comments"] > 0].groupby("config")[["version", "http", "header", "important", "todo"]].mean()
+    print(df)
+    # set height of bar
+    # bars1 = [12, 30, 1, 8, 22]
+    # bars2 = [28, 6, 16, 5, 10]
+    # bars3 = [29, 3, 24, 25, 17]
+    #
+    bars = []
+    for config in df.columns:
+        bars.append(list(df[config]))
+
+    # Set position of bar on X axis
+    r1 = np.arange(len(bars[0]))
+    r2 = [x + barWidth for x in r1]
+    r3 = [x + barWidth for x in r2]
+    r4 = [x + barWidth for x in r3]
+    r5 = [x + barWidth for x in r4]
+
+    # Make the plot
+    plt.bar(r1, bars[0], color='#7f6d5f', width=barWidth, edgecolor='white', label=df.columns[0])
+    plt.bar(r2, bars[1], color='#557f2d', width=barWidth, edgecolor='white', label=df.columns[1])
+    plt.bar(r3, bars[2], color='blue', width=barWidth, edgecolor='white', label=df.columns[2])
+    plt.bar(r4, bars[3], color='red', width=barWidth, edgecolor='white', label=df.columns[3])
+    plt.bar(r5, bars[4], color='#2d7f5e', width=barWidth, edgecolor='white', label=df.columns[4])
+
+    # Add xticks on the middle of the group bars
+    plt.ylabel("average")
     plt.xlabel('configuration', fontweight='bold')
     plt.xticks([r + barWidth for r in range(len(bars[0]))], list(df.index))
     plt.xticks(rotation=45)
@@ -334,7 +374,8 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey3",
         #                                                                  pd.read_csv(name2, dtype=dtypes), True, False,
         #
-        save_as_pdf(line_usage_configuration(sorted_data), f"{output}/basic comments bars", image_encoding)
+        # save_as_pdf(line_usage_configuration(sorted_data), f"{output}/basic comments bars", image_encoding)
+        save_as_pdf(comment_usage(sorted_data), f"{output}/comments usage bars", image_encoding)
 
         print("finished building")
 

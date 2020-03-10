@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  10 MAR 2020 10:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  10 MAR 2020 12:08
 entering extended mode
 **c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
 (c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
@@ -556,12 +556,7 @@ pdfTeX warning: pdflatex (file ../src/results/percentage sub with CI other paper
 > <../src/results/percentage sub with CI.pdf
 
 pdfTeX warning: pdflatex (file ../src/results/percentage sub with CI.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->]
-Overfull \hbox (21.05466pt too wide) in paragraph at lines 247--247
-[]                  \OT1/cmtt/m/n/8 - ./deploy.sh target/my-app.jar[] 
- []
-
-("../src/results/yaml config errors.tex"
+>] ("../src/results/yaml config errors.tex"
 Overfull \hbox (82.13826pt too wide) in paragraph at lines 5--18
 [][] 
  []
@@ -569,53 +564,53 @@ Overfull \hbox (82.13826pt too wide) in paragraph at lines 5--18
 ) [11]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [12]
-Overfull \hbox (21.05466pt too wide) in paragraph at lines 332--332
-[]              \OT1/cmtt/m/n/8 python -m pip install --upgrade pip[] 
- []
-
-
-Overfull \hbox (4.05441pt too wide) in paragraph at lines 332--332
-[]              \OT1/cmtt/m/n/8 pip install -r requirements.txt[] 
- []
-
-<../src/results/basic comments bars.pdf, id=259, 462.52798pt x 346.89601pt>
+ [12] [13]
+<../src/results/basic comments bars.pdf, id=262, 462.52798pt x 346.89601pt>
 File: ../src/results/basic comments bars.pdf Graphic file (type pdf)
 <use ../src/results/basic comments bars.pdf>
-Package pdftex.def Info: ../src/results/basic comments bars.pdf  used on input line 347.
+Package pdftex.def Info: ../src/results/basic comments bars.pdf  used on input line 345.
 (pdftex.def)             Requested size: 390.0pt x 292.51282pt.
 
+Underfull \hbox (badness 1342) in paragraph at lines 367--368
+\OT1/cmr/m/n/12 were key dif-fer-ent types of com-
+ []
+
+
+Underfull \hbox (badness 1028) in paragraph at lines 367--368
+\OT1/cmr/m/n/12 (e.g. //todo). In or-der to in-
+ []
+
+<../src/results/comments usage bars.pdf, id=263, 462.52798pt x 346.89601pt>
+File: ../src/results/comments usage bars.pdf Graphic file (type pdf)
+<use ../src/results/comments usage bars.pdf>
+Package pdftex.def Info: ../src/results/comments usage bars.pdf  used on input line 372.
+(pdftex.def)             Requested size: 187.19833pt x 140.40213pt.
+[14 <../src/results/basic comments bars.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [13]
-Underfull \vbox (badness 4193) has occurred while \output is active []
-
- [14 <../src/results/basic comments bars.pdf>]
-Underfull \vbox (badness 6125) has occurred while \output is active []
-
- [15] (c:/Users\Joe\workspace\researchProject\scraper\report\template.bbl
+ [15 <../src/results/comments usage bars.pdf>] [16] (c:/Users\Joe\workspace\researchProject\scraper\report\template.bbl [17]
 Underfull \hbox (badness 10000) in paragraph at lines 21--23
 []\OT1/cmr/m/n/12 Fowler, M. (2010). Con-ti-nous in-te-gra-tion. In
  []
 
-[16]
+
 Underfull \hbox (badness 6078) in paragraph at lines 43--45
 []\OT1/cmr/m/n/12 Jenkins (2020). https://jenkins.io/doc/book/pipeline/development/. In
  []
 
-[17]) [18] (c:/Users\Joe\workspace\researchProject\scraper\report\template.aux) ) 
+[18]) [19] (c:/Users\Joe\workspace\researchProject\scraper\report\template.aux) ) 
 Here is how much of TeX's memory you used:
- 14851 strings out of 492484
- 297500 string characters out of 3122508
- 350766 words of memory out of 3000000
- 18875 multiletter control sequences out of 15000+200000
+ 14859 strings out of 492484
+ 297801 string characters out of 3122508
+ 349784 words of memory out of 3000000
+ 18882 multiletter control sequences out of 15000+200000
  10276 words of font info for 37 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,11n,83p,840b,969s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (19 pages, 427744 bytes).
+Output written on c:/Users\Joe\workspace\researchProject\scraper\report\template.pdf (20 pages, 448435 bytes).
 PDF statistics:
- 363 PDF objects out of 1000 (max. 8388607)
+ 418 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 149 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 154 words of extra memory for PDF output out of 10000 (max. 10000000)
 
