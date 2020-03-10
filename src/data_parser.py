@@ -233,16 +233,25 @@ def get_yaml_encoding_error(fileasstring):
     blob = None
     try:
         blob = yaml.safe_load(fileasstring)
-    except yaml.composer.ComposerError:
+    except yaml.composer.ComposerError as e:
         yaml_encoding_error = "composer error"
-    except yaml.scanner.ScannerError:
+        # print(f"composer: {e}")
+    except yaml.scanner.ScannerError as e:
         yaml_encoding_error = "scanner error"
-    except yaml.parser.ParserError:
+        # print(f"scanner: {e}")
+
+    except yaml.parser.ParserError as e:
         yaml_encoding_error = "parse error"
-    except yaml.constructor.ConstructorError:
+        # print(f"parse: {e}\n{fileasstring}")
+
+    except yaml.constructor.ConstructorError as  e:
         yaml_encoding_error = "constructor error"
-    except yaml.reader.ReaderError:
+        print(f"constructor: {e}\n{fileasstring}")
+
+    except yaml.reader.ReaderError as e:
         yaml_encoding_error = "reader error"
+        print(f"reader: {e}")
+
     return yaml_encoding_error
 
 
@@ -450,6 +459,6 @@ def main(name, data, output_for_latex):
 
 
 if __name__ == '__main__':
-    main("yaml threaded", csvReader.readfile("combined5.csv"), "./results")
+    main("yaml threaded", csvReader.readfile("combined9.csv"), "./results")
 
     # check_output("yaml threaded5.csv")

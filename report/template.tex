@@ -211,7 +211,7 @@ Here we are comparing whether or not in the last 4 years the number of stars inc
   \label{graph_percentage_subs}
 \end{figure}
 
-Figure \ref{graph_percentage_subs} uses the same method as Figure \ref{graph_percentage_stars} except is does it based the number of subscribers. Subscribers are used on github to keep update on the changes on the project. This ranges from core team memembers working on the project to people that want to be notified about a new release. 
+Figure \ref{graph_percentage_subs} uses the same method as Figure TODO SORT except is does it based the number of subscribers. Subscribers are used on github to keep update on the changes on the project. This ranges from core team memembers working on the project to people that want to be notified about a new release. 
 In looking at this metric the hypothesis was that it would have a sharper rise in percentage of projects using CI per subscriber. However that was not the case overall the gradient is not as strong. There is no comparisson to \cite{Hilton2016} because their final corpus does not contain subscriber count for each project.
 
 
@@ -225,15 +225,77 @@ In looking at this metric the hypothesis was that it would have a sharper rise i
 \subsection{configuration errors when loading the config (just yaml parsing errors atm)}
 \vspace*{-0.05in}
 
+\begin{figure}[!h]
+  \centering
+  \begin{minipage}[t]{.48\textwidth}
+    \textbf{Composer error}
+    In the example it has two steps that are using an yaml anchor. This allows for the yaml below it to be referenced somewhere else. However if you define the anchor twice it causes a composer error. As you have two references for the samething so it won't know which one to use.
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{.48\textwidth}
+    \begin{verbatim}
+      definitions: 
+        steps:
+          - step: &build-test
+              name: Build and test
+              script:
+                - mvn package
+          - step: &build-test
+              name: deploy
+              script:
+                  - ./deploy.sh target/my-app.jar
+    \end{verbatim}
+  \end{minipage}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \begin{minipage}[t]{.48\textwidth}
+    \textbf{Scanner error}
+    The first step of loading the yaml is to scan it to create the tokens. However invalid characters such as "\textbackslash t" are invalid. 
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{.48\textwidth}
+    \begin{verbatim}
+      definitions: \t
+    \end{verbatim}
+  \end{minipage}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+  \begin{minipage}[t]{.48\textwidth}
+    \textbf{Parse error}
+    In this example it has scanned the file and created tokens for the syntax. Now it parses the syntax and works out if each token is valid given it's current context. In this case a closing ] without an opening [ is invalid.
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{.48\textwidth}
+    \begin{verbatim}
+      definitions: ]
+    \end{verbatim}
+  \end{minipage}
+\end{figure}
+
 \input{../src/results/yaml config errors.tex}
 
+As can be seen in the table their our configuration files with yaml errors meaning that the CI for that project will not load. Yet it seems that a very small percentage of projects that have them. For example the two highest configuration types with errors are drone (36.90\%) followed by travis (0.348\%).
 
-\vspace*{-0.05in}
-\subsection{How are comments used in configuration?}
-\vspace*{-0.05in}
-The assumption was the as continuous integeration setups can be complicated and have edge cases. That with configuration comments would be used to describe and handle that complexity.
+In the case for drone all the errors are for the same type of error. Potentailly this could be because of how anchors are a lot more common in drone.
 
-An example configuration file \ref{yamlExample} for Github actions using the default template slightly altered. Shows two examples of comment usage, the first being including useful information about why a particular version of the programming language was chosen. The second is that the tests have been disabled by commenting them out. 
+For travis it is the most common form of CI found therefore it is more likely to contain more errors. Yet with such a small amount it seems like yaml errors aren't a major problem in CI. Although as they are required to be fixed in order for the CI to run the chances of it working are higher and a more detailed study would need to be done.... ah
+
+
+\pagebreak
+
+\begin{figure}[!ht]
+  \vspace*{-0.05in}
+  \subsection{How are comments used in configuration?}
+  \vspace*{-0.05in}
+\end{figure}
+
+
+The assumption was the as continuous integeration setups can be complicated and have edge cases. Therefore comments would be used to describe and handle that complexity.
+
+An example configuration file below for Github actions using the default template slightly altered. Shows two examples of comment usage, the first being including useful information about why a particular version of the programming language was chosen. The second is that the tests have been disabled by commenting them out. 
 
 
 
@@ -271,13 +333,10 @@ An example configuration file \ref{yamlExample} for Github actions using the def
   \end{minipage}
 \end{figure}
 
-% \begin{figure}[!htbp]
 
-% \end{figure}
 
-woo fancy table of data showing how comments aren't used often
 
-for those that do use comments look at the usage
+
 
 line count box plots for each config type
 

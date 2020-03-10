@@ -12,15 +12,22 @@ def load_dataframe(name):
 def save_sanky_daigram_for_errors_and_comments(name, dataset, normalise, medain, encoding="svg"):
     df = dataset.groupby(['config', 'yaml_encoding_error']).size().unstack(fill_value=0)
     df_configs = dataset[dataset['yaml_encoding_error'].isnull()]["config"].value_counts()
+    print(df_configs)
+    print(df.index)
+    
+    count = len(df.index)-1
+    print(f"the count is: {count}")
     # df_comments = dataset[dataset["yaml"] & (dataset["yaml_encoding_error"].isnull())]
 
     # labels is errors, config, valid config, comments, blank lines, code
     labels = list(df.keys())
     for i in df.index:
         labels.append(i)    
+        print(labels[-1])
 
     for i in df.index:
         labels.append("{} valid".format(i))
+        print(labels[-1])
 
     labels.append("comments")
     labels.append("blank lines")
@@ -32,21 +39,23 @@ def save_sanky_daigram_for_errors_and_comments(name, dataset, normalise, medain,
     for k in range(len(df.keys())):
         for v in range(len(df[df.keys()[k]])):
             if df[df.keys()[k]][v] != 0:
-                sources.append(4 + v)
+                sources.append(count + v)
                 targets.append(k)
                 values.append(df[df.keys()[k]][v])
+                print(df[df.keys()[k]][v])
 
     for i in range(len(df.index)):
-        sources.append(4 + i)
-        targets.append(8 + i)
+        sources.append(count + i)
+        targets.append((count * 2) + i)
         values.append(df_configs[df.index[i]])
 
     comments = []
     blank = []
     code = []
     for i in range(len(df.index)):
-        config_comments = dataset[dataset["yaml"] & (dataset["yaml_encoding_error"].isnull())][
-            dataset["config"] == df.index[i]]
+        config_comments = dataset[dataset["yaml"] & (dataset["yaml_encoding_error"].isnull())][dataset["config"] == df.index[i]]
+        # print("{}{}".format(config_comments[dataset["comments"].notnull()]["comments"].mean(), df.index[i]))
+        # print("{}{}".format(config_comments[dataset["blank_lines"].notnull()]["blank_lines"].mean(), df.index[i]))
         if medain:
             comments.append(config_comments[dataset["comments"].notnull()]["comments"].median())
             blank.append(config_comments[dataset["blank_lines"].notnull()]["blank_lines"].median())
@@ -56,7 +65,7 @@ def save_sanky_daigram_for_errors_and_comments(name, dataset, normalise, medain,
             blank.append(config_comments[dataset["blank_lines"].notnull()]["blank_lines"].mean())
             code.append(config_comments[dataset["code"].notnull()]["code"].mean())
 
-        
+
     for i in range(len(comments)):
         total = comments[i] + blank[i] + code[i]
         if not normalise:
@@ -69,17 +78,17 @@ def save_sanky_daigram_for_errors_and_comments(name, dataset, normalise, medain,
             code[i] = (code[i] / total) * math.log2(df_configs[df.index[i]])
 
     for i in range(len(df.index)):
-        sources.append(8 + i)
+        sources.append((count * 2) + i)
         targets.append(12)
         values.append(comments[i])
 
     for i in range(len(df.index)):
-        sources.append(8 + i)
+        sources.append((count * 2) + i)
         targets.append(13)
         values.append(blank[i])
 
     for i in range(len(df.index)):
-        sources.append(8 + i)
+        sources.append((count * 2) + i)
         targets.append(14)
         values.append(code[i])
 
@@ -110,13 +119,14 @@ def save_sanky_daigram_for_errors_and_comments(name, dataset, normalise, medain,
         ))])
 
     fig.update_layout(title_text="Analysis of yaml continous integeration file formats", font_size=10)
-    # fig.write_html('first_figure.html', auto_open=True)
-    plotly.io.write_image(fig, f"{name}.{encoding}")
+    fig.write_html(f'{name}.html', auto_open=True)
+    return comments, code, blank, df.index
+    # plotly.io.write_image(fig, f"{name}.{encoding}")
 
 
 if __name__ == "__main__":
-    dataset = load_dataframe("yaml threaded6.csv")
-    save_sanky_daigram_for_errors_and_comments("1",dataset, True, True)
-    save_sanky_daigram_for_errors_and_comments("2",dataset, False, True)
-    save_sanky_daigram_for_errors_and_comments("3",dataset, True, False)
-    save_sanky_daigram_for_errors_and_comments("4",dataset, False, False)
+    dataset = load_dataframe("yaml threaded9.csv")
+    # save_sanky_daigram_for_errors_and_comments("1",dataset, True, True)
+    # save_sanky_daigram_for_errors_and_comments("2",dataset, False, True)
+    # save_sanky_daigram_for_errors_and_comments("3",dataset, True, False)
+    comments, code, blank, configs = save_sanky_daigram_for_errors_and_comments("count",dataset, False, False)

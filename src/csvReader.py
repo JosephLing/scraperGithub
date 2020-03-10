@@ -70,7 +70,7 @@ def check_name(name, debug=True) -> str:
         count += 1
         if debug:
             print(f"{name}{count}.csv already exists trying alternative name")
-        if count > 10:
+        if count > 15:
             return ""
     return new_name
 
