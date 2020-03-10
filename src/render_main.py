@@ -41,7 +41,19 @@ def lines_against_scripts(data):
     plot.ylabel('no. scripts used in file')
     data = data.sort_values(by=["code"])
 
-    plot.boxplot(data["code"], data["scripts"])
+    plot.plot(data["code"], data["scripts"])
+
+    plot.legend()
+    return plot
+
+def stars_against_lines(data):
+    data["scripts"] = data["bash"] + data["powershell"]
+    plot = plt
+    plot.xlabel('stars')
+    plot.ylabel('no. scripts used in file')
+    data = data.sort_values(by=["stars"])
+
+    plot.plot(data["stars"], data["scripts"])
 
     plot.legend()
     return plot
@@ -440,6 +452,7 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # save_as_pdf(script_usage(sorted_data), f"{output}/scripts usage bars", image_encoding)
         # scripts_latex(f"{output}/scripts table.tex", sorted_data)
         save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
+        save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
         return sorted_data
 
 

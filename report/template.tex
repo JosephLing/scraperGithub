@@ -33,7 +33,7 @@
 \includegraphics[scale=0.6]{Kent_Comp_294_RGB} \\
 School of Computing \\
 University of Kent \\
-United Kingdom \\ \vspace{10mm} \\ Word Count: 6,100}
+United Kingdom \\ \vspace{10mm} \\ Word Count: around 4,400}
 \begin{document}
 
 \newgeometry{hmarginratio=1:1}    %% make layout symmetric
@@ -41,27 +41,13 @@ United Kingdom \\ \vspace{10mm} \\ Word Count: 6,100}
 \restoregeometry              %% restore the layout
 
 \begin{abstract}
-  This paper describes a simple heuristic approach to solving large-scale
-  constraint satisfaction and scheduling problems.  In this approach one
-  starts with an inconsistent assignment for a set of variables and
-  searches through the space of possible repairs. The search can be guided
-  by a value-ordering heuristic, the {\em min-conflicts heuristic}, that
-  attempts to minimize the number of constraint violations after each
-  step.  The heuristic can be used with a variety of different search
-  strategies.  We demonstrate empirically that on the $n$-queens problem, 
-  a technique
-  based on this approach performs orders of magnitude better than
-  traditional backtracking techniques.  We also describe a
-  scheduling application where the approach has been used successfully.  A
-  theoretical analysis is presented both to explain why this method works
-  well on certain types of problems and to predict when it is likely to
-  be most effective.
+  Continous integeration (CI) is becoming more popular as software development moves to an Agile fast paced development cycle. Most CI is run based of configuration therefore how much is it acutally being used? As well as how are these files being structured? We got XXXX open source projects from Github to answer these questions. In doing so compared our results against \cite{Hilton2016} work to see if their has been a increase in usage. We found a shift in CI services being used and were able to get similar results to their study. In terms of structure we found that configuration files are written with no comments normally. We suggest at the end further research is needed to get a better understanding of this growing field.    
 \end{abstract}
 
 \section{Introduction}
 \label{Introduction}
 
-Continous integeration (CI) is becoming more popular over the last few years. This can be seen by how major version control hosting services Github, Bitbucket and Gitlab have all started to or have been improving their CI product. In terms of research, configuration as code \cite{Rahman2019} and continuous integeration \cite{Copeland2010} with \cite{Shahin2017} demonstrating breadth of the research.
+xContinous integeration (CI) is becoming more popular over the last few years. This can be seen by how major version control hosting services Github, Bitbucket and Gitlab have all started to or have been improving their CI product. In terms of research, configuration as code \cite{Rahman2019} and continuous integeration \cite{Copeland2010} with \cite{Shahin2017} demonstrating breadth of the research.
 
 Continous integeration is a process of automatically running compiling, running tests and checking that the product works. This is can be combined with Continous Delivery where the product is deployed or released after it has gone through CI. 
 
@@ -405,13 +391,23 @@ The methodology we used to handle this was too look at how many bash or powershe
 
 In Figure \ref{fig:script_usage} we have the average number of times a script is used for a configuration file that already has a script being used.
 
-As some of the necessary actions are being done in the scripts and not in the CI file. Potentailly there could be less lines of code in the configuration for files that use scripts. However in Figure \ref{fig:script_scatter_lines} we can see that the data is all over the place.
+As some of the necessary actions are being done in the scripts and not in the CI file. Potentailly there could be less lines of code in the configuration for files that use scripts. However in Figure \ref{fig:script_scatter_lines} we can see that the data is very spikey with outliers. Then in Figure \ref{fig:script_scatter_lines2} we can see the same affect when trying to see if the more popular a project is affects the chances of it using CI.
 
-\begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../src/results/scripts vs lines.pdf}
-  \caption[alt text]{Comment types}
-  \label{fig:script_scatter_lines}  
+\begin{figure}[!ht]
+  \centering
+  \begin{minipage}[!t]{.48\textwidth}
+    \includegraphics[width=\textwidth]{../src/results/scripts vs lines.pdf}
+    \caption{no. scripts to no. lines}
+    \label{fig:script_scatter_lines}    
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[!t]{.48\textwidth}
+    \includegraphics[width=\textwidth]{../src/results/scripts vs stars.pdf}
+    \caption{no. scripts to stars}
+    \label{fig:script_scatter_lines2}
+  \end{minipage}
 \end{figure}
+
 
 To conclude we can see that scripts are used but that much. And their no correlation between lines of code and usage of external scripts.
 
@@ -442,9 +438,9 @@ Thirdly identifying which projects are programming projects or would have a need
 
 \section{Summary}
 
-asdfasdf
-should be another 400 words
+We got a sample of XXXX open source projects from Github and were able to compare that to a previous study 4 years ago. In doing so we found that usage of CI projects was similar and that more popular a project the higher chance it would be using CI. This lined with the research from 4 years ago. The major change was the increase in popularility of Github Actions taking over second place from Circleci. Additionally we look at whether or not the number of people watching the project had the same effect. It did but to a lesser extent.
 
+In terms of structure of CI configuration we looked each line of was used in context of comments. We found that a very few projects use comments in their CI. In terms of how they used scripts, we found the majority of projects do not use external scripts.
 
 \vspace*{-0.05in}
 \subsection{Discussion and further research}
@@ -465,14 +461,10 @@ In addition working on pruning our dataset using methods outlined in \cite{Kalli
 % Looking into whether or not that assumption is the case. Then looking commit count to see if projects with more commits are more likely to use CI.
 
 \section{Acknowledgement}
-The authors wish to thank Hans-Martin Adorf, Don Rosenthal, 
-Richard Franier, Peter Cheeseman and Monte Zweben for their assistance
-and advice.  We also thank Ron Musick and our anonymous reviewers for
-their comments.  The Space Telescope Science Institute is operated by
-the Association of Universities for Research in Astronomy for NASA.
+We wish to thank Michael Hilton in particular for providing the corpus for their research \cite{Hilton2016}. 
 
-\appendix
-\section*{Appendix A. Probability Distributions for N-Queens}
+% \appendix
+% \section*{Appendix A. Probability Distributions for N-Queens}
 
 
 [section ommitted]
