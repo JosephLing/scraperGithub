@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{18}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -53,6 +53,11 @@ Michael~Hilton, K.~H., Timothy~Tunnell, Marinov, D. and Dig, D. (2016). Usage,
   costs, and benefits of continuous integration in open-source projects
   {\textbar} {Proceedings} of the 31st {IEEE}/{ACM} {International}
   {Conference} on {Automated} {Software} {Engineering}.
+
+\bibitem[{mscoutermarsh Github memeber~of staff(2019)}]{Github2019ForumPost}
+mscoutermarsh Github memeber~of staff (2019). Yaml validator for github actions
+  possible expansion of variables. In \textit{YAML validator for Github Actions
+  possible expansion of variables}.
 
 \bibitem[{Rahman, Mahdavi-Hezaveh and Williams(2019)}]{Rahman2019}
 Rahman, A., Mahdavi-Hezaveh, R. and Williams, L. (2019). A systematic mapping

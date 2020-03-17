@@ -1,8 +1,8 @@
 - comments 
   - raitos of comments to line and code per config
-- proof read
 
 future:
+- proof read again and again (specailly with a fresh pair of eyes)
 - conclusion and abstract need TLC
 - decide if the first two graphs should go side by side or not, specailly as page 8 currently just seems to be one graph....
 - scripts percentages
