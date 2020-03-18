@@ -263,7 +263,7 @@ def yaml_config_errors_to_latex(name, dataset):
         tf.write(s)
 
 
-def foo(dataset):
+def langues_topn(dataset):
     langs = {}
     for lang in dataset.groupby(["id", "lang"]).size().keys():
         k = lang[1]
@@ -273,7 +273,7 @@ def foo(dataset):
 
     top = list(langs.items())
     top.sort(key=lambda x: x[1])
-    top = top[len(top) - 10:]
+    # top = top[len(top) - 10:]
     top = dict(top)
     # plt.rcParams.update({'font.size': 5})
 
@@ -416,8 +416,7 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # plt.clf()
         # spread_of_data_line_sub(data, sorted_data).show()
         sorted_data = load_dataframe(name2)
-        save_as_pdf(foo(sorted_data), "./results/top15_langs", "svg")
-        save_as_pdf(foo(sorted_data), "./results/top15_langs", "pdf")
+        save_as_pdf(langues_topn(sorted_data), "./results/top15_langs", "pdf")
     else:
         data = csvReader.readfile(name1)
         # #
@@ -453,6 +452,8 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # scripts_latex(f"{output}/scripts table.tex", sorted_data)
         save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
         save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
+        save_as_pdf(langues_topn(sorted_data), "./results/top15_langs", image_encoding)
+
         return sorted_data
 
 

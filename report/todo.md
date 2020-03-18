@@ -45,3 +45,4 @@ conclusion notes:
 
   key take away - that a lot CI uses in built stuff and doesn't use comments
 
+![](2020-03-18-09-11-43.png)![](2020-03-18-09-12-16.png)

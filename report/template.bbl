@@ -4,6 +4,15 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\eprint}[2][]{\url{#2}}
 
+\bibitem[{Bra(????{\natexlab{a}})}]{BranchGITFLOW2010}
+ (????{\natexlab{a}}).
+
+\bibitem[{Bra(????{\natexlab{b}})}]{BranchGITHUBFLOW2017}
+ (????{\natexlab{b}}).
+
+\bibitem[{Bra(????{\natexlab{c}})}]{BranchTrunk2013}
+ (????{\natexlab{c}}).
+
 \bibitem[{Cito et~al.(2017)}]{Cito2017}
 Cito, J., Schermann, G., Wittern, J.~E., Leitner, P., Zumberi, S. and Gall,
   H.~C. (2017). An {Empirical} {Analysis} of the {Docker} {Container}
@@ -18,8 +27,7 @@ Copeland, P. (2010). Google's {Innovation} {Factory}: {Testing}, {Culture}, and
   Washington, DC, USA: IEEE Computer Society, {ICST} '10, pp. 11--14.
 
 \bibitem[{Fowler(2010)}]{CI2010_MartinFowler}
-Fowler, M. (2010). Continous integration. In
-  \textit{https://www.martinfowler.com/articles/continuousIntegration.html}.
+Fowler, M. (2010). Continous integration. In \textit{Continuous Integration}.
 
 \bibitem[{Gallaba and McIntosh(2018)}]{Gallaba2018}
 Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
@@ -27,37 +35,29 @@ Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
   (mis)use {Travis} {CI}. \textit{IEEE Transactions on Software Engineering},
   pp. 1--1.
 
-\bibitem[{github(2017)}]{Github2017}
-github (2017). https://github.blog/2017-11-07-github-welcomes-all-ci-tools/. In
-  github.com, ed., \textit{github welcomes all ci tools}.
+\bibitem[{Github(2017)}]{Github2017}
+Github (2017). Github welcomes all ci tools. In github.com, ed., \textit{Github
+  welcomes all ci tools}.
 
 \bibitem[{GitHub(2020)}]{WreckerOpenSourceGithubSearch}
 GitHub (2020). github filename search for wrecker.yml files. In \textit{github
   filename search for wrecker.yml files}.
-
-\bibitem[{Gitlab(2020)}]{GitlabDocs2020}
-Gitlab (2020). https://docs.gitlab.com/ee/api/lint.html. In \textit{Gitlab
-  docs}.
-
-\bibitem[{Jenkins(2020)}]{JenkkinsDocs2020}
-Jenkins (2020). https://jenkins.io/doc/book/pipeline/development/. In
-  \textit{Jenkins documentation}.
 
 \bibitem[{Kalliamvakou et~al.(2014)}]{Kalliamvakou2014}
 Kalliamvakou, E., Gousios, G., Blincoe, K., Singer, L., German, D.~M. and
   Damian, D. (2014). The promises and perils of mining {GitHub}. Hyderabad,
   India: Association for Computing Machinery, {MSR} 2014, pp. 92--101.
 
+\bibitem[{Ling(2019)}]{GithubRepoExample}
+Ling, J. (2019). Cu worhsip song list creator - a repository taken over for
+  testing. In \textit{CU Worhsip Song List Creator - a repository taken over
+  for testing}.
+
 \bibitem[{Michael~Hilton, Marinov and Dig(2016)}]{Hilton2016}
 Michael~Hilton, K.~H., Timothy~Tunnell, Marinov, D. and Dig, D. (2016). Usage,
   costs, and benefits of continuous integration in open-source projects
   {\textbar} {Proceedings} of the 31st {IEEE}/{ACM} {International}
   {Conference} on {Automated} {Software} {Engineering}.
-
-\bibitem[{mscoutermarsh Github memeber~of staff(2019)}]{Github2019ForumPost}
-mscoutermarsh Github memeber~of staff (2019). Yaml validator for github actions
-  possible expansion of variables. In \textit{YAML validator for Github Actions
-  possible expansion of variables}.
 
 \bibitem[{Rahman, Mahdavi-Hezaveh and Williams(2019)}]{Rahman2019}
 Rahman, A., Mahdavi-Hezaveh, R. and Williams, L. (2019). A systematic mapping
@@ -76,13 +76,8 @@ Sharma, T., Fragkoulis, M. and Spinellis, D. (2016). Does {Your}
   {Conference} on {Mining} {Software} {Repositories} ({MSR})}, pp. 189--200,
   iSSN: null.
 
-\bibitem[{travis(2017)}]{TravisYamlParserOld2017}
-travis (2017). travis yaml (old repository). In
-  \textit{https://github.com/travis-ci/travis-yaml/}.
-
-\bibitem[{travis(2020)}]{TravisYamlParserNew2020}
-travis (2020). travis yaml new implementation. In
-  \textit{https://github.com/travis-ci/travis-yml/}.
+\bibitem[{Tsvilik(2020)}]{GithubReadMeExample}
+Tsvilik, S. (2020). wdio-docker-service. In \textit{wdio-docker-service}.
 
 \bibitem[{Vasilescu et~al.(2015)}]{Vasilescu2015}
 Vasilescu, B., Yu, Y., Wang, H., Devanbu, P. and Filkov, V. (2015). Quality and

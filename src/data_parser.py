@@ -431,13 +431,14 @@ config file(s) &           {}     & {}                                & {}      
 found in ReadMe & {}     & {}                                &             &             \\\\ \\hline
 none found &            {}     & {}                                &             &             \\\\ \\hline
 \\end{{tabular}}
-\caption[Percentage of CI used for projects]{Percentage of CI used for projects}
+\caption[Percentage of CI used for projects]{Percentage of CI used for projects out of a sample of {} }
 \\label{{table_ci_usage}}
 \\end{{table}}
     """.format(len(filtered), format_as_percentage(len(filtered) / no_repos), len(filtered_data) - len(filtered),
                format_as_percentage((len(filtered_data) - len(filtered)) / len(filtered)),
                len(results), format_as_percentage(len(results) / no_repos),
-               no_repos - len(filtered) - len(results), format_as_percentage((no_repos - len(filtered) - len(results)) / no_repos))
+               no_repos - len(filtered) - len(results), format_as_percentage((no_repos - len(filtered) - len(results)) / no_repos),
+               no_repos)
     data = data.replace("%", "\\%")  # because latex
     with open(name, "w", encoding="utf-8") as f:
         f.write(data)
