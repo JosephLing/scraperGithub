@@ -1,15 +1,191 @@
-\begin {table}[!htbp]
-
-\caption{yaml configuration errors}
-\label{table_yaml_errors}
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{config} &  composer error &  constructor error &  parse error &  scanner error \\ \hline
-
-\textbf{circleci} &               1 &                  0 &            0 &              1 \\ \hline
-\textbf{drone   } &              31 &                  0 &            0 &              0 \\ \hline
-\textbf{github  } &               0 &                  1 &            0 &              3 \\ \hline
-\textbf{travis  } &               6 &                  0 &           10 &             21 \\ \hline
-
+\begin{table}
+\centering
+\caption{Configuration types spread}
+\label{table_config_types}
+\begin{tabular}{lrrr}
+{} &  total projects &  using CI &  percentage CI \\
+b"Ren'Py"                   &               2 &       NaN &            NaN \\
+b'1C Enterprise'            &               2 &       3.0 &     150.000000 \\
+b'AGS Script'               &               1 &       NaN &            NaN \\
+b'ANTLR'                    &               3 &       2.0 &      66.666667 \\
+b'ASP'                      &               7 &       NaN &            NaN \\
+b'ActionScript'             &              21 &       2.0 &       9.523810 \\
+b'Ada'                      &               2 &       1.0 &      50.000000 \\
+b'ApacheConf'               &               4 &       NaN &            NaN \\
+b'Apex'                     &               5 &       1.0 &      20.000000 \\
+b'AppleScript'              &               6 &       NaN &            NaN \\
+b'Arc'                      &               1 &       NaN &            NaN \\
+b'Arduino'                  &              21 &       NaN &            NaN \\
+b'Assembly'                 &              47 &      18.0 &      38.297872 \\
+b'AutoHotkey'               &               6 &       NaN &            NaN \\
+b'AutoIt'                   &               3 &       NaN &            NaN \\
+b'Awk'                      &               1 &       NaN &            NaN \\
+b'Batchfile'                &              18 &       2.0 &      11.111111 \\
+b'BitBake'                  &               1 &       NaN &            NaN \\
+b'Brainfuck'                &               2 &       NaN &            NaN \\
+b'Bro'                      &               1 &       NaN &            NaN \\
+b'C\#'                       &             943 &     180.0 &      19.088017 \\
+b'C'                        &            1278 &     515.0 &      40.297340 \\
+b'C++'                      &            1571 &     821.0 &      52.259707 \\
+b'CMake'                    &              17 &       6.0 &      35.294118 \\
+b'COBOL'                    &               2 &       NaN &            NaN \\
+b'CSS'                      &             650 &     143.0 &      22.000000 \\
+b'CartoCSS'                 &               2 &       NaN &            NaN \\
+b'Cirru'                    &               2 &       NaN &            NaN \\
+b'Clojure'                  &             148 &      74.0 &      50.000000 \\
+b'CoffeeScript'             &             127 &      60.0 &      47.244094 \\
+b'ColdFusion'               &               3 &       1.0 &      33.333333 \\
+b'Common Lisp'              &              27 &       3.0 &      11.111111 \\
+b'Coq'                      &               7 &       7.0 &     100.000000 \\
+b'Crystal'                  &              13 &      16.0 &     123.076923 \\
+b'Cuda'                     &              15 &       2.0 &      13.333333 \\
+b'D'                        &               8 &       5.0 &      62.500000 \\
+b'DIGITAL Command Language' &               1 &       NaN &            NaN \\
+b'Dart'                     &             168 &      39.0 &      23.214286 \\
+b'Dhall'                    &               1 &       NaN &            NaN \\
+b'Dockerfile'               &              54 &      20.0 &      37.037037 \\
+b'Eagle'                    &               7 &       1.0 &      14.285714 \\
+b'Elixir'                   &              67 &      55.0 &      82.089552 \\
+b'Elm'                      &              19 &      12.0 &      63.157895 \\
+b'Emacs Lisp'               &             104 &      44.0 &      42.307692 \\
+b'Erlang'                   &              68 &      41.0 &      60.294118 \\
+b'F\#'                       &              24 &      17.0 &      70.833333 \\
+b'F*'                       &               1 &       1.0 &     100.000000 \\
+b'FORTRAN'                  &               2 &       NaN &            NaN \\
+b'Forth'                    &               1 &       1.0 &     100.000000 \\
+b'Fortran'                  &               7 &       5.0 &      71.428571 \\
+b'FreeMarker'               &               2 &       NaN &            NaN \\
+b'G-code'                   &               2 &       NaN &            NaN \\
+b'GCC Machine Description'  &               4 &       NaN &            NaN \\
+b'GDScript'                 &               4 &       1.0 &      25.000000 \\
+b'GLSL'                     &               9 &       1.0 &      11.111111 \\
+b'Game Maker Language'      &               1 &       NaN &            NaN \\
+b'Gherkin'                  &               3 &       3.0 &     100.000000 \\
+b'Gnuplot'                  &               4 &       NaN &            NaN \\
+b'Go'                       &            1512 &    1184.0 &      78.306878 \\
+b'Gosu'                     &               1 &       NaN &            NaN \\
+b'Groff'                    &               1 &       NaN &            NaN \\
+b'Groovy'                   &              37 &      26.0 &      70.270270 \\
+b'HCL'                      &              20 &       4.0 &      20.000000 \\
+b'HLSL'                     &               5 &       NaN &            NaN \\
+b'HTML'                     &             856 &     205.0 &      23.948598 \\
+b'Hack'                     &               4 &       2.0 &      50.000000 \\
+b'Haskell'                  &             121 &      84.0 &      69.421488 \\
+b'Haxe'                     &              12 &       5.0 &      41.666667 \\
+b'HolyC'                    &               1 &       NaN &            NaN \\
+b'IDL'                      &               2 &       NaN &            NaN \\
+b'Idris'                    &               2 &       2.0 &     100.000000 \\
+b'Inform 7'                 &               1 &       NaN &            NaN \\
+b'Inno Setup'               &               1 &       NaN &            NaN \\
+b'Isabelle'                 &               1 &       1.0 &     100.000000 \\
+b'Java'                     &            2963 &    1108.0 &      37.394533 \\
+b'JavaScript'               &            6663 &    3323.0 &      49.872430 \\
+b'Jsonnet'                  &               1 &       1.0 &     100.000000 \\
+b'Julia'                    &              40 &      65.0 &     162.500000 \\
+b'Jupyter Notebook'         &             459 &      63.0 &      13.725490 \\
+b'KiCad Layout'             &               1 &       NaN &            NaN \\
+b'KiCad'                    &               3 &       NaN &            NaN \\
+b'Kotlin'                   &             284 &     150.0 &      52.816901 \\
+b'LLVM'                     &               2 &       NaN &            NaN \\
+b'LiveScript'               &               3 &       2.0 &      66.666667 \\
+b'Logos'                    &               2 &       NaN &            NaN \\
+b'LoomScript'               &               1 &       NaN &            NaN \\
+b'Lua'                      &             122 &      37.0 &      30.327869 \\
+b'M4'                       &               1 &       NaN &            NaN \\
+b'MATLAB'                   &              14 &       3.0 &      21.428571 \\
+b'MQL5'                     &               2 &       2.0 &     100.000000 \\
+b'Makefile'                 &              49 &      14.0 &      28.571429 \\
+b'Markdown'                 &               1 &       NaN &            NaN \\
+b'Mathematica'              &               5 &       NaN &            NaN \\
+b'Matlab'                   &              35 &       1.0 &       2.857143 \\
+b'Max'                      &               2 &       1.0 &      50.000000 \\
+b'Mercury'                  &               1 &       NaN &            NaN \\
+b'Modula-2'                 &               1 &       NaN &            NaN \\
+b'MoonScript'               &               3 &       4.0 &     133.333333 \\
+b'NSIS'                     &               4 &       1.0 &      25.000000 \\
+b'Nemerle'                  &               2 &       NaN &            NaN \\
+b'NewLisp'                  &               1 &       NaN &            NaN \\
+b'Nginx'                    &               4 &       NaN &            NaN \\
+b'Nim'                      &              11 &       4.0 &      36.363636 \\
+b'Nimrod'                   &               1 &       NaN &            NaN \\
+b'Nix'                      &               7 &       2.0 &      28.571429 \\
+b'OCaml'                    &              33 &      31.0 &      93.939394 \\
+b'Objective-C'              &            1087 &     239.0 &      21.987121 \\
+b'Objective-C++'            &              15 &      11.0 &      73.333333 \\
+b'Objective-J'              &               2 &       1.0 &      50.000000 \\
+b'OpenEdge ABL'             &               4 &       NaN &            NaN \\
+b'OpenSCAD'                 &               6 &       NaN &            NaN \\
+b'PHP'                      &            1337 &     806.0 &      60.284218 \\
+b'PLSQL'                    &               4 &       NaN &            NaN \\
+b'PLpgSQL'                  &              10 &       4.0 &      40.000000 \\
+b'Pascal'                   &              21 &       2.0 &       9.523810 \\
+b'Pawn'                     &               1 &       NaN &            NaN \\
+b'Perl 6'                   &               1 &       NaN &            NaN \\
+b'Perl'                     &              85 &      35.0 &      41.176471 \\
+b'PicoLisp'                 &               1 &       1.0 &     100.000000 \\
+b'Pony'                     &               1 &       8.0 &     800.000000 \\
+b'PostScript'               &               1 &       NaN &            NaN \\
+b'PowerShell'               &              88 &       6.0 &       6.818182 \\
+b'Processing'               &               6 &       NaN &            NaN \\
+b'Prolog'                   &               2 &       NaN &            NaN \\
+b'Puppet'                   &               6 &       2.0 &      33.333333 \\
+b'Pure Data'                &               1 &       NaN &            NaN \\
+b'PureBasic'                &               2 &       2.0 &     100.000000 \\
+b'PureScript'               &               5 &       4.0 &      80.000000 \\
+b'Python'                   &            4127 &    1726.0 &      41.822147 \\
+b'QML'                      &              13 &      12.0 &      92.307692 \\
+b'R'                        &             129 &      86.0 &      66.666667 \\
+b'RAML'                     &               1 &       NaN &            NaN \\
+b'RPC'                      &               1 &       NaN &            NaN \\
+b'Racket'                   &               1 &       NaN &            NaN \\
+b'Rascal'                   &               2 &       NaN &            NaN \\
+b'Reason'                   &               7 &       3.0 &      42.857143 \\
+b'Red'                      &               2 &       2.0 &     100.000000 \\
+b'Rich Text Format'         &              14 &       2.0 &      14.285714 \\
+b'Ring'                     &               1 &       1.0 &     100.000000 \\
+b'Roff'                     &              15 &       5.0 &      33.333333 \\
+b'Ruby'                     &            1053 &     732.0 &      69.515670 \\
+b'Rust'                     &             352 &     333.0 &      94.602273 \\
+b'SMT'                      &               1 &       NaN &            NaN \\
+b'SQF'                      &               1 &       1.0 &     100.000000 \\
+b'SQLPL'                    &               2 &       NaN &            NaN \\
+b'SWIG'                     &               2 &       1.0 &      50.000000 \\
+b'SaltStack'                &               2 &       2.0 &     100.000000 \\
+b'Scala'                    &             223 &     162.0 &      72.645740 \\
+b'Scheme'                   &               8 &       2.0 &      25.000000 \\
+b'ShaderLab'                &              10 &       NaN &            NaN \\
+b'Shell'                    &             816 &     244.0 &      29.901961 \\
+b'Smali'                    &               2 &       NaN &            NaN \\
+b'Smarty'                   &               9 &       5.0 &      55.555556 \\
+b'Solidity'                 &               2 &       1.0 &      50.000000 \\
+b'Stan'                     &               1 &       2.0 &     200.000000 \\
+b'Standard ML'              &               4 &       2.0 &      50.000000 \\
+b'Starlark'                 &               5 &       4.0 &      80.000000 \\
+b'Swift'                    &             733 &     350.0 &      47.748977 \\
+b'SystemVerilog'            &               3 &       2.0 &      66.666667 \\
+b'TLA'                      &               3 &       NaN &            NaN \\
+b'TSQL'                     &              15 &       4.0 &      26.666667 \\
+b'Tcl'                      &               2 &       NaN &            NaN \\
+b'TeX'                      &              89 &      18.0 &      20.224719 \\
+b'Thrift'                   &               1 &       NaN &            NaN \\
+b'TypeScript'               &             900 &     779.0 &      86.555556 \\
+b'UnrealScript'             &               1 &       NaN &            NaN \\
+b'V'                        &               2 &       2.0 &     100.000000 \\
+b'VCL'                      &               1 &       NaN &            NaN \\
+b'VHDL'                     &               3 &       NaN &            NaN \\
+b'Vala'                     &              11 &       6.0 &      54.545455 \\
+b'Verilog'                  &               8 &       NaN &            NaN \\
+b'Vim script'               &             161 &      60.0 &      37.267081 \\
+b'VimL'                     &              35 &       NaN &            NaN \\
+b'Visual Basic .NET'        &               3 &       NaN &            NaN \\
+b'Visual Basic'             &               5 &       NaN &            NaN \\
+b'Vue'                      &             186 &      58.0 &      31.182796 \\
+b'WebAssembly'              &               3 &       3.0 &     100.000000 \\
+b'WebIDL'                   &               1 &       NaN &            NaN \\
+b'XSLT'                     &               7 &       1.0 &      14.285714 \\
+b'YARA'                     &               2 &       2.0 &     100.000000 \\
+b'Yacc'                     &               1 &       NaN &            NaN \\
+b'ZIL'                      &               1 &       NaN &            NaN \\
+b'Zig'                      &               1 &       NaN &            NaN \\
 \end{tabular}
 \end{table}

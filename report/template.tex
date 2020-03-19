@@ -160,7 +160,8 @@ Initially the project started of as a small piece of research that would aid loo
         "semaphore": ".semaphore/",
         "buildkite": ".buildkite/"
     }
-    PATHS_MULTIPLE = ["github", "circleci", "semaphore", "teamcity", "buildkite"]
+    PATHS_MULTIPLE = ["github", "circleci", "semaphore",
+     "teamcity", "buildkite"]
     NONE_YAML = ["jenkinsPipeline", "teamcity"]
     \end{verbatim}
     \caption{Python configuration file used to specify what types of configuration to search for. The key specifies the name of the configuration and the value is the location in the repository the config should be found.}
@@ -199,7 +200,7 @@ We excluded Wrecker from the search because they represented a very small number
 
 As can be seen later in on \ref{graph_scatter_stars_vs_subs} we weren't able to scrape the whole star count range easily. This is because the script would crash when Github gave a 500 error code at us randomly. Along with empty repositories initially causing a problem. In order to mitigate the damage of this the scraper would create a new Comma Separated Value (csv) file search e.g. one for stars:0..1 and another for stars:1..2. As all the csv file contained the same header we ran a script to combine all together at the end. Making sure to remove any duplicates by filtering on the Github project id.
 
-
+% ------------------------------------------------------------------------------------------------------------------------------------
 \section{Usage of CI}
 
 \vspace*{-0.05in}
@@ -243,6 +244,7 @@ In Table \ref{table_config_types} we find like all other research Travis is the 
 Our sample of repositories is 31,494 this means that as it is a representation of projects on Github so won't account for the whole of it. This means that although Wrecker had the smallest count of CI when researching of 20 projects. In Table \ref{table_config_types} we have configuration types that have lower counts. This is because that search for the 20 searched the whole of Github but the scraping was only able to do a small sample. Additionally their potentially could be faults in the scraping causing it show such low numbers for the last 3.
 
 \pagebreak
+% ------------------------------------------------------------------------------------------------------------------------------------
 \vspace*{-0.05in}
 \subsection{Do certain types of projects use CI more than others?}  
 \vspace*{-0.05in}
@@ -283,8 +285,19 @@ In looking at this metric the hypothesis was that it would have a sharper rise i
 
 
 
+\begin{figure}[!h]
+  \centering
+  % TODO: make this bigger when the time comes
+  \includegraphics[width=.8\textwidth]{../src/results/languages.pdf}
+  \caption{Subs graph}
+  \label{graph_langs}
+\end{figure}
+
+\input{../src/results/languages table.tex}
+
  
 \pagebreak
+% ------------------------------------------------------------------------------------------------------------------------------------
 \section{Structure of configuration files}
 
 \vspace*{-0.05in}

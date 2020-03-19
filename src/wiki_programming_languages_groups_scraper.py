@@ -818,18 +818,8 @@ def parse(s):
 
 
 def format_textile(d):
-    cats = {}
-    for k in sorted(d.keys()):
-        for category in d[k]:
-            if cats.get(category) is None:
-                cats[category] = []
-            if k != "":
-                cats[category].append(k.replace("(programming", ""))
-
-    print(cats.keys())
-    print(len(cats.values()))
     with open("langs.json", "w") as f:
-        json.dump(cats, f)
+        json.dump(dict([(k.lower(), d[k]) for k in d.keys()]), f)
 
 
 if __name__ == '__main__':

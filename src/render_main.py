@@ -46,6 +46,7 @@ def lines_against_scripts(data):
     plot.legend()
     return plot
 
+
 def stars_against_lines(data):
     data["scripts"] = data["bash"] + data["powershell"]
     plot = plt
@@ -233,8 +234,8 @@ def scripts_latex(name, sorted_data):
 
     with open(name, 'w') as tf:
         s = df.to_latex(caption="sum of scripts used", label="table:scripts used",
-                                                bold_rows=True).replace("\\midrule", "").replace("\\toprule",
-                                                                                                 "\\hline").replace(
+                        bold_rows=True).replace("\\midrule", "").replace("\\toprule",
+                                                                         "\\hline").replace(
             "\\bottomrule", "").replace("\\begin{table}", "").replace("\centering", "").replace("\\\\",
                                                                                                 "\\\\ \\hline").replace(
             "lrr", "|l|l|l|")
@@ -264,6 +265,9 @@ def yaml_config_errors_to_latex(name, dataset):
 
 
 def langues_topn(dataset):
+    """
+    not actually topn lol
+    """
     langs = {}
     for lang in dataset.groupby(["id", "lang"]).size().keys():
         k = lang[1]
@@ -278,10 +282,56 @@ def langues_topn(dataset):
     # plt.rcParams.update({'font.size': 5})
 
     plot = plt
-    plot.bar(["{}".format(k) for k in top.keys() if k is not None and k != ""], [top[k] for k in top.keys()])
-    plot.xticks(rotation=45)
+    plot.bar(["{}".format(k) for k in top.keys() if k is not None and k != "" and top[k] > 1],
+             [top[k] for k in top.keys() if k is not None and k != "" and top[k] > 1])
+    plot.xticks(rotation=90)
     # plot.show()
     return plot
+
+
+def languages_table(name, data, sorted_data):
+    c = data["language"].value_counts
+    c2 = sorted_data["lang"].value_counts
+
+    frames = {"total language count": c(), "using CI": c2(), "percentage CI": (c2() / c()) * 100}
+    df = pd.DataFrame(frames)
+    df = df[df["total language count"] > 5]
+    s = df.to_latex(
+        caption="Total count of all programming languages used by projects. It has programming languages that only "
+                "found once removed.",
+        label="table:languages").replace("lrrr", "|l|r|r|r|").replace("\\midrule", "").replace("\\toprule",
+                                                                                               "\\hline").replace(
+        "\\bottomrule", "")
+
+    with open(name, 'w') as tf:
+        tf.write(s)
+    print(f"writing data to {name}")
+
+
+def language_type(name, sorted_data):
+    df = pd.read_json("langs.json", orient="index").T
+    # the T flips the axis so that we get keys for columns and values for the index and we need to do this as the value arrays aren't of equal length
+    for lang in sorted_data["lang"].value_counts().index:
+        try:
+            temp = df[str(lang.encode("utf-8"), 'utf-8').lower().replace("'","")[1:]]
+
+            temp = temp[temp.notnull()]
+            print("{} is {}".format(lang, temp.values))
+        except Exception:
+            print("Not found {}".format(lang))
+
+    # frames = {}
+    # df = pd.DataFrame(frames)
+    # s = df.to_latex(
+    #     caption="Total count of all programming languages used by projects. It has programming languages that only "
+    #             "found once removed.",
+    #     label="table:languages").replace("lrrr", "|l|r|r|r|").replace("\\midrule", "").replace("\\toprule",
+    #                                                                                            "\\hline").replace(
+    #     "\\bottomrule", "")
+    #
+    # with open(name, 'w') as tf:
+    #     tf.write(s)
+    print(f"writing data to {name}")
 
 
 def config_type_split(name, dataset):
@@ -450,10 +500,11 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # print("finished building")
         # save_as_pdf(script_usage(sorted_data), f"{output}/scripts usage bars", image_encoding)
         # scripts_latex(f"{output}/scripts table.tex", sorted_data)
-        save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
-        save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
-        save_as_pdf(langues_topn(sorted_data), "./results/top15_langs", image_encoding)
-
+        # save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
+        # save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
+        # save_as_pdf(langues_topn(sorted_data), "./results/languages", image_encoding)
+        # languages_table(f"{output}/languages table.tex", load_dataframe(name1), sorted_data)
+        language_type(f"{output}/languages table.tex", sorted_data)
         return sorted_data
 
 
