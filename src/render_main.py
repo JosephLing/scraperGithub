@@ -160,7 +160,7 @@ def create_percentage_bar_graphs(stars, name, grouping_amount=540):
 
 def save_as_pdf(plot, name, encoding="pdf"):
     print(f'writing: {name}.{encoding}')
-    plot.savefig(f'{name}.{encoding}')
+    plot.savefig(f'{name}.{encoding}', bbox_inches='tight')
     # delete the graph
     plot.clf()
 
@@ -236,7 +236,7 @@ def scripts_latex(name, sorted_data):
         s = df.to_latex(caption="sum of scripts used", label="table:scripts used",
                         bold_rows=True).replace("\\midrule", "").replace("\\toprule",
                                                                          "\\hline").replace(
-            "\\bottomrule", "").replace("\\begin{table}", "").replace("\centering", "").replace("\\\\",
+            "\\bottomrule", "").replace("\\begin{table}", "").replace("\\end{table}", "").replace("\centering", "").replace("\\\\",
                                                                                                 "\\\\ \\hline").replace(
             "lrr", "|l|l|l|")
         s = "\n".join([v for v in s.split("\n") if not v.startswith("\\textbf{config")]).replace(
@@ -264,7 +264,7 @@ def yaml_config_errors_to_latex(name, dataset):
         tf.write(s)
 
 
-def langues_topn(dataset):
+def langues_topn(dataset, n):
     """
     not actually topn lol
     """
@@ -277,7 +277,7 @@ def langues_topn(dataset):
 
     top = list(langs.items())
     top.sort(key=lambda x: x[1])
-    # top = top[len(top) - 10:]
+    top = top[len(top) - n:]
     top = dict(top)
     # plt.rcParams.update({'font.size': 5})
 
@@ -289,13 +289,13 @@ def langues_topn(dataset):
     return plot
 
 
-def languages_table(name, data, sorted_data):
+def languages_table_topn(name, n, data, sorted_data):
     c = data["language"].value_counts
     c2 = sorted_data["lang"].value_counts
 
     frames = {"total language count": c(), "using CI": c2(), "percentage CI": (c2() / c()) * 100}
     df = pd.DataFrame(frames)
-    df = df[df["total language count"] > 5]
+    df = df.sort_values("total language count", ascending=False).head(n)
     s = df.to_latex(
         caption="Total count of all programming languages used by projects. It has programming languages that only "
                 "found once removed.",
@@ -308,17 +308,49 @@ def languages_table(name, data, sorted_data):
     print(f"writing data to {name}")
 
 
-def language_type(name, sorted_data):
+def _lang(plot, df, sorted_data, key, s):
+    categories = {}
+    data = sorted_data[key].value_counts()
+
+    for lang_index in range(data.size):
+        try:
+            temp = df[data.index[lang_index].lower().replace("'", "")[1:]]
+            temp = temp[temp.notnull()]
+        except KeyError:
+            temp = None
+        if temp is not None and temp.size > 0:
+            for i in range(temp.size):
+                if categories.get(temp[i]) is None:
+                    categories[temp[i]] = 0
+
+                if s != 3:
+                    categories[temp[i]] += data[lang_index]
+                else:
+                    categories[temp[i]] += 1
+
+        else:
+            if categories.get("unknown") is None:
+                categories["unknown"] = 0
+
+            if s != 3:
+                categories["unknown"] += data[lang_index]
+            else:
+                categories["unknown"] += 1
+
+    foo = list(categories.items())
+    foo.sort(key=lambda x: x[1], reverse=True)
+    foo = foo[:20]
+    plot.bar([v[0] for v in foo if v[0] != " " and v[0] != ""], [v[1] for v in foo if v[0] != " " and v[0] != ""])
+
+
+def language_type(data, sorted_data):
     df = pd.read_json("langs.json", orient="index").T
     # the T flips the axis so that we get keys for columns and values for the index and we need to do this as the value arrays aren't of equal length
-    for lang in sorted_data["lang"].value_counts().index:
-        try:
-            temp = df[str(lang.encode("utf-8"), 'utf-8').lower().replace("'","")[1:]]
-
-            temp = temp[temp.notnull()]
-            print("{} is {}".format(lang, temp.values))
-        except Exception:
-            print("Not found {}".format(lang))
+    plot = plt
+    _lang(plot, df, data, "language", 1)
+    _lang(plot, df, sorted_data, "lang", 2)
+    # _lang(plot, df, sorted_data, "lang", 3)
+    plot.xticks(rotation=90)
 
     # frames = {}
     # df = pd.DataFrame(frames)
@@ -331,7 +363,7 @@ def language_type(name, sorted_data):
     #
     # with open(name, 'w') as tf:
     #     tf.write(s)
-    print(f"writing data to {name}")
+    return plot
 
 
 def config_type_split(name, dataset):
@@ -470,18 +502,19 @@ def main(experimenting, name1, name2, image_encoding, output="."):
     else:
         data = csvReader.readfile(name1)
         # #
-        # save_as_pdf(spread_of_data_sub_to_stars(data), f"{output}/sub vs stars", image_encoding)
-        # save_as_pdf(spread_over_time_stars(data), f"{output}/spread over time", image_encoding)
-        # save_as_pdf(spread_data_issues_vs_stars(data), f"{output}/issues vs stars", image_encoding)
+        save_as_pdf(spread_of_data_sub_to_stars(data), f"{output}/sub vs stars", image_encoding)
+        save_as_pdf(spread_over_time_stars(data), f"{output}/spread over time", image_encoding)
+        save_as_pdf(spread_data_issues_vs_stars(data), f"{output}/issues vs stars", image_encoding)
 
         sorted_data = load_dataframe(name2)
-        # yaml_config_errors_to_latex(f"{output}/yaml config errors.tex", sorted_data)
-        # config_type_split(f"{output}/configuration type count.tex", sorted_data)
-        # sorted_data_csv = csvReader.readfile(name2)
-        # save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI",
-        #             image_encoding)
-        # save_as_pdf(spread_of_data_line_sub(data, sorted_data_csv), f"{output}/percentage sub with CI", image_encoding)
-        # save_as_pdf(spread_of_data_line_star_other_paper(),  f"{output}/percentage sub with CI other paper source", image_encoding)
+        yaml_config_errors_to_latex(f"{output}/yaml config errors.tex", sorted_data)
+        config_type_split(f"{output}/configuration type count.tex", sorted_data)
+        sorted_data_csv = csvReader.readfile(name2)
+        save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI",
+                    image_encoding)
+        save_as_pdf(spread_of_data_line_sub(data, sorted_data_csv), f"{output}/percentage sub with CI", image_encoding)
+        save_as_pdf(spread_of_data_line_star_other_paper(), f"{output}/percentage sub with CI other paper source",
+                    image_encoding)
         # render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey",
         #                                                                  pd.read_csv(name2, dtype=dtypes), False, False,
         #                                                                  image_encoding)
@@ -490,21 +523,17 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         #                                                                  image_encoding)
         # render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey3",
         #                                                                  pd.read_csv(name2, dtype=dtypes), True, False,
-        #
-        # save_as_pdf(line_usage_configuration(sorted_data), f"{output}/basic comments bars", image_encoding)
-        # save_as_pdf(comment_usage(sorted_data), f"{output}/comments usage bars", image_encoding)
 
-        # print(sorted_data.groupby("config").size().unstack(fill_value=0))
-        # print(sorted_data.groupby(["config", "powershell"]).size().to_frame())
-        # print(sorted_data.groupby(["config", "bash"]).size().to_frame())
-        # print("finished building")
-        # save_as_pdf(script_usage(sorted_data), f"{output}/scripts usage bars", image_encoding)
-        # scripts_latex(f"{output}/scripts table.tex", sorted_data)
-        # save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
-        # save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
-        # save_as_pdf(langues_topn(sorted_data), "./results/languages", image_encoding)
-        # languages_table(f"{output}/languages table.tex", load_dataframe(name1), sorted_data)
-        language_type(f"{output}/languages table.tex", sorted_data)
+        save_as_pdf(line_usage_configuration(sorted_data), f"{output}/basic comments bars", image_encoding)
+        save_as_pdf(comment_usage(sorted_data), f"{output}/comments usage bars", image_encoding)
+
+        save_as_pdf(script_usage(sorted_data), f"{output}/scripts usage bars", image_encoding)
+        scripts_latex(f"{output}/scripts table.tex", sorted_data)
+        save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
+        save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
+        save_as_pdf(langues_topn(sorted_data, 20), f"{output}/languages-topn", image_encoding)
+        languages_table_topn(f"{output}/languages table.tex", 20, load_dataframe(name1), sorted_data)
+        save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
         return sorted_data
 
 

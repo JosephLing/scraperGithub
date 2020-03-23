@@ -131,11 +131,11 @@ language)|Pict]] \u2013 essentially an executable implementation of Milner's [[\
 programming language)|Rust]]\n* [[Scala (programming language)|Scala]] \u2013 implements Erlang-style [[Actor 
 model|actors]] on the JVM\n* [[SequenceL]] \u2013 purely functional, automatically parallelizing and race-free\n* [[
 SR (programming language)|SR]] \u2013 research language\n* [[Unified Parallel C]]\n* [[XProc]] \u2013 XML processing 
-language, enabling concurrency\n{{div col end}}\n\n== Curly-bracket languages ==\n'''Curly-bracket''' or 
+language, enabling concurrency\n{{div col end}}\n\n==  ==\n'''''' or 
 '''curly-brace programming languages''' have a syntax that defines statement blocks using the [[Braces (
-punctuation)|curly bracket or brace characters <code>{</code> and <code>}</code>]]. This syntax originated with [[
-BCPL]] (1966), and was popularized by [[C (programming language)|C]]. Many curly-bracket languages descend from or 
-are strongly influenced by C. Examples of curly-bracket languages include:\n\n{{div col|colwidth=15em}}\n* [[
+punctuation)| or brace characters <code>{</code> and <code>}</code>]]. This syntax originated with [[
+BCPL]] (1966), and was popularized by [[C (programming language)|C]]. Many  descend from or 
+are strongly influenced by C. Examples of  include:\n\n{{div col|colwidth=15em}}\n* [[
 Actor-Based Concurrent Language|ABCL/c+]]\n* [[Alef (programming language)|Alef]]\n** [[Limbo (programming 
 language)|Limbo]]\n*** [[Go (programming language)|Go]]\n* [[AWK]]\n* [[B (programming language)|B]]\n* [[bc (
 programming language)|bc]]\n* [[BCPL]]\n* [[Ballerina (programming language)|Ballerina]]\n* [[C (programming 
@@ -818,8 +818,66 @@ def parse(s):
 
 
 def format_textile(d):
+    cats = {}
+    for k in d.keys():
+        for c in d[k]:
+            cats[c] = 1
+    print("'\n,'".join(list(cats.keys())))
     with open("langs.json", "w") as f:
-        json.dump(dict([(k.lower(), d[k]) for k in d.keys()]), f)
+        d["Shell"] = ["Interpreted languages"]
+        d["Assembly"] = ["Interpreted languages"]
+        d["TeX"] = ["Interpreted languages"]
+        d["Makefile"] = ["Interpreted languages"]
+        d["Objective-C++"] = ["Compiled languages"]
+        d["Pony"] = ["Compiled languages"]
+        d["CMake"] = ["Interpreted languages"]
+        d["TSQL"] = ["Interpreted languages"]
+        d["WebAssembly"] = ["Compiled languages"]
+        d["Reason"] = ["Compiled languages"]
+        d["Batchfile"] = ["Interpreted languages"]
+        d["Puppet"] = ["Interpreted languages"]
+        d["Cuda"] = ["Compiled languages"]
+        d["Hack"] = ["Garbage collected languages", "Object-oriented", "", "Single dispatch",
+                     "Imperative languages"]
+        d["HTML"] = ["Client side"]
+        d["CSS"] = ["Client side"]
+        d["Jupyter Notebook"] = []
+        d["CoffeeScript"] = []
+        d["Vue"] = ["Framework"]
+        d["Dockerfile"] = []
+        d["Roff"] = []
+        d["Smarty"] = []
+        d["Haxe"] = []
+        d["HCL"] = []
+        d["PLpgSQL"] = []
+        d["Starlark"] = []
+        d["MoonScript"] = []
+        d["Gherkin"] = []
+        d["1C Enterprise"] = []
+        d["SaltStack"] = []
+        d["V"] = []
+        d["Nix"] = []
+        d["Rich Text Format"] = []
+        d["PureBasic"] = []
+        d["LiveScript"] = []
+        d["YARA"] = []
+        d["Stan"] = []
+        d["NSIS"] = []
+        d["F*"] = []
+        d["Ring"] = []
+        d["Objective-J"] = []
+        d["Jsonnet"] = []
+        d["PicoLisp"] = []
+        d["Solidity"] = []
+        d["Eagle"] = []
+        d["GDScript"] = []
+        d["SWIG"] = []
+        d["SQF"] = []
+        d["Isabelle"] = []
+        d["Apex"] = []
+        d["GLSL"] = []
+        d["MQL5"] = []
+        json.dump(dict([(k.lower(), d[k]) for k in d.keys() if k != " "]), f)
 
 
 if __name__ == '__main__':

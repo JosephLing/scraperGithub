@@ -1,0 +1,56 @@
+olaf 
+- phd more friendly user errors 
+- some background 
+
+
+Related works:
+// research into CI errors with travis for talking with Olfaf
+
+() -> []
+
+numbers vs names stylic
+
+reading through whole numbers for a whole paper 
+
+
+
+abstract structure good but needs to elobarte more in teh final version
+
+don't use papers as nouns
+
+do this instead:
+\citet{}
+
+
+CI = merging as well as testing in particular branchign
+
+
+abbrevations and proper names capilisations
+**consistency** and right
+
+
+weaken the generally agreed upon
+
+
+introduction better:
+concreate and precise as possible with comparison
+
+
+methadolgoy being clearer on what actually is being done
+justifying star counts
+
+
+star coutn: 
+
+reference for readme
+
+figure captions styles:
+- gives you the takeaway message and how do I read and how does it fit context
+
+more technical details
+- very highly detailed between manual and scripted
+
+
+be more elborate and detailed on graphs -see comment about explain them
+
+
