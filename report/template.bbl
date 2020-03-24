@@ -13,8 +13,8 @@
 \bibitem[{Bra(????{\natexlab{c}})}]{BranchTrunk2013}
  (????{\natexlab{c}}).
 
-\bibitem[{Rus(????)}]{RustBlogCargo}
- (????). Cargo: {Rust}'s community crate host {\textbar} {Rust} {Blog}.
+\bibitem[{Rus(2020)}]{RustBlogCargo}
+ (2020). Cargo: {Rust}'s community crate host {\textbar} {Rust} {Blog}.
 
 \bibitem[{202(2020)}]{2020Wiki}
  (2020). List of programming languages by type. Page Version ID: 946745400.
@@ -33,7 +33,7 @@ Copeland, P. (2010). Google's {Innovation} {Factory}: {Testing}, {Culture}, and
   Washington, DC, USA: IEEE Computer Society, {ICST} '10, pp. 11--14.
 
 \bibitem[{Fowler(2010)}]{CI2010_MartinFowler}
-Fowler, M. (2010). Continous integration. In \textit{Continuous Integration}.
+Fowler, M. (2010). Continous integration.
 
 \bibitem[{Gallaba and McIntosh(2018)}]{Gallaba2018}
 Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
@@ -46,12 +46,10 @@ Github (2017). Github welcomes all ci tools. In github.com, ed., \textit{Github
   welcomes all ci tools}.
 
 \bibitem[{Github(2019)}]{GithubOctoverseResults}
-Github (2019). Octoverse - top languages. In \textit{Octoverse - Top
-  Languages}, p. Top languages.
+Github (2019). Octoverse - top languages.
 
 \bibitem[{GitHub(2020)}]{WreckerOpenSourceGithubSearch}
-GitHub (2020). github filename search for wrecker.yml files. In \textit{github
-  filename search for wrecker.yml files}.
+GitHub (2020). github filename search for wrecker.yml files.
 
 \bibitem[{Kalliamvakou et~al.(2014)}]{Kalliamvakou2014}
 Kalliamvakou, E., Gousios, G., Blincoe, K., Singer, L., German, D.~M. and
@@ -60,8 +58,7 @@ Kalliamvakou, E., Gousios, G., Blincoe, K., Singer, L., German, D.~M. and
 
 \bibitem[{Ling(2019)}]{GithubRepoExample}
 Ling, J. (2019). Cu worhsip song list creator - a repository taken over for
-  testing. In \textit{CU Worhsip Song List Creator - a repository taken over
-  for testing}.
+  testing.
 
 \bibitem[{Michael~Hilton, Marinov and Dig(2016)}]{Hilton2016}
 Michael~Hilton, K.~H., Timothy~Tunnell, Marinov, D. and Dig, D. (2016). Usage,
@@ -87,7 +84,7 @@ Sharma, T., Fragkoulis, M. and Spinellis, D. (2016). Does {Your}
   iSSN: null.
 
 \bibitem[{Tsvilik(2020)}]{GithubReadMeExample}
-Tsvilik, S. (2020). wdio-docker-service. In \textit{wdio-docker-service}.
+Tsvilik, S. (2020). wdio-docker-service.
 
 \bibitem[{Vasilescu et~al.(2015)}]{Vasilescu2015}
 Vasilescu, B., Yu, Y., Wang, H., Devanbu, P. and Filkov, V. (2015). Quality and
@@ -96,7 +93,6 @@ Vasilescu, B., Yu, Y., Wang, H., Devanbu, P. and Filkov, V. (2015). Quality and
   805--816.
 
 \bibitem[{Wrecker and Oracle(2018)}]{WreckerDocs}
-Wrecker and Oracle (2018). Wrecker ci development blog. In \textit{Wrecker CI
-  development blog}.
+Wrecker and Oracle (2018). Wrecker ci development blog.
 
 \end{thebibliography}
