@@ -57,9 +57,9 @@ This can get complicated quickly therefore Configuration as Code (or Infrastruct
 
 In order to look at our first theme CI usage we looked at In Usage, Costs, and Benefits of Continuous Integration Open-Source Projects \cite{Hilton2016}. They looked closely at usage of CI as well. As we are looking at CI usage as well we are going answer the first three questions from their theme "Usage of CI". 
 \begin{itemize}
-  \item What percentage of open-source projects use CI?
-  \item What is the breakdown of different CI services?
-  \item Do certain types of projects use CI more than others?
+  \item \textbf{RQ1} What percentage of open-source projects use CI?
+  \item \textbf{RQ2} What is the breakdown of different CI services?
+  \item \textbf{RQ3} Do certain types of projects use CI more than others?
 \end{itemize}
 
 However the two key differences is that we will be scraping a new data set for the comparison. In doing so gathering slightly more data on the repositories but not none on pull requests. As well as we didn't conduct a survey. From that additional data we are going to look more closely at the first question of What percentage of open-source projects use CI?
@@ -67,9 +67,9 @@ As we are asking the same questions, we will use their corpus to compare on what
 
 For our second theme, structure of CI as configuration we wanted to pick structural components that would be similar between all CI files. It would have been really interesting to do a full in depth analysis of each like \citet{Gallaba2018}. However we would like to tie in how the files are structured to how they are used so won't following that style. This led to the following research questions:
 \begin{itemize}
-  \item What are the common errors when loading yaml configuration?
-  \item How are comments used in the configuration?
-  \item How are external scripts used within the configuration?
+  \item \textbf{RQ4} What are the common errors when loading yaml configuration?
+  \item \textbf{RQ5} How are comments used in the configuration?
+  \item \textbf{RQ6} How are external scripts used within the configuration?
 \end{itemize}
 
 \section{Related Works}
@@ -205,7 +205,8 @@ As can be seen later in on \ref{graph_scatter_stars_vs_subs} we weren't able to 
 \section{Usage of CI}
 
 \vspace*{-0.05in}
-\subsection{What percentage of open-source projects use CI?}
+\subsection{\textbf{RQ1}: What percentage of open-source projects use CI?}
+\label{section:RQ1}
 \vspace*{-0.05in}
 
 \input{../src/results/generated_table.tex}
@@ -236,8 +237,12 @@ In the case of two white bars at the lower end of the stars axis is where we do 
 
 Figure \ref{graph_scatter_stars_line} provides insight into the density of the data for between 0 to 25000.
 \todo[]{note the references are current to the figures but they are not playing ball with their position!!!}
+
+
+% --------------------------------------------------------------
 \vspace*{-0.05in}
-\subsection{What CI systems are projects using?}
+\subsection{\textbf{RQ2}: What CI systems are projects using?}
+\label{section:RQ2}
 \vspace*{-0.05in}
 In Table \ref{table_config_types} we find like all other research Travis is the most popula0r CI system in use. However over the last 4 years since the \cite{Github2017} Circleci has lost out on it's rough quarter that it owned. In particular the rise of Github actions seems to have taken second place even though it is still very young in comparison (DATES). However this might not be down to the Circleci loosing out on their existing share. But potentially as the rise in CI usage goes up on Github. Projects are more likely to pick in the built in solutions to Github.
 \input{../src/results/configuration type count.tex}
@@ -247,7 +252,8 @@ Our sample of repositories is 31,494 this means that as it is a representation o
 \pagebreak
 % ------------------------------------------------------------------------------------------------------------------------------------
 \vspace*{-0.05in}
-\subsection{Do certain types of projects use CI more than others?}  
+\subsection{\textbf{RQ3}: Do certain types of projects use CI more than others?}  
+\label{section:RQ3}
 \vspace*{-0.05in}
 
 Below shows all the CI projects sorted then grouped together per 540 projects. Then in this case we choose to categories via star count for each project. 
@@ -310,8 +316,13 @@ We found that their is a higher chance that popular projects use CI along with t
 % ------------------------------------------------------------------------------------------------------------------------------------
 \section{Structure of configuration files}
 
+The following three research questions will just be on the XXXXX CI projects. In order to be able to ask the questions about the data we filter the sample to only include CI projects. Then we created a csv table with a row per CI type in that project as some projects had multiple versions of CI as shown in REFERENCE-RQ1. Then we processed each CI file to get the necessary data to be able to ask questions about it's structure. As we wanted to be able to process files with or without errors in along with all types of CI. We created a parser to go through each line of the configuration file working out what that line is. For example is it a comment or blank line or does it have code. 
+
+% a little bit like running cloc on the code base
+
 \vspace*{-0.05in}
-\subsection{What are the common errors when loading yaml configuration?}
+\subsection{\textbf{RQ4}: What are the common errors when loading yaml configuration?}
+\label{section:RQ4}
 \vspace*{-0.05in}
 
 \begin{figure}[!ht]
@@ -374,10 +385,11 @@ For Travis as it is the largest config type out of the sample by a signifacant a
 
 
 \pagebreak
-
+% -----------------------------------------------------------------
 \begin{figure}[!ht]
   \vspace*{-0.05in}
-  \subsection{How are comments used in configuration?}
+  \subsection{\textbf{RQ5}: How are comments used in configuration?}
+  \label{section:RQ5}
   \vspace*{-0.05in}
 \end{figure}
 
@@ -470,9 +482,10 @@ Overall we have found that comments are not used a lot. In the cases that they a
 % NOTE: update this when raitos are done
 
 \pagebreak
-
+% ------------------------------------------------------------------------
 \vspace*{-0.05in}
-\subsection{Are external scripts used within the configuration?}
+\subsection{\textbf{RQ6}: Are external scripts used within the configuration?}
+\label{section:RQ6}
 \vspace*{-0.05in}
 
 An external script is a bash or powershell script typically depending on the operating system. It can be used to build, deploy or do any step that CI takes. The key difference between it and the CI configuration is that it be executed on a users machine. Therefore you do get some setups where you have scripts defined for building and deploying the code that the users and CI both use. Most CI systems allow for "script" tags to be used which could be described as an internal script. Therefore external scripts are defined outside the CI configuration in the directory.

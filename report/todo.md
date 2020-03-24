@@ -1,3 +1,8 @@
+we need to be careful in the second part of the paper around language of projects vs instances of CI as such
+this is because we create a new entry for each CI type
+
+
+
 - comments 
   - raitos of comments to line and code per config
 
@@ -13,19 +18,9 @@ future:
     - note: all 3 graphs use the same method to render them so it should be a case of fixing in one place
   - drawing a nice pretty line to show the gradient or at least caculate it
 - look into spec to see if columns is a thing or if that would take too much time
-- naming convention
 - verbatims having better styling and hopefully syntax highlighting maybe (push goal for syntax highlighting)
 - look into a better way to represent the yaml configuration errors table (highlighting and percentages or grouped bar graph)
 
-
-done:
-- labels
-- look into how to compare with other paper properly as currently they are using similar method but not the same
-- comments 
-  - size 
-- threats section needs writing
-    - rewrite sections that had this in to ahve a more concise flow through it
-- scripts usage
 
 
 conclusion notes:
@@ -44,5 +39,3 @@ conclusion notes:
   are scripts used more or less depending on the code count
 
   key take away - that a lot CI uses in built stuff and doesn't use comments
-
-![](2020-03-18-09-11-43.png)![](2020-03-18-09-12-16.png)
