@@ -283,18 +283,28 @@ Here in Figure \ref{fig:test1} and \ref{fig:test2} we are comparing whether or n
 Figure \ref{graph_percentage_subs} uses the same method as Figure \ref{fig:test1} except is does it based the number of subscribers. Subscribers are used on Github to keep update on the changes on the project. This could range from core team members working on the project to people that want to be notified about a new release. 
 In looking at this metric the hypothesis was that it would have a sharper rise in percentage of projects using CI per subscriber. However that was not the case overall the gradient is not as strong. There is no comparison to \cite{Hilton2016} because their final corpus does not contain subscriber count for each project.
 
-
-
-\begin{figure}[!h]
-  \centering
-  % TODO: make this bigger when the time comes
-  \includegraphics[width=.8\textwidth]{../src/results/languages.pdf}
-  \caption{Subs graph}
-  \label{graph_langs}
-\end{figure}
+That gives us a good look at how projects can be viewed through Github's metadata. In terms of what kind of programming langauges are being used for CI? As well as what programming langauges where found when creating the sample. We can see the top 20 results in Table \ref{table:languages} in that we can see that Javascript is the most common kind of project. This was too be expected as in Github's anual report \cite{GithubOctoverseResults} on the platform they reported that Javascript has been the most popular for the last 5 years. The interesting part is that our sample matches the rise in Python over Java. Despite the fact that they are using "unique contributors to public and private repositories tagged with the appropriate primary langauge" and we are using the count of projects by primary programming langauge tag. 
 
 \input{../src/results/languages table.tex}
 
+In Figure \ref{graph:langs} we have grouped together the programming langauges by their type. In order to categories the different programming langauges we used Wikipeada's page on List of programming languages by type \citet{2020Wiki}. After that filled in some of the missing gaps for languages they did not have. However did do it for all the programming types as their were some obsecure projects using uncommon programming langauges.
+
+The interesting factor is the proportion of each category that uses CI. Is that interpreted programming langauges are more likely to CI that compiled languages. This can be seen in the 4th and 5th bar which have a 4.51\% difference between them. Based on the assumption that compiled langauges on the whole will be statically typed our findings go along with \citet{Hilton2016} observation. That dynamically typed langauges use CI more than statically typed langauges. However the interesting part is based on Figure \ref{graph:langs} their isn't a big a large between different factors. For example the 4.51\% we thought would be larger considering that the top two programming langauges were Javascript and Python. 
+
+However the use of types leading to the lack of CI usage might not be the major factor. As Rust (94.6\%), Typescript (86.56\%) and Go (78.31\%) have the higest percantage of CI usage. In terms of Rust and Go it could be down to their tooling that comes builtin to the language. As that would lead to implementing CI to be a lot easier. Yet Typescript is more a specail case as it is a subset of Javascript so uses 'npm' to deal with dependency management which was some of inspiration for Rust's tooling \citet{RustBlogCargo}.  Older programming langauges like Java and C\# both have tooling for dependency management but the chances that they use CI is much lower. Therefore an area for further research would be whether or not the use "modern" dependency management systems increases the chance of CI.
+
+
+% from usage paper:
+% However, we did observe that many of the languages thathave the highest CI usage are also dynamically-typed lan-guages (e.g., Ruby, PHP, CoffeeScript, Clojure, Python, andJavaScript).  One possible explanation may be that in theabsence of a static type system which can catch errors earlyon, these languages use CI to provide extra safety
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=.8\textwidth]{../src/results/languages.pdf}
+  \caption{Using categories found on Wikipeada \citet{2020Wiki} we categorised what kind of programming languages used CI. The key factor is the difference how their our more Interpreted language usage vs Compiled languages. We only included the top 20 categories of programming language.}
+  \label{graph:langs}
+\end{figure}
+
+We found that their is a higher chance that popular projects use CI along with those that have more subscribers to their project. In terms programming langauge the usage of type system contributed to a slight increase in the chance for the project. Yet it seemed there is area for further research in how the dependency and tooling effects the chances of CI being used. 
  
 \pagebreak
 % ------------------------------------------------------------------------------------------------------------------------------------
@@ -483,7 +493,6 @@ The methodology we used to handle this was too look at how many bash or powershe
   \end{minipage}
 \end{figure}
 
-asdf
 In Figure \ref{fig:script_usage} we have the average number of times a script is used for a configuration file that already has a script being used.
 
 As some of the necessary actions are being done in the scripts and not in the CI file. Potentially there could be less lines of code in the configuration for files that use scripts. However in Figure \ref{fig:script_scatter_lines} we can see that the data is very spiky with outliers. Then in Figure \ref{fig:script_scatter_lines2} we can see the same affect when trying to see if the more popular a project is affects the chances of it using CI.

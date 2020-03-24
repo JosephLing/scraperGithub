@@ -13,7 +13,7 @@ import csvReader
 import pandas as pd
 
 import render_sankey_diagram
-from data_parser import dtypes
+from data_parser import dtypes, format_as_percentage
 
 
 def spread_of_data_sub_to_stars(data):
@@ -236,8 +236,9 @@ def scripts_latex(name, sorted_data):
         s = df.to_latex(caption="sum of scripts used", label="table:scripts used",
                         bold_rows=True).replace("\\midrule", "").replace("\\toprule",
                                                                          "\\hline").replace(
-            "\\bottomrule", "").replace("\\begin{table}", "").replace("\\end{table}", "").replace("\centering", "").replace("\\\\",
-                                                                                                "\\\\ \\hline").replace(
+            "\\bottomrule", "").replace("\\begin{table}", "").replace("\\end{table}", "").replace("\centering",
+                                                                                                  "").replace("\\\\",
+                                                                                                              "\\\\ \\hline").replace(
             "lrr", "|l|l|l|")
         s = "\n".join([v for v in s.split("\n") if not v.startswith("\\textbf{config")]).replace(
             "yaml\_encoding\_error", "config")
@@ -283,19 +284,24 @@ def langues_topn(dataset, n):
 
     plot = plt
     plot.bar(["{}".format(k) for k in top.keys() if k is not None and k != "" and top[k] > 1],
-             [top[k] for k in top.keys() if k is not None and k != "" and top[k] > 1])
+             [format_as_percentage(top[k]) for k in top.keys() if k is not None and k != "" and top[k] > 1])
     plot.xticks(rotation=90)
     # plot.show()
     return plot
 
 
 def languages_table_topn(name, n, data, sorted_data):
+    data["language"] = data["language"].apply(lambda x: x[2:-1] if isinstance(x, str) and x.startswith("b'") else x)
+    print(data["language"])
     c = data["language"].value_counts
-    c2 = sorted_data["lang"].value_counts
 
-    frames = {"total language count": c(), "using CI": c2(), "percentage CI": (c2() / c()) * 100}
+    c2 = sorted_data["lang"].value_counts
+    print("c2 is: ")
+    print(c2())
+    frames = {"total count": c(), "using CI": c2(), "percentage CI": (c2() / c()) * 100}
     df = pd.DataFrame(frames)
-    df = df.sort_values("total language count", ascending=False).head(n)
+    df["percentage CI"] = format_as_percentage(df["percentage CI"])
+    df = df.sort_values("total count", ascending=False).head(n)
     s = df.to_latex(
         caption="Total count of all programming languages used by projects. It has programming languages that only "
                 "found once removed.",
@@ -314,7 +320,7 @@ def _lang(plot, df, sorted_data, key, s):
 
     for lang_index in range(data.size):
         try:
-            temp = df[data.index[lang_index].lower().replace("'", "")[1:]]
+            temp = df[data.index[lang_index].lower()]
             temp = temp[temp.notnull()]
         except KeyError:
             temp = None
@@ -337,33 +343,34 @@ def _lang(plot, df, sorted_data, key, s):
             else:
                 categories["unknown"] += 1
 
+    print(categories.values())
     foo = list(categories.items())
     foo.sort(key=lambda x: x[1], reverse=True)
     foo = foo[:20]
-    plot.bar([v[0] for v in foo if v[0] != " " and v[0] != ""], [v[1] for v in foo if v[0] != " " and v[0] != ""])
+    return plot.bar([v[0] for v in foo if v[0] != " " and v[0] != ""],
+                    [v[1] for v in foo if v[0] != " " and v[0] != ""])
 
 
 def language_type(data, sorted_data):
+    fig, ax = plt.subplots()
     df = pd.read_json("langs.json", orient="index").T
-    # the T flips the axis so that we get keys for columns and values for the index and we need to do this as the value arrays aren't of equal length
-    plot = plt
-    _lang(plot, df, data, "language", 1)
-    _lang(plot, df, sorted_data, "lang", 2)
-    # _lang(plot, df, sorted_data, "lang", 3)
-    plot.xticks(rotation=90)
+    # the T flips the axis so that we get keys for columns and values for the index and we need to do this as the
+    # value arrays aren't of equal length
+    data["language"] = data["language"].apply(lambda x: x[2:-1] if isinstance(x, str) else x)
+    rects1 = _lang(ax, df, data, "language", 1)
+    rects2 = _lang(ax, df, sorted_data, "lang", 2)
 
-    # frames = {}
-    # df = pd.DataFrame(frames)
-    # s = df.to_latex(
-    #     caption="Total count of all programming languages used by projects. It has programming languages that only "
-    #             "found once removed.",
-    #     label="table:languages").replace("lrrr", "|l|r|r|r|").replace("\\midrule", "").replace("\\toprule",
-    #                                                                                            "\\hline").replace(
-    #     "\\bottomrule", "")
-    #
-    # with open(name, 'w') as tf:
-    #     tf.write(s)
-    return plot
+    for i in range(len(rects1)):
+        rect = rects1[i]
+        height = rect.get_height()
+        ax.annotate('{}'.format(format_as_percentage(rects2[i].get_height() / rects1[i].get_height())),
+                    xy=(rect.get_x() + rect.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom', fontsize=4)
+
+    plt.xticks(rotation=90)
+    return fig
 
 
 def config_type_split(name, dataset):
@@ -498,7 +505,9 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # plt.clf()
         # spread_of_data_line_sub(data, sorted_data).show()
         sorted_data = load_dataframe(name2)
-        save_as_pdf(langues_topn(sorted_data), "./results/top15_langs", "pdf")
+        save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
+        languages_table_topn(f"{output}/languages table.tex", 20, load_dataframe(name1), sorted_data)
+
     else:
         data = csvReader.readfile(name1)
         # #
@@ -534,9 +543,10 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         save_as_pdf(langues_topn(sorted_data, 20), f"{output}/languages-topn", image_encoding)
         languages_table_topn(f"{output}/languages table.tex", 20, load_dataframe(name1), sorted_data)
         save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
-        return sorted_data
+
+    return sorted_data
 
 
 if __name__ == '__main__':
-    data = main(False, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
+    data = main(True, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
     # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")

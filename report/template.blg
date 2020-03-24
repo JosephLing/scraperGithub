@@ -1,6 +1,8 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: template.aux
 The style file: kentHarvard.bst
 Database file #1: sample.bib
+Warning--to sort, need author or key in 2020Wiki
+Warning--to sort, need author or key in RustBlogCargo
 Warning--to sort, need author or key in BranchGITFLOW2010
 Warning--to sort, need author or key in BranchGITHUBFLOW2017
 Warning--to sort, need author or key in BranchTrunk2013
@@ -19,6 +21,7 @@ Warning--empty year in BranchTrunk2013; set to ????
 Warning--empty title in BranchTrunk2013
 Warning--empty booktitle in BranchTrunk2013
 Warning--empty pages in BranchTrunk2013
+Warning--empty year in RustBlogCargo; set to ????
 Warning--empty pages in CI2010_MartinFowler
 Warning--empty pages in Github2017
 Warning--empty pages in WreckerOpenSourceGithubSearch
@@ -29,4 +32,4 @@ Warning--empty pages in Hilton2016
 Warning--empty pages in GithubReadMeExample
 Warning--empty booktitle in Vasilescu2015
 Warning--empty pages in WreckerDocs
-(There were 28 warnings)
+(There were 31 warnings)

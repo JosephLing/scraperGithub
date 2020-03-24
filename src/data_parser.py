@@ -277,10 +277,10 @@ def process_yaml_files(config_data, config_name, line, config_type):
     fileasstring = lib.base64Decode(config_data)
     if fileasstring:
         return {**{
-            "config": config_type,
-            "config_name": config_name,
+            "config": remove_byte_string(config_type),
+            "config_name": remove_byte_string(config_name),
             "yaml_encoding_error": get_yaml_encoding_error(fileasstring),
-            "lang": line.get("language"),
+            "lang": remove_byte_string(line.get("language")),
             "stars": line["stargazers_count"],
             "sub": line.get("subscribers_count"),
             "data": config_data,
@@ -303,9 +303,9 @@ def process_config(config_data, config_type, config_name, line, is_yaml):
         comment_stats = get_comment_stats(fileasstring, java_thing)
     if fileasstring:
         return {**{
-            "config": config_type,
-            "config_name": config_name,
-            "lang": line.get("language"),
+            "config": remove_byte_string(config_type),
+            "config_name": remove_byte_string(config_name),
+            "lang": remove_byte_string(line.get("language")),
             "stars": line["stargazers_count"],
             "sub": line.get("subscribers_count"),
             "data": config_data,
@@ -314,6 +314,12 @@ def process_config(config_data, config_type, config_name, line, is_yaml):
             "id": line.get("id")}, **comment_stats}
     else:
         print("error")
+
+
+def remove_byte_string(s):
+    if s.startswith("b'"):
+        return s[2:-1]
+    return s
 
 
 def check_readme(readme):
@@ -412,7 +418,10 @@ def check_output(name):
 
 
 def format_as_percentage(n):
-    return "{}%".format(round(n * 100,2))
+    if isinstance(n, float) or isinstance(n, int):
+        return "{}%".format(round(n * 100, 2))
+    else:
+        return (round(n, 2)).astype("str") + "%"
 
 
 def write_to_latex(name, no_repos, name_of_filtered):
@@ -437,7 +446,8 @@ none found &            {}     & {}                                &            
     """.format(len(filtered), format_as_percentage(len(filtered) / no_repos), len(filtered_data) - len(filtered),
                format_as_percentage((len(filtered_data) - len(filtered)) / len(filtered)),
                len(results), format_as_percentage(len(results) / no_repos),
-               no_repos - len(filtered) - len(results), format_as_percentage((no_repos - len(filtered) - len(results)) / no_repos),
+               no_repos - len(filtered) - len(results),
+               format_as_percentage((no_repos - len(filtered) - len(results)) / no_repos),
                no_repos)
     data = data.replace("%", "\\%")  # because latex
     with open(name, "w", encoding="utf-8") as f:

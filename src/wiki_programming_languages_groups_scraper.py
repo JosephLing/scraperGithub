@@ -877,6 +877,7 @@ def format_textile(d):
         d["Apex"] = []
         d["GLSL"] = []
         d["MQL5"] = []
+        d["typescript"] = ["Compiled languages"]
         json.dump(dict([(k.lower(), d[k]) for k in d.keys() if k != " "]), f)
 
 
