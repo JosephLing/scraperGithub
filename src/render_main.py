@@ -517,7 +517,9 @@ def main(experimenting, name1, name2, image_encoding, output="."):
 
         sorted_data = load_dataframe(name2)
         yaml_config_errors_to_latex(f"{output}/yaml config errors.tex", sorted_data)
-        config_type_split(f"{output}/configuration type count.tex", sorted_data)
+        # should not need to rerun this unless more scraping is done!!!
+        # commented out as manual edits to the formatting are easier than code ones atm
+        # config_type_split(f"{output}/configuration type count.tex", sorted_data)
         sorted_data_csv = csvReader.readfile(name2)
         save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI",
                     image_encoding)

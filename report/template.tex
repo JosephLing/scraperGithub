@@ -77,22 +77,17 @@ For our second theme, structure of CI as configuration we wanted to pick structu
 \subsection{Continous Integration}
 \vspace*{-0.05in}
 
-Continous Integration is frequently submitting work normally tied into a feedback loop. For example using version control daily committing changes. That then a server builds and tests the changes informing you of status of those changes. As well as providing a build for that change of the code that can be saved. In doing so it can pick up on the situation off "It works on my machine...". As the building and packaging of the code is done on a server to make sure everything integrates.
+Continous Integration is frequently submitting work normally tied into a feedback loop. For example using version control and committing changes daily. For each changed commmitted a server builds and tests the changes informing you of status of those changes. As well as providing a build which is typically a binary executable of code that can then be saved if necessary. In doing you can reduce the chances of facing the situation off "It works on my machine...". As the building and packaging of the code is done on a server to make sure everything integrates.
 
-\todo[]{just because it is done on a server doesn't mean it should integerate. Althouhg it is closer to where we want to be than just talking about testing....}
+An early definition of CI was written up and then updated later by Martin Fowler \cite{CI2010_MartinFowler}. A key part of the CI is that allows teams to work on the same code base which without CI could easily lead to integeration bugs and broken builds. 
 
-An early definition of CI was written up and then updated later by Martin Fowler \cite{CI2010_MartinFowler}. A key part of the CI is that it enables makes integrate code between a team easier but it does come at a cost of...... what are you wanting to write here????
-
-
+To enable to this to happen automation needs to put in place for build, testing and other aspects of the intergeration process in order that a clear peice of feedback (yes or no) can be given about the status of the build. If done with from a version control system if the same commit is built twice (so no changes have happened) it is vital that it produces the same result. Othwerise it is hard for a team to be able to depend on CI if they are getting flakey test results or flakey build results.
 
 \vspace*{-0.05in}
 \subsection{Usage of Continuous Integration}
 \vspace*{-0.05in}
 
 The actual usage of CI as configuration was looked at by \cite{Hilton2016}. In this they use three source of information Github repositories, Travis builds and a survey. In order to be do a more systematic study of CI usage than \cite{Vasilescu2015}. In analysing that data they found that "The trends that we discovered point to an expected growth of CI. In the future, CI will have an even greater influence than it has today." As we are looking at the same question we will use four of the research questions out of the fourteen. In order to see what difference four years has made to the growth of usage of CI.
-
-
-\todo[]{rewrite this section in light of the introudction which does a better intro to this paper so we don't necessarily need to repeat ourselves here. I think we should mention it but go more in depth into some research in this area....}
 
 \vspace*{-0.05in}
 \subsection{Config as code}
@@ -104,31 +99,6 @@ For the CI systems we pick we will look into the tooling around that to aid the 
 
 \section{Methodology}
 \label{methodology}
-
-% In order to get repositories with CI/CD configuration from Github we have a number of approaches. The first is too use the search for particular files but this is limited to only 1000 results. The alternative is to search for repositories and we bypass the 1000 result limit to an extent by getting results for every 'star' count (stars are used to like or upvote a repository). Although this will be giving us a lot of results it will still only be a sample of the population but will give us a wider range of results. As their is rate limiting multiple Github api keys can be used to speed up the scraping of data (Ghtorrent could also be used to speed up the process I think).
-
-% After we have got a repository we need to get the CI/CD files from it. This is fairly easy as the CI/CD systems normally require a strict naming convention and location within the repository. However as most of them are yaml based you can have ".yml" and ".yaml" and users can use all sorts of mixtures of upper and lower case. We try to account for this but won't get every scenario. This combined with the fact that we are only looking for top configuration files based on \cite{Github2017} along with Github actions and Azure pipelines. Is why we also check repositories for their ReadMe.md file to check if it has a build tag.
-
-% \begin{figure}[h]
-%   \centering
-%   \includegraphics[scale=0.5, width=\textwidth]{2020-01-30-08-29-04.png}
-  
-%   \caption[alt text]{Example of CI tag for Github ReadMe}
-%   \label{ExampleGithubReadme}
-% \end{figure}
-
-% \todo[size=\scriptsize]{where did this image come from?? reference it man}
-
-% In doing so it should give a wider net when sampling and help to understand when a CI system is either not using configuration as code or using a different CI system.
-
-% Tooling for the configuration files, we looked into Travis, Github Actions and Jenkins to work out whether or not it could aid in the research or not. As a key part of understanding the first relies on knowing whether or not it is valid. 
-% In terms for Travis there is currently two parsers to validate the configuration. One which is depracted since 2017 \cite{TravisYamlParserOld2017} the other which is currently in development \cite{TravisYamlParserNew2020}. Both didn't provided the necessary results with the most recent one not being able to handle default fields.
-% For Github Actions as it's still a new tooling for it hasn't been developed outside of the Github editor web page \cite{Github2019ForumPost}.
-% For Jenkins which is older solution allows validation through http/ssh request to the Jenkins server (Gitlab follows this style as well) \cite{JenkkinsDocs2020} \cite{GitlabDocs2020}. This could work well although would require setting up a server for each configuration type and might not validate if varaibles from the config aren't defined on the server. As well as it would be best to be able to validate them all or none of them in terms of being able to compare results easily.
-
-
-
-
 
 Initially the project started of as a small piece of research that would aid looking into how visualise CI systems. Therefore the initial scraping script was a quick hack to try and get some data initially. This meant that as we were not initially trying to get lots of data we did not decided to use Ghtorrent (REFERENCE). However as it quickly started to want to gather more data and look at different questions it started to form into this paper. 
 
@@ -208,15 +178,20 @@ As can be seen later in on \ref{graph_scatter_stars_vs_subs} we weren't able to 
 \subsection{\textbf{RQ1}: What percentage of open-source projects use CI?}
 \label{section:RQ1}
 \vspace*{-0.05in}
+Our sample of repositories is 31,494 in comparison to \citet{Hilton2016} which had a sample of 34,544. The percentage of CI projects they had was 40.27\%. If you look at Table \ref{table:sample_breakdown} it shows that we got 38.51\% CI projects. However as we didn't search for every kind of CI config possible and their could potentially be mistakes in the scraping. 
+We scraped the "ReadMe.md" files from the projects to check if they had a CI status label in them as shown in Figure \ref{ExampleGithubReadme}. To do this we checked for "alt="Build Status"", "alt='Build Status'", "Status" and "status" being in the file. Then if that same line of text contained a url specified by if contained "http://" or "https://" then we counted it as potentially being a project that used CI. This can generate false positives and doesn't lead to us getting a CI file to analyse so those projects are only used here to tackle this research question only.  
 
+If you combined the "config file(s)" and "found in ReadMe" results together you would get 41.28\% which is shows that our sample is within the margins of the same results that \citet{Hilton2016} got. 
 \input{../src/results/generated_table.tex}
 
-\todo[]{hilton paper isn't the 34,000 just CI files though right? so CHECK }
-\todo[]{what we want here is to explain what we have found and then do the comparison. Instead of throwing them into a comparison straight away without explaining the data }
-Our sample of repositories is 31,494 in comparison to \citet{Hilton2016} which had a sample of 34,544. The percentage of CI projects they had was 40.27\%. As if you combined the "config file(s)" and "found in ReadMe". However in order to work out if a project might be using CI but the config file wasn't picked a search string is used. Therefore it is not as accurate as finding a config file as their could be false postives.
-\todo[]{I am pretty sure it's 34,544 CI projects and so this paragraph needs to be rewritten if that is the case}
+The really interesting part though is how that percentage has not increased over the past 4 years and has potentially decreased. Further research would need to be done to be able to gain a better understanding of this. As there are number of factors at play such as no. of new projects being created, when did projects implement CI in terms of time but also looking at when in the project. As well a larger sample than ours that is isn't missing any data.
 
-However that doesn't give us too much insight into the dataset. Here is a graph showing the subscribers plotted against the number of stars. The key here to understand is not potentially any correlation but to see the spread of data that the table is showing. 
+There are 5.31\% of overall projects have multiple CI files in them which is really interesting as that makes up 13.81\% of projects that have CI have multiple types in them. This could be for a number of reasons as one configuration file could be used for CI and another for Continous Delivery. Or potentially it could be a mono repository which means that it has multiple projects inside of it which could mean multiple CI files.
+
+% \todo[]{what we want here is to explain what we have found and then do the comparison. Instead of throwing them into a comparison straight away without explaining the data }
+
+
+However that doesn't give us too much insight into the dataset. Here is a graph showing the subscribers plotted against the number of stars. These next two figures are used to provided a visual representation of the dataset. In order that you can get a clearer understanding of what the sample is. As well as there is no correlation but to see the spread of data that the table is showing. 
 
 \begin{figure}[!ht]
   \centering
@@ -235,8 +210,11 @@ In the case of two white bars at the lower end of the stars axis is where we do 
   \label{graph_scatter_stars_line}
 \end{figure}
 
-Figure \ref{graph_scatter_stars_line} provides insight into the density of the data for between 0 to 25000.
-\todo[]{note the references are current to the figures but they are not playing ball with their position!!!}
+However as Figure \ref{graph_scatter_stars_vs_subs} doesn't show the density of the we have Figure \ref{graph_scatter_stars_line} to show the amount of data we have per star. On the graph you can see slight jumps in the graph where we have the missing data from the scrape.
+
+Overall, for public projects on Github CI is widely used however there are more questions to do with breakdown of how widely it is. As well as our sample isn't a complete search over the star count it is missing data. Nonetheless we are still able to analyse the results............
+
+
 
 
 % --------------------------------------------------------------
@@ -244,12 +222,11 @@ Figure \ref{graph_scatter_stars_line} provides insight into the density of the d
 \subsection{\textbf{RQ2}: What CI systems are projects using?}
 \label{section:RQ2}
 \vspace*{-0.05in}
-In Table \ref{table_config_types} we find like all other research Travis is the most popula0r CI system in use. However over the last 4 years since the \cite{Github2017} Circleci has lost out on it's rough quarter that it owned. In particular the rise of Github actions seems to have taken second place even though it is still very young in comparison (DATES). However this might not be down to the Circleci loosing out on their existing share. But potentially as the rise in CI usage goes up on Github. Projects are more likely to pick in the built in solutions to Github.
+In Table \ref{table_config_types} we find like all other research Travis is the most popular CI system in use. However over the last 4 years since the \cite{Github2017} CircleCi has lost out on it's rough quarter that it owned. In particular the rise of Github Actions seems to have taken second place even though it is still very young in comparison as it was officially released November 13th 2019 but had a closed beta since the summer of 2019. However this might not be down to the CircleCi loosing out on their existing share. But potentially as the rise in CI usage goes up on Github. Projects are more likely to pick in the built in solutions to Github.
 \input{../src/results/configuration type count.tex}
 
-Our sample of repositories is 31,494 this means that as it is a representation of projects on Github so won't account for the whole of it. This means that although Wrecker had the smallest count of CI when researching of 20 projects. In Table \ref{table_config_types} we have configuration types that have lower counts. This is because that search for the 20 searched the whole of Github but the scraping was only able to do a small sample. Additionally their potentially could be faults in the scraping causing it show such low numbers for the last 3.
+Our sample of repositories is 31,494 this means that as it is a representation of projects on Github so won't account for the whole of it. This means that although Wrecker had the smallest count of CI when researching of 20 projects. In Table \ref{table_config_types} we have configuration types that have lower counts. This is because that search for the 20 searched the whole of Github but the scraping was only able to do a small sample. Additionally their potentially could be faults in the scraping causing it show such low numbers for the last 3. 
 
-\pagebreak
 % ------------------------------------------------------------------------------------------------------------------------------------
 \vspace*{-0.05in}
 \subsection{\textbf{RQ3}: Do certain types of projects use CI more than others?}  
@@ -276,7 +253,7 @@ Below shows all the CI projects sorted then grouped together per 540 projects. T
   \caption{In Figure \ref{fig:test1} is the results from this research and in Figure \ref{fig:test2} is the results from \cite{Hilton2016}.}
 \end{figure}
 
-Here in Figure \ref{fig:test1} and \ref{fig:test2} we are comparing whether or not in the last 4 years the number of stars increases the CI being used. Their seems to a steeper gradient in the more recent datasets. However as \ref{fig:test1} starts at zero stars and \ref{fig:test2} starts at 100 stars their is signifacant dip at the start of the first graph.
+Here in Figure \ref{fig:test1} and \ref{fig:test2} we are comparing whether or not in the last 4 years the number of stars increases the CI being used. Their seems to a steeper gradient in the more recent datasets. However as \ref{fig:test1} starts at zero stars and \ref{fig:test2} starts at 100 stars their is significant dip at the start of the first graph.
 
 \begin{figure}[!h]
   \centering
@@ -289,15 +266,15 @@ Here in Figure \ref{fig:test1} and \ref{fig:test2} we are comparing whether or n
 Figure \ref{graph_percentage_subs} uses the same method as Figure \ref{fig:test1} except is does it based the number of subscribers. Subscribers are used on Github to keep update on the changes on the project. This could range from core team members working on the project to people that want to be notified about a new release. 
 In looking at this metric the hypothesis was that it would have a sharper rise in percentage of projects using CI per subscriber. However that was not the case overall the gradient is not as strong. There is no comparison to \cite{Hilton2016} because their final corpus does not contain subscriber count for each project.
 
-That gives us a good look at how projects can be viewed through Github's metadata. In terms of what kind of programming langauges are being used for CI? As well as what programming langauges where found when creating the sample. We can see the top 20 results in Table \ref{table:languages} in that we can see that Javascript is the most common kind of project. This was too be expected as in Github's anual report \cite{GithubOctoverseResults} on the platform they reported that Javascript has been the most popular for the last 5 years. The interesting part is that our sample matches the rise in Python over Java. Despite the fact that they are using "unique contributors to public and private repositories tagged with the appropriate primary langauge" and we are using the count of projects by primary programming langauge tag. 
+That gives us a good look at how projects can be viewed through Github's metadata. In terms of what kind of programming languages are being used for CI? As well as what programming languages where found when creating the sample. We can see the top 20 results in Table \ref{table:languages} in that we can see that Javascript is the most common kind of project. This was too be expected as in Github's annual report \cite{GithubOctoverseResults} on the platform they reported that Javascript has been the most popular for the last 5 years. The interesting part is that our sample matches the rise in Python over Java. Despite the fact that they are using "unique contributors to public and private repositories tagged with the appropriate primary language" and we are using the count of projects by primary programming language tag. 
 
 \input{../src/results/languages table.tex}
 
-In Figure \ref{graph:langs} we have grouped together the programming langauges by their type. In order to categories the different programming langauges we used Wikipeada's page on List of programming languages by type \citet{2020Wiki}. After that filled in some of the missing gaps for languages they did not have. However did do it for all the programming types as their were some obsecure projects using uncommon programming langauges.
+In Figure \ref{graph:langs} we have grouped together the programming languages by their type. In order to categories the different programming languages we used Wikipeada's page on List of programming languages by type \citet{2020Wiki}. After that filled in some of the missing gaps for languages they did not have. However did do it for all the programming types as their were some obsecure projects using uncommon programming languages.
 
-The interesting factor is the proportion of each category that uses CI. Is that interpreted programming langauges are more likely to CI that compiled languages. This can be seen in the 4th and 5th bar which have a 4.51\% difference between them. Based on the assumption that compiled langauges on the whole will be statically typed our findings go along with \citet{Hilton2016} observation. That dynamically typed langauges use CI more than statically typed langauges. However the interesting part is based on Figure \ref{graph:langs} their isn't a big a large between different factors. For example the 4.51\% we thought would be larger considering that the top two programming langauges were Javascript and Python. 
+The interesting factor is the proportion of each category that uses CI. Is that interpreted programming languages are more likely to CI that compiled languages. This can be seen in the 4th and 5th bar which have a 4.51\% difference between them. Based on the assumption that compiled languages on the whole will be statically typed our findings go along with \citet{Hilton2016} observation. That dynamically typed languages use CI more than statically typed languages. However the interesting part is based on Figure \ref{graph:langs} their isn't a big a large between different factors. For example the 4.51\% we thought would be larger considering that the top two programming languages were Javascript and Python. 
 
-However the use of types leading to the lack of CI usage might not be the major factor. As Rust (94.6\%), Typescript (86.56\%) and Go (78.31\%) have the higest percantage of CI usage. In terms of Rust and Go it could be down to their tooling that comes builtin to the language. As that would lead to implementing CI to be a lot easier. Yet Typescript is more a specail case as it is a subset of Javascript so uses 'npm' to deal with dependency management which was some of inspiration for Rust's tooling \citet{RustBlogCargo}.  Older programming langauges like Java and C\# both have tooling for dependency management but the chances that they use CI is much lower. Therefore an area for further research would be whether or not the use "modern" dependency management systems increases the chance of CI.
+However the use of types leading to the lack of CI usage might not be the major factor. As Rust (94.6\%), Typescript (86.56\%) and Go (78.31\%) have the highest percentage of CI usage. In terms of Rust and Go it could be down to their tooling that comes builtin to the language. As that would lead to implementing CI to be a lot easier. Yet Typescript is more a special case as it is a subset of Javascript so uses 'npm' to deal with dependency management which was some of inspiration for Rust's tooling \citet{RustBlogCargo}.  Older programming languages like Java and C\# both have tooling for dependency management but the chances that they use CI is much lower. Therefore an area for further research would be whether or not the use "modern" dependency management systems increases the chance of CI.
 
 
 % from usage paper:
@@ -310,7 +287,7 @@ However the use of types leading to the lack of CI usage might not be the major 
   \label{graph:langs}
 \end{figure}
 
-We found that their is a higher chance that popular projects use CI along with those that have more subscribers to their project. In terms programming langauge the usage of type system contributed to a slight increase in the chance for the project. Yet it seemed there is area for further research in how the dependency and tooling effects the chances of CI being used. 
+We found that their is a higher chance that popular projects use CI along with those that have more subscribers to their project. In terms programming language the usage of type system contributed to a slight increase in the chance for the project. Yet it seemed there is area for further research in how the dependency and tooling effects the chances of CI being used. 
  
 \pagebreak
 % ------------------------------------------------------------------------------------------------------------------------------------
