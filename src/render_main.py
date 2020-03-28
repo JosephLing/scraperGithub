@@ -11,6 +11,7 @@ import math
 import matplotlib.pyplot as plt
 import csvReader
 import pandas as pd
+import numpy as np
 
 import render_sankey_diagram
 from data_parser import dtypes, format_as_percentage
@@ -27,8 +28,6 @@ def spread_of_data_sub_to_stars(data):
         x.append(int(line.get("stargazers_count")))
         y.append(int(line.get("subscribers_count")))
     plot.scatter(x, y, s=1, alpha=0.75)
-
-    plot.title("Sample of repositories from github")
 
     plot.legend()
     return plot
@@ -86,8 +85,6 @@ def spread_data_issues_vs_stars(data):
 
     plot.scatter(x, y, s=1, alpha=0.75)
 
-    plot.title("Sample of repositories from github")
-
     plot.legend()
     return plot
 
@@ -99,7 +96,7 @@ def spread_of_data_line_star(data, sorted_data):
 
     for line in sorted_data:
         stars[int(line.get("id"))] = (int(line.get("stars")), 1)
-    return create_percentage_bar_graphs(list(stars.values()), "percentage of stars that use CI")
+    return create_percentage_bar_graphs(list(stars.values()), "percentage of stars that use CI", "stars")
 
 
 def spread_of_data_line_sub(data, sorted_data):
@@ -109,7 +106,7 @@ def spread_of_data_line_sub(data, sorted_data):
 
     for line in sorted_data:
         stars[int(line.get("id"))] = (int(line.get("sub")), 1)
-    return create_percentage_bar_graphs(list(stars.values()), "percentage of subcriptions that use CI")
+    return create_percentage_bar_graphs(list(stars.values()), "percentage of subscriptions that use CI", "subscribers")
 
 
 def spread_of_data_line_star_other_paper():
@@ -121,10 +118,10 @@ def spread_of_data_line_star_other_paper():
         else:
             results.append((int(line.get("stars")), 0))
 
-    return create_percentage_bar_graphs(results, "percentage of stars that use CI")
+    return create_percentage_bar_graphs(results, "percentage of stars that use CI", "stars")
 
 
-def create_percentage_bar_graphs(stars, name, grouping_amount=540):
+def create_percentage_bar_graphs(stars, name, xname, grouping_amount=540):
     stars.sort(key=lambda x: x[0])
     groups = []
     j = 0
@@ -141,21 +138,47 @@ def create_percentage_bar_graphs(stars, name, grouping_amount=540):
     heights = []
     bottom = []
     for group in groups:
-        print(group)
         bottom.append(group[0])
         if len(group[1]) != 0:
             heights.append((sum(group[1]) / len(group[1])) * 100)
         else:
             heights.append(0)
 
-    plot = plt
-    plot.bar([str(a) for a in bottom], heights)
-    plot.xticks(rotation=90)
-    plot.rc(({'font.size': 10}))
-    plot.title(name)
-    plot.ylim(0, 100)
+    fig, ax = plt.subplots()
 
-    return plot
+    # We need to draw the canvas, otherwise the labels won't be positioned and
+    # won't have values yet.
+
+    # so what happens here is we set the positions for all the bars
+    # then with those positions we set the label
+    # the key here that ax.bar primarily takes positions and then works out labels after that
+    # so that means you can't try do clever stuff as it will work out the positions first which will muck up
+    # all the things
+
+
+    ax.bar(np.arange(len(bottom)), heights)
+    plt.rc(({'font.size': 9}))
+    plt.title(name)
+    plt.ylim(0, 100)
+    plt.xticks(rotation=90)
+    plt.xlabel(xname)
+    plt.ylabel("percentage")
+    labels = []
+    for i in range(len(bottom)):
+        if i == len(bottom) - 1:
+            labels.append(str(bottom[i]))
+        else:
+            if i % 5 == 0:
+                labels.append(str(bottom[i]))
+            else:
+                labels.append("")
+
+    # this line is needed here
+    ax.set_xticks(np.arange(len(labels)))
+    ax.set_xticklabels(labels, rotation=45, zorder=100)
+
+    # ax.set_xticklabels(labels)
+    return fig
 
 
 def save_as_pdf(plot, name, encoding="pdf"):
@@ -168,7 +191,7 @@ def save_as_pdf(plot, name, encoding="pdf"):
 def spread_over_time_stars(data):
     plot = plt
     plot.ylabel('stars')
-    plot.xlabel('index')
+    plot.xlabel('number of projects')
     x = []
     for line in data:
         x.append(int(line.get("stargazers_count")))
@@ -505,9 +528,17 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # plt.clf()
         # spread_of_data_line_sub(data, sorted_data).show()
         sorted_data = load_dataframe(name2)
-        save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
-        languages_table_topn(f"{output}/languages table.tex", 20, load_dataframe(name1), sorted_data)
+        # save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
+        # languages_table_topn(f"{output}/languages table.tex", 20, load_dataframe(name1), sorted_data)
+        #
+        sorted_data_csv = csvReader.readfile(name2)
+        data = csvReader.readfile(name1)
 
+        save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI",
+                    image_encoding)
+        save_as_pdf(spread_of_data_line_sub(data, sorted_data_csv), f"{output}/percentage sub with CI", image_encoding)
+        save_as_pdf(spread_of_data_line_star_other_paper(), f"{output}/percentage sub with CI other paper source",
+                    image_encoding)
     else:
         data = csvReader.readfile(name1)
         # #
