@@ -26,13 +26,13 @@
 \setcitestyle{numbers}
 \setcitestyle{square}
 
-\title{Usage and structure of continuous integration as configuration?}
+\title{Usage and Structure of continuous integration as configuration?}
 \author{Joseph Ling\\\vspace{10mm}
 \url{jl653@kent.ac.uk} \\ \vspace{5mm}
 \includegraphics[scale=0.6]{Kent_Comp_294_RGB} \\
 School of Computing \\
 University of Kent \\
-United Kingdom \\ \vspace{10mm} \\ Word Count: around 4,400}
+United Kingdom \\ \vspace{10mm} \\ Word Count: around 5500}
 \begin{document}
 
 \newgeometry{hmarginratio=1:1}    %% make layout symmetric
@@ -64,7 +64,6 @@ In order to look at our first theme CI usage we looked at In Usage, Costs, and B
 
 However the two key differences is that we will be scraping a new data set for the comparison. In doing so gathering slightly more data on the repositories but not none on pull requests. As well as we didn't conduct a survey. From that additional data we are going to look more closely at the first question of What percentage of open-source projects use CI?
 As we are asking the same questions, we will use their corpus to compare on what has changed over the last 4 years. 
-
 For our second theme, structure of CI as configuration we wanted to pick structural components that would be similar between all CI files. It would have been really interesting to do a full in depth analysis of each like \citet{Gallaba2018}. However we would like to tie in how the files are structured to how they are used so won't following that style. This led to the following research questions:
 \begin{itemize}
   \item \textbf{RQ4} What are the common errors when loading yaml configuration?
@@ -239,22 +238,21 @@ Below shows all the CI projects sorted then grouped together per 540 projects. T
   \centering
   \begin{minipage}{.48\textwidth}
     \centering
+    \includegraphics[width=.9\textwidth]{../src/results/percentage sub with CI other paper source.pdf}
+    \caption[]{2016 dataset}
+    \label{fig:test2}
+  \end{minipage}
+  \begin{minipage}{.48\textwidth}
+    \centering
     \includegraphics[width=.9\textwidth]{../src/results/percentage stars with CI.pdf}
     \caption{2020 dataset}
     \label{fig:test1}
   \end{minipage}%
   \hfill
-  \begin{minipage}{.48\textwidth}
-    \centering
-    \includegraphics[width=.9\textwidth]{../src/results/percentage sub with CI other paper source.pdf}
-    \caption[]{2016 dataset}
-    \label{fig:test2}
-  \end{minipage}
   \caption{In Figure \ref{fig:test1} is the results from this research and in Figure \ref{fig:test2} is the results from \cite{Hilton2016}.}
 \end{figure}
 
 Here in Figure \ref{fig:test1} and \ref{fig:test2} we are comparing whether or not in the last 4 years the number of stars increases the CI being used. Their seems to a steeper gradient in the more recent datasets. However as \ref{fig:test1} starts at zero stars and \ref{fig:test2} starts at 100 stars their is significant dip at the start of the first graph.
-
 \begin{figure}[!h]
   \centering
   % TODO: make this bigger when the time comes
@@ -269,6 +267,15 @@ In looking at this metric the hypothesis was that it would have a sharper rise i
 That gives us a good look at how projects can be viewed through Github's metadata. In terms of what kind of programming languages are being used for CI? As well as what programming languages where found when creating the sample. We can see the top 20 results in Table \ref{table:languages} in that we can see that Javascript is the most common kind of project. This was too be expected as in Github's annual report \cite{GithubOctoverseResults} on the platform they reported that Javascript has been the most popular for the last 5 years. The interesting part is that our sample matches the rise in Python over Java. Despite the fact that they are using "unique contributors to public and private repositories tagged with the appropriate primary language" and we are using the count of projects by primary programming language tag. 
 
 \input{../src/results/languages table.tex}
+% 
+
+\begin{figure}[!h]
+  \centering
+  % TODO: make this bigger when the time comes
+  \includegraphics[width=.8\textwidth]{../src/results/languages-topn.pdf}
+  \caption{Subs graph}
+  \label{graph_percentage_subs}
+\end{figure}
 
 In Figure \ref{graph:langs} we have grouped together the programming languages by their type. In order to categories the different programming languages we used Wikipeada's page on List of programming languages by type \citet{2020Wiki}. After that filled in some of the missing gaps for languages they did not have. However did do it for all the programming types as their were some obsecure projects using uncommon programming languages.
 

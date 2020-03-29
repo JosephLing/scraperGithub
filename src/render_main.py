@@ -155,7 +155,6 @@ def create_percentage_bar_graphs(stars, name, xname, grouping_amount=540):
     # so that means you can't try do clever stuff as it will work out the positions first which will muck up
     # all the things
 
-
     ax.bar(np.arange(len(bottom)), heights)
     plt.rc(({'font.size': 9}))
     plt.title(name)
@@ -313,18 +312,43 @@ def langues_topn(dataset, n):
     return plot
 
 
+def popularity_vs_percentage_CI_scatter(df, data):
+    plot = plt
+    x = []
+    y = []
+    names = []
+    s = []
+    for key, value in df["total count"].iteritems():
+        s.append((value/df["total count"].max()))
+
+    for key, value in df["percentage CI"].iteritems():
+        x.append(float(value.replace("%", "")))
+        y.append(data[data["lang"] == key]["stars"].median())
+        names.append(key)
+
+    fig, ax = plt.subplots()
+    ax.scatter(y, x, [a*50 for a in s])
+    for i, txt in enumerate(names):
+        ax.annotate(txt, (y[i], x[i]), fontsize=4+(s[i]*5))
+    plt.ylim(0, 100)
+    plt.xlabel("stars")
+    plt.ylabel("percentage")
+    return fig
+
+
 def languages_table_topn(name, n, data, sorted_data):
     data["language"] = data["language"].apply(lambda x: x[2:-1] if isinstance(x, str) and x.startswith("b'") else x)
-    print(data["language"])
+    data["language"] = data["language"].apply(lambda x: x[2:-1] if isinstance(x, str) and x.startswith('b"') else x)
     c = data["language"].value_counts
+    # data.index.size - data["id"].value_counts().apply(lambda x: x if x == 1 else 0).sum()
 
     c2 = sorted_data["lang"].value_counts
-    print("c2 is: ")
-    print(c2())
-    frames = {"total count": c(), "using CI": c2(), "percentage CI": (c2() / c()) * 100}
+    frames = {"total count": c(), "using CI": c2(), "percentage CI": c2() / c() * 100}
     df = pd.DataFrame(frames)
+    # df["percentage CI"] = df["percentage CI"].apply(lambda x: x if x <=100 else -100)
     df["percentage CI"] = format_as_percentage(df["percentage CI"])
-    df = df.sort_values("total count", ascending=False).head(n)
+    df = df.sort_values("total count", ascending=False)
+    df = df.head(n)
     s = df.to_latex(
         caption="Total count of all programming languages used by projects. It has programming languages that only "
                 "found once removed.",
@@ -335,6 +359,7 @@ def languages_table_topn(name, n, data, sorted_data):
     with open(name, 'w') as tf:
         tf.write(s)
     print(f"writing data to {name}")
+    return df
 
 
 def _lang(plot, df, sorted_data, key, s):
@@ -530,15 +555,8 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         sorted_data = load_dataframe(name2)
         # save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
         # languages_table_topn(f"{output}/languages table.tex", 20, load_dataframe(name1), sorted_data)
-        #
-        sorted_data_csv = csvReader.readfile(name2)
-        data = csvReader.readfile(name1)
-
-        save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI",
-                    image_encoding)
-        save_as_pdf(spread_of_data_line_sub(data, sorted_data_csv), f"{output}/percentage sub with CI", image_encoding)
-        save_as_pdf(spread_of_data_line_star_other_paper(), f"{output}/percentage sub with CI other paper source",
-                    image_encoding)
+        langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
+        save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI", image_encoding)
     else:
         data = csvReader.readfile(name1)
         # #
@@ -551,6 +569,16 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # should not need to rerun this unless more scraping is done!!!
         # commented out as manual edits to the formatting are easier than code ones atm
         # config_type_split(f"{output}/configuration type count.tex", sorted_data)
+
+        # RQ3
+        langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
+        save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
+                    image_encoding)
+        
+        save_as_pdf(langues_topn(sorted_data, 20), f"{output}/languages-topn", image_encoding)
+
+        save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
+
         sorted_data_csv = csvReader.readfile(name2)
         save_as_pdf(spread_of_data_line_star(data, sorted_data_csv), f"{output}/percentage stars with CI",
                     image_encoding)
@@ -573,9 +601,6 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         scripts_latex(f"{output}/scripts table.tex", sorted_data)
         save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
         save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
-        save_as_pdf(langues_topn(sorted_data, 20), f"{output}/languages-topn", image_encoding)
-        languages_table_topn(f"{output}/languages table.tex", 20, load_dataframe(name1), sorted_data)
-        save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
 
     return sorted_data
 
