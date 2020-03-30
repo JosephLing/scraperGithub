@@ -288,44 +288,27 @@ def yaml_config_errors_to_latex(name, dataset):
         tf.write(s)
 
 
-def langues_topn(dataset, n):
-    """
-    not actually topn lol
-    """
-    langs = {}
-    for lang in dataset.groupby(["id", "lang"]).size().keys():
-        k = lang[1]
-        if langs.get(lang[1]) is None:
-            langs[lang[1]] = 0
-        langs[lang[1]] += 1
-
-    top = list(langs.items())
-    top.sort(key=lambda x: x[1])
-    top = top[len(top) - n:]
-    top = dict(top)
-    # plt.rcParams.update({'font.size': 5})
-
-    plot = plt
-    plot.bar(["{}".format(k) for k in top.keys() if k is not None and k != "" and top[k] > 1],
-             [format_as_percentage(top[k]) for k in top.keys() if k is not None and k != "" and top[k] > 1])
-    plot.xticks(rotation=90)
-    # plot.show()
-    return plot
-
-
-def config_topn(df, n):
+def topn(df, n, xaxis):
     names = []
     values = []
-    for key, value in df["lang"].value_counts().sort_values(ascending=False).head(n).iteritems():
+    for key, value in df.value_counts().sort_values(ascending=False).head(n).iteritems():
         names.append(key)
         values.append(value)
     plt.bar(names, values)
     plt.rc(({'font.size': 9}))
     plt.xticks(rotation=90)
 
-    plt.xlabel("configuration (top {})".format(n))
+    plt.xlabel("{} (top {})".format(xaxis, n))
     plt.ylabel("count")
     return plt
+
+
+def config_topn(df, n):
+    return topn(df["config"], n, "configuration ")
+
+
+def langues_topn(df, n):
+    return topn(df["lang"], n, "languages")
 
 
 def popularity_vs_percentage_CI_scatter(df, data):
@@ -627,6 +610,6 @@ def main(experimenting, name1, name2, image_encoding, output="."):
 
 
 if __name__ == '__main__':
-    # data = main(False, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
+    data = main(False, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
     data = main(False, "combined9.csv", "yaml threaded14.csv", "svg", "./results")
     # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")
