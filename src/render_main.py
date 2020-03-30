@@ -627,5 +627,6 @@ def main(experimenting, name1, name2, image_encoding, output="."):
 
 
 if __name__ == '__main__':
-    data = main(False, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
+    # data = main(False, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
+    data = main(False, "combined9.csv", "yaml threaded14.csv", "svg", "./results")
     # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")
