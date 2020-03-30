@@ -157,9 +157,10 @@ def create_percentage_bar_graphs(stars, name, xname, grouping_amount=540):
 
     ax.bar(np.arange(len(bottom)), heights)
     plt.rc(({'font.size': 9}))
+    plt.xticks(rotation=90)
+
     plt.title(name)
     plt.ylim(0, 100)
-    plt.xticks(rotation=90)
     plt.xlabel(xname)
     plt.ylabel("percentage")
     labels = []
@@ -312,6 +313,21 @@ def langues_topn(dataset, n):
     return plot
 
 
+def config_topn(df, n):
+    names = []
+    values = []
+    for key, value in df["lang"].value_counts().sort_values(ascending=False).head(n).iteritems():
+        names.append(key)
+        values.append(value)
+    plt.bar(names, values)
+    plt.rc(({'font.size': 9}))
+    plt.xticks(rotation=90)
+
+    plt.xlabel("configuration (top {})".format(n))
+    plt.ylabel("count")
+    return plt
+
+
 def popularity_vs_percentage_CI_scatter(df, data):
     plot = plt
     x = []
@@ -319,7 +335,7 @@ def popularity_vs_percentage_CI_scatter(df, data):
     names = []
     s = []
     for key, value in df["total count"].iteritems():
-        s.append((value/df["total count"].max()))
+        s.append((value / df["total count"].max()))
 
     for key, value in df["percentage CI"].iteritems():
         x.append(float(value.replace("%", "")))
@@ -327,9 +343,9 @@ def popularity_vs_percentage_CI_scatter(df, data):
         names.append(key)
 
     fig, ax = plt.subplots()
-    ax.scatter(y, x, [a*50 for a in s])
+    ax.scatter(y, x, [a * 50 for a in s])
     for i, txt in enumerate(names):
-        ax.annotate(txt, (y[i], x[i]), fontsize=4+(s[i]*5))
+        ax.annotate(txt, (y[i], x[i]), fontsize=4 + (s[i] * 5))
     plt.ylim(0, 100)
     plt.xlabel("stars")
     plt.ylabel("percentage")
@@ -555,8 +571,11 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         sorted_data = load_dataframe(name2)
         # save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
         # languages_table_topn(f"{output}/languages table.tex", 20, load_dataframe(name1), sorted_data)
-        langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
-        save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI", image_encoding)
+        # langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
+        # save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
+        #             image_encoding)
+        save_as_pdf(config_topn(sorted_data, 20), f"{output}/config-topn", image_encoding)
+
     else:
         data = csvReader.readfile(name1)
         # #
@@ -570,11 +589,13 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # commented out as manual edits to the formatting are easier than code ones atm
         # config_type_split(f"{output}/configuration type count.tex", sorted_data)
 
+        save_as_pdf(config_topn(sorted_data, 20), f"{output}/config-topn", image_encoding)
+
         # RQ3
         langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
         save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
                     image_encoding)
-        
+
         save_as_pdf(langues_topn(sorted_data, 20), f"{output}/languages-topn", image_encoding)
 
         save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
@@ -606,5 +627,5 @@ def main(experimenting, name1, name2, image_encoding, output="."):
 
 
 if __name__ == '__main__':
-    data = main(True, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
+    data = main(False, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
     # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")
