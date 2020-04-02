@@ -1,4 +1,4 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{24}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -13,11 +13,20 @@
 \bibitem[{Bra(????{\natexlab{c}})}]{BranchTrunk2013}
  (????{\natexlab{c}}).
 
+\bibitem[{Git(????)}]{GithubOctoverseResults2016}
+ (????). {GitHub} {State} of the {Octoverse}: 2016.
+
 \bibitem[{Rus(2020)}]{RustBlogCargo}
  (2020). Cargo: {Rust}'s community crate host {\textbar} {Rust} {Blog}.
 
 \bibitem[{202(2020)}]{2020Wiki}
  (2020). List of programming languages by type. Page Version ID: 946745400.
+
+\bibitem[{Borges, Hora and Valente(2016)}]{Borges2016}
+Borges, H., Hora, A. and Valente, M.~T. (2016). Understanding the {Factors}
+  {That} {Impact} the {Popularity} of {GitHub} {Repositories}. In \textit{2016
+  {IEEE} {International} {Conference} on {Software} {Maintenance} and
+  {Evolution} ({ICSME})}, pp. 334--344, iSSN: null.
 
 \bibitem[{Cito et~al.(2017)}]{Cito2017}
 Cito, J., Schermann, G., Wittern, J.~E., Leitner, P., Zumberi, S. and Gall,
@@ -83,8 +92,11 @@ Sharma, T., Fragkoulis, M. and Spinellis, D. (2016). Does {Your}
   {Conference} on {Mining} {Software} {Repositories} ({MSR})}, pp. 189--200,
   iSSN: null.
 
-\bibitem[{Tsvilik(2020)}]{GithubReadMeExample}
-Tsvilik, S. (2020). wdio-docker-service.
+\bibitem[{Tsvilik(2020{\natexlab{a}})}]{GithubReadMeExample}
+Tsvilik, S. (2020{\natexlab{a}}). wdio-docker-service.
+
+\bibitem[{Tsvilik(2020{\natexlab{b}})}]{GithubMetaDataExample}
+Tsvilik, S. (2020{\natexlab{b}}). wdio-docker-service.
 
 \bibitem[{Vasilescu et~al.(2015)}]{Vasilescu2015}
 Vasilescu, B., Yu, Y., Wang, H., Devanbu, P. and Filkov, V. (2015). Quality and

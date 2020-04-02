@@ -2,7 +2,6 @@ we need to be careful in the second part of the paper around language of project
 this is because we create a new entry for each CI type
 
 
-
 - comments 
   - raitos of comments to line and code per config
 

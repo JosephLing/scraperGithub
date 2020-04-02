@@ -36,6 +36,10 @@ dtypes = {**{"comments": int, "blank_lines": int, "code": int, "config": str,
 
 global_lock = threading.Lock()
 
+results = []
+results_ci = []
+no_readme = 0
+
 
 def write_to_csv(name, data, fields):
     with open("{}.csv".format(name), "a", newline="", encoding="utf-8") as csvfile:
@@ -345,11 +349,13 @@ def check_readme(readme):
 
         if config and len(re.findall("(http:\/\/)|(https:\/\/)", config)) == 0:
             config = ""
+    else:
+        global no_readme
+        no_readme += 1
 
     return config
 
 
-results = []
 
 
 def process_line(line, name):
@@ -371,6 +377,12 @@ def process_line(line, name):
         if temp:
             results.append(temp)
             # print("{} {} {}".format(line.get("name"), line.get("stargazers_count"), line.get("subscribers_count")))
+
+    if len(yaml_stats) != 0:
+        temp = check_readme(line.get("readme"))
+        if temp:
+            results_ci.append(temp)
+
 
     appendData(name, yaml_stats, FIELDS)
 
@@ -440,7 +452,7 @@ config file(s) &           {}     & {}                                & {}      
 found in ReadMe & {}     & {}                                &             &             \\\\ \\hline
 none found &            {}     & {}                                &             &             \\\\ \\hline
 \\end{{tabular}}
-\caption[Percentage of CI used for projects]{Percentage of CI used for projects out of a sample of {} }
+\caption[Percentage of CI used for projects]{{Percentage of CI used for projects out of a sample of {} }}
 \\label{{table_ci_usage}}
 \\end{{table}}
     """.format(len(filtered), format_as_percentage(len(filtered) / no_repos), len(filtered_data) - len(filtered),
@@ -460,9 +472,9 @@ def main(name, data, output_for_latex):
     """
     sets up the files to write the
     """
-    num_worker_threads = 3
+    num_worker_threads = 1
 
-    name = csvReader.check_name(name)
+    name = csvReader.check_name(name, limit=20)
 
     if name == "":
         print("file already found for the files for the main file so can't write to disk")
@@ -476,11 +488,14 @@ def main(name, data, output_for_latex):
         writer.writeheader()
 
     run_main(num_worker_threads, data, name)
-    write_to_latex(f"{output_for_latex}/generated_table.tex", len(data), name)
+    write_to_latex(f"{output_for_latex}/generated_table2.tex", len(data), name)
     return f"{name}.csv"
 
 
 if __name__ == '__main__':
     main("yaml threaded", csvReader.readfile("combined9.csv"), "./results")
+    print(len(results))
+    print(len(results_ci))
+    print(no_readme)
 
     # check_output("yaml threaded5.csv")

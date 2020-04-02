@@ -62,7 +62,7 @@ def writeToCsv(data, name, fields=None):
         logger.info("no data found")
 
 
-def check_name(name, debug=True) -> str:
+def check_name(name, debug=True, limit=15) -> str:
     new_name = name
     count = 0
     while exists("{}.csv".format(new_name)):
@@ -70,7 +70,7 @@ def check_name(name, debug=True) -> str:
         count += 1
         if debug:
             print(f"{name}{count}.csv already exists trying alternative name")
-        if count > 15:
+        if count > limit:
             return ""
     return new_name
 

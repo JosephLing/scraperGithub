@@ -138,7 +138,7 @@ Initially the project started of as a small piece of research that would aid loo
   \end{minipage}
 \end{figure}
 
-We chose to use a config file to specfiy which CI systems config files we would look for. If it was a directory then it would get all ".yaml" or ".yml" along with any Teamcity ".kts" and ".xml" files. However the script did not look into any of the sub directories which might be the cause for the low number of Teamcity configuration files found. In the case that it was a file that was on the top level directory we matched it the lowercase file name we found against the query.
+We chose to use a config file to specify which CI systems config files we would look for. If it was a directory then it would get all ".yaml" or ".yml" along with any Teamcity ".kts" and ".xml" files. However the script did not look into any of the sub directories which might be the cause for the low number of Teamcity configuration files found. In the case that it was a file that was on the top level directory we matched it the lowercase file name we found against the query.
 
 In terms which configuration files to pick we based our list from Github Welcomes all CI Tools blog post in 2017 \cite{Github2017}. In addition we added Github Actions and Azure Pipelines to list as they are new potentially popular systems. 
 
@@ -163,55 +163,96 @@ As the config could have mistakes in it or we missed out a major CI system. We a
   \label{ExampleGithubReadme}
 \end{figure}
 
-
 We ended up with a config file with queries for configuration files for the following CI systems: Travis, Gitlab, Azure, App Veyor, Drone, Jenkins, Github, Circleci, Semaphore, Teamcity and buildkite. 
 
 We excluded Wrecker from the search because they represented a very small number of projects in comparison to the other projects. As it seems since the Github survey in 2017 they got bought by Oracle and from doing a search on Github for what we think based on the docs \cite{WreckerDocs} and \cite{WreckerOpenSourceGithubSearch} for their config file naming convention. We were only able to find 20 results so did not include in the scraping script to speed up the process of searching for the other configuration file formats.
 
-As can be seen later in on \ref{graph_scatter_stars_vs_subs} we weren't able to scrape the whole star count range easily. This is because the script would crash when Github gave a 500 error code at us randomly. Along with empty repositories initially causing a problem. In order to mitigate the damage of this the scraper would create a new Comma Separated Value (csv) file search e.g. one for stars:0..1 and another for stars:1..2. As all the csv file contained the same header we ran a script to combine all together at the end. Making sure to remove any duplicates by filtering on the Github project id.
+Along with information of what CI is being used for a project we also gathered metadata about the project. The available metadata through the api is largely what can been seen on a repository for example in Figure \ref{ExampleGithubMetaData}. We have the star count which is an indication how popular a project is as users can star projects that they like \citet{Borges2016}. Then we have watchers which is users that have subscribed to the project to get notifications about the project. 
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.5, width=\textwidth]{2020-04-01-11-37-22.png}
+  \caption[alt text]{Example Github project description and metadata\cite{GithubMetaDataExample}}
+  \label{ExampleGithubMetaData}
+\end{figure}
+
+\vspace*{-0.05in}
+\subsection{Data corpus}
+\label{section:corpus}
+\vspace*{-0.05in}
+This all produced a sample of 32,660 projects from open source projects on Github. As can be seen in Figure \ref{graph_scatter_stars_vs_subs} we weren't able to scrape the whole star count range easily. This is because the script would crash when Github gave a 500 error code at us randomly. Along with empty repositories initially causing a problem. In order to mitigate the damage of this the scraper would create a new Comma Separated Value (csv) file search e.g. one for stars:0..1 and another for stars:1..2. As all the csv file contained the same header we ran a script to combine all together at the end. Making sure to remove any duplicates by filtering on the Github project id.
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{minipage}{.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../src/results/sub vs stars.pdf}
+    \caption[alt text]{Github stars against subscribers}
+    \label{graph_scatter_stars_vs_subs}
+  \end{minipage}
+  \begin{minipage}{.48\textwidth}
+    \centering
+  \includegraphics[width=\textwidth]{../src/results/spread over time.pdf}
+  \caption[alt text]{density of stars sampled}
+  \label{graph_scatter_stars_line}
+  \end{minipage}
+\end{figure}
+
+
+In Figure \ref{graph_scatter_stars_line} it shows the density of our the data we got from Github more clearly than Figure \ref{graph_scatter_stars_vs_subs}. As discussed already the number of projects that have 0 stars would easily be over 10,000 however we only could get a maximum of a 1,000 results for each star level.
+
+\vspace*{-0.05in}
+\subsection{comparison corpus info}
+\label{section:HiltonComaprisonCoprusTHing}
+\vspace*{-0.05in}
+In \citet{Hilton2016} paper they use a similar method of using the Github Api in order to create their corpus. Additionally they contacted Cloud Bees (REFERENCE) to get a list of all open source projects that used their services. This helped them not to miss out on projects that they would otherwise missed out on. They kindly gave a copy of their final corpus. 
+
+\todo[]{so the cloud bees data isn't in our corpus that they gave us... so hwo do we do comparison based on the data. But the paper says that it's 35,544 which is the size of data we have in our excel doc they gave us.... so :shrug@: but should only effect RQ2 which we can just use the details from the paper to reproduce the table/bar graph}
+
+Figure \ref{graph:line_comparison_hilton} provides a visual representation of their corpus in comparison to our dataset in order to help gain an understanding between the two of them. 
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{../src/results/comparison_corpus.pdf}
+  \caption[alt text]{Star comparison line graph between the two datasets}
+  \label{graph:line_comparison_hilton}
+\end{figure}
+% https://www.cloudbees.com/
 % ------------------------------------------------------------------------------------------------------------------------------------
+
+\pagebreak
 \section{Usage of CI}
 
 \vspace*{-0.05in}
 \subsection{\textbf{RQ1}: What percentage of open-source projects use CI?}
 \label{section:RQ1}
 \vspace*{-0.05in}
-Our sample of repositories is 31,494 in comparison to \citet{Hilton2016} which had a sample of 34,544. The percentage of CI projects they had was 40.27\%. If you look at Table \ref{table:sample_breakdown} it shows that we got 38.51\% CI projects. However as we didn't search for every kind of CI config possible and their could potentially be mistakes in the scraping. 
-We scraped the "ReadMe.md" files from the projects to check if they had a CI status label in them as shown in Figure \ref{ExampleGithubReadme}. To do this we checked for "alt="Build Status"", "alt='Build Status'", "Status" and "status" being in the file. Then if that same line of text contained a url specified by if contained "http://" or "https://" then we counted it as potentially being a project that used CI. This can generate false positives and doesn't lead to us getting a CI file to analyse so those projects are only used here to tackle this research question only.  
 
-If you combined the "config file(s)" and "found in ReadMe" results together you would get 41.28\% which is shows that our sample is within the margins of the same results that \citet{Hilton2016} got. 
+Out of the 32,660 projects 38.51\% of them had CI configuration files in them indicating that they used CI. 
+
 \input{../src/results/generated_table.tex}
+% \todo[]{table references aren't working atm so going to hard code woo! (have googled for solutions but no avail)}
 
-The really interesting part though is how that percentage has not increased over the past 4 years and has potentially decreased. Further research would need to be done to be able to gain a better understanding of this. As there are number of factors at play such as no. of new projects being created, when did projects implement CI in terms of time but also looking at when in the project. As well a larger sample than ours that is isn't missing any data.
-
-There are 5.31\% of overall projects have multiple CI files in them which is really interesting as that makes up 13.81\% of projects that have CI have multiple types in them. This could be for a number of reasons as one configuration file could be used for CI and another for Continous Delivery. Or potentially it could be a mono repository which means that it has multiple projects inside of it which could mean multiple CI files.
-
-% \todo[]{what we want here is to explain what we have found and then do the comparison. Instead of throwing them into a comparison straight away without explaining the data }
+An interesting factor in Table 1 is the percentage of that 38\% that has multiple CI in them. This is because configuration files can be used to CI or CD and some projects are run a monorepo which means that have multiple projects inside them. Another simple explanation is that although the configuration is stored version control it just hasn't been deleted. 
 
 
-However that doesn't give us too much insight into the dataset. Here is a graph showing the subscribers plotted against the number of stars. These next two figures are used to provided a visual representation of the dataset. In order that you can get a clearer understanding of what the sample is. As well as there is no correlation but to see the spread of data that the table is showing. 
+We scraped the "ReadMe.md" files from the projects to check if they had a CI status label in them as shown in Figure \ref{ExampleGithubReadme}. To do this we checked for "alt="Build Status"", "alt='Build Status'", "Status" and "status" being in the file. Then if that same line of text contained a url specified by if contained "http://" or "https://" then we counted it as potentially being a project that used CI. However this can lead to false positives as only 6782 (55.92\%) of projects that we found CI files in ReadMe had a CI status label that we could find.
 
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\textwidth]{../src/results/sub vs stars.pdf}
-  \caption[alt text]{Scatter graph of Github stars against subscribers}
-  \label{graph_scatter_stars_vs_subs}
-\end{figure}
+In Table 2 is the results from \citet{Hilton2016} which had a sample of 34,544.
+\input{hilton_usage_table.tex}
 
-Figure \ref{graph_scatter_stars_vs_subs} helps give a understanding to the give a depth of the data for where the graph is just blue. This is because on Github you get more repositories with smaller star counts than large ones.
-In the case of two white bars at the lower end of the stars axis is where we do not have any data. This is due to time constraints on the paper and difficulties discussed in the Methodology (Section \ref{methodology}).
+The percentage of CI projects they had was 40.27\%. If you look at Table 1 it shows that we got 38.51\% CI projects. This is interesting as we searched for more kinds of CI configuration so there was a potentially a higher chance of having CI.
 
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\textwidth]{../src/results/spread over time.pdf}
-  \caption[alt text]{Stars graph}
-  \label{graph_scatter_stars_line}
-\end{figure}
+One possible reason could be because of in RQ3 \ref{section:RQ3} it shows that the more popular a project the higher chance it has of using CI. Therefore as their sample contains a few more projects that are popular their they could all be using CI. However that is a weak tangent to make in order to full explain it.  
 
-However as Figure \ref{graph_scatter_stars_vs_subs} doesn't show the density of the we have Figure \ref{graph_scatter_stars_line} to show the amount of data we have per star. On the graph you can see slight jumps in the graph where we have the missing data from the scrape.
+Another possible reason could be if you combined the "config file(s)" and "found in ReadMe" results together you would get 41.28\% which is shows that our sample is within the margins of the same results that of Table 2.
 
-Overall, for public projects on Github CI is widely used however there are more questions to do with breakdown of how widely it is. As well as our sample isn't a complete search over the star count it is missing data. Nonetheless we are still able to analyse the results............
+Another possible reason is that because of Github's growth over the last 4 years (\citet{GithubOctoverseResults2016} to 2019 \citet{GithubOctoverseResults}) so that Github is now at 40 million active users. It means that there are more projects that are using CD setups for building their static sites and in general Github is being used for more things that wouldn't require CI.
+
+Therefore we think that the last two factors are the most likely contributors to why there is less CI usage now. Another important interesting part is despite Github growing so much the CI usage rate has stayed relatively the same. 
+% % \todo[]{what we want here is to explain what we have found and then do the comparison. Instead of throwing them into a comparison straight away without explaining the data }
+
+% Overall, for public projects on Github CI is widely used however there are more questions to do with breakdown of how widely it is. As well as our sample isn't a complete search over the star count it is missing data. Nonetheless we are still able to analyse the results............
 
 
 
@@ -223,6 +264,24 @@ Overall, for public projects on Github CI is widely used however there are more 
 \vspace*{-0.05in}
 In Table \ref{table_config_types} we find like all other research Travis is the most popular CI system in use. However over the last 4 years since the \cite{Github2017} CircleCi has lost out on it's rough quarter that it owned. In particular the rise of Github Actions seems to have taken second place even though it is still very young in comparison as it was officially released November 13th 2019 but had a closed beta since the summer of 2019. However this might not be down to the CircleCi loosing out on their existing share. But potentially as the rise in CI usage goes up on Github. Projects are more likely to pick in the built in solutions to Github.
 \input{../src/results/configuration type count.tex}
+
+\begin{figure}[!h]
+  \centering
+  % TODO: make this bigger when the time comes
+  \includegraphics[width=.8\textwidth]{../src/results/config-topn.pdf}
+  \caption{Subs graph}
+  \label{graph:config_bar}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  % TODO: make this bigger when the time comes
+  \includegraphics[width=.8\textwidth]{../src/results/comparison_config_bar.pdf}
+  \caption{Subs graph}
+  \label{graph:config_bar}
+\end{figure}
+
+\todo[]{remove topn from the 2020 dataset and normalise both graphs to a percentage so that comaprisons can easily be done between them. However how much of a comparison can you make with the datasets being so different}
 
 Our sample of repositories is 31,494 this means that as it is a representation of projects on Github so won't account for the whole of it. This means that although Wrecker had the smallest count of CI when researching of 20 projects. In Table \ref{table_config_types} we have configuration types that have lower counts. This is because that search for the 20 searched the whole of Github but the scraping was only able to do a small sample. Additionally their potentially could be faults in the scraping causing it show such low numbers for the last 3. 
 

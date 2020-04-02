@@ -199,8 +199,6 @@ def spread_over_time_stars(data):
     x.sort()
     plot.scatter(list(range(len(x))), x, s=0.5)
 
-    plot.title("Spread over time of stars")
-
     return plot
 
 
