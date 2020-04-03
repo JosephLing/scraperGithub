@@ -26,13 +26,9 @@ def compare_coprus(data, data2):
     return plot
 
 
-def write_to_latex(name, no_repos, name_of_filtered):
-    filtered = {}
-    filtered_data = csvReader.readfile_low_memory(f"{name_of_filtered}.csv")
-
-    for value in filtered_data:
-        filtered[value[21]] = 0
-
+def write_to_latex(name, no_repos, sorted_data):
+    filtered = sorted_data
+    filtered_data = sorted_data[sorted_data["CI_multi"] > 1]
     data = """
     \\begin{{table}}[h]
 \\begin{{tabular}}{{|l|l|l|l|l|}}
@@ -44,9 +40,12 @@ none found &            {}     & {}                                &            
 \caption[Percentage of CI used for projects]{{Percentage of CI used for projects out of a sample of {} }}
 \\label{{table_ci_usage}}
 \\end{{table}}
-    """.format(len(filtered), format_as_percentage(len(filtered) / no_repos), len(filtered_data) - len(filtered),
-               format_as_percentage((len(filtered_data) - len(filtered)) / len(filtered)),
-               no_repos)
+    """.format(len(filtered), format_as_percentage(len(filtered) / no_repos),
+               len(filtered_data),
+               format_as_percentage((len(filtered_data)) / len(filtered)),
+                                    (no_repos - len(filtered)),
+                                    format_as_percentage((no_repos - len(filtered)) / no_repos),
+                                    no_repos)
 
     data = data.replace("%", "\\%")  # because latex
     with open(name, "w", encoding="utf-8") as f:
@@ -145,6 +144,7 @@ def main(output, image_encoding):
     data["CI_multi"] = data["Travis"] + data["AppVeyor"] + data["CircleCI"] + data["Werker"]
     data2 = pd.read_csv("combined9.csv")
     sorted_data = data[data["CI"] > 0]
+    write_to_latex(f"{output}/2016 usage first table raw data from corpus", len(data), sorted_data)
     # save_as_pdf(compare_coprus(data, data2), f"{output}/comparison_corpus", image_encoding)
     # save_as_pdf(compare_coprus2(data["stars"], "2016"), f"{output}/density_2016", image_encoding)
     # save_as_pdf(compare_coprus2(data2["stargazers_count"], "2020"), f"{output}/density_2020", image_encoding)

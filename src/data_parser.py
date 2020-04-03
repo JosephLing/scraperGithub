@@ -376,7 +376,7 @@ def process_line(line, name):
         temp = check_readme(line.get("readme"))
         if temp:
             results.append(temp)
-            # print("{} {} {}".format(line.get("name"), line.get("stargazers_count"), line.get("subscribers_count")))
+            print("{} {} {}".format(line.get("name"), line.get("stargazers_count"), line.get("subscribers_count")))
 
     if len(yaml_stats) != 0:
         temp = check_readme(line.get("readme"))

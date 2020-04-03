@@ -302,7 +302,20 @@ def topn(df, n, xaxis):
 
 
 def config_topn(df, n):
-    return topn(df["config"], n, "configuration ")
+    names = []
+    values = []
+    for key, value in df["config"].value_counts().sort_values(ascending=False).head(n).iteritems():
+        names.append(key.replace("jenkinsPipeline", "Jenkins"))
+        values.append(value)
+    total = sum(values)
+    plt.rc(({'font.size': 6}))
+
+    plt.bar(names, [(v / total) * 100 for v in values])
+    plt.xticks(rotation=45)
+    plt.ylim(0, 100)
+    plt.xlabel("Configuration")
+    plt.ylabel("percentage")
+    return plt
 
 
 def langues_topn(df, n):
@@ -555,7 +568,10 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
         # save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
         #             image_encoding)
-        save_as_pdf(config_topn(sorted_data, 20), f"{output}/config-topn", image_encoding)
+        # save_as_pdf(config_topn(sorted_data, 20), f"{output}/config-topn", image_encoding)
+        langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
+        save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
+                    image_encoding)
 
     else:
         data = csvReader.readfile(name1)
@@ -577,7 +593,7 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
                     image_encoding)
 
-        save_as_pdf(langues_topn(sorted_data, 20), f"{output}/languages-topn", image_encoding)
+        save_as_pdf(langues_topn(sorted_data, 50), f"{output}/languages-topn", image_encoding)
 
         save_as_pdf(language_type(load_dataframe(name1), sorted_data), f"{output}/languages", image_encoding)
 
@@ -608,6 +624,6 @@ def main(experimenting, name1, name2, image_encoding, output="."):
 
 
 if __name__ == '__main__':
-    data = main(False, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
-    data = main(False, "combined9.csv", "yaml threaded14.csv", "svg", "./results")
+    data = main(True, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
+    # data = main(False, "combined9.csv", "yaml threaded14.csv", "svg", "./results")
     # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")

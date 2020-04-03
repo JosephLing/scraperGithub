@@ -48,7 +48,7 @@ United Kingdom \\ \vspace{10mm} \\ Word Count: around 5500}
 \section{Introduction}
 \label{Introduction}
 
-Continuos integration (CI) is becoming more popular over the last few years. This can be seen by how major version control hosting services Github, Bitbucket and Gitlab have all started to or have been improving their CI product. In terms of research, Infrastructure as Code in \citet{Rahman2019} which does a systematic mapping of research in that area. For Continuous Integration with \citet{Shahin2017} which does another systematic review on how it is used. These two papers demonstrate some of breadth of research that has taken place. In addition you have papers like Google's Innovation Factory: Testing, Culture, and Infrastructure \citet{Copeland2010} which demonstrate some of the depth that the papers go into.
+Continuos integration (CI) is becoming more popular over the last few years. This can be seen by how major version control hosting services Github, Bitbucket and Gitlab have all started to or have been improving their CI products. In terms of research, Infrastructure as Code in \citet{Rahman2019} which does a systematic mapping of research in that area. For Continuous Integration with \citet{Shahin2017} which does another systematic review on how it is used. These two papers demonstrate some of breadth of research that has taken place. In addition you have papers like Google's Innovation Factory: Testing, Culture, and Infrastructure \citet{Copeland2010} which demonstrate some of the depth that the papers go into.
 \todo[]{google paper might not be the best one here, we want to demonstrate reading around the area here but not too include a paper which we will go into much later but is still relevant}
 
 Continuos Integration is a process of automatically running compiling, running tests and checking that the product works. This is can be combined with Continuos Delivery where the product is deployed or released after it has gone through successfully CI. 
@@ -196,7 +196,7 @@ This all produced a sample of 32,660 projects from open source projects on Githu
 \vspace*{-0.05in}
 In \citet{Hilton2016} paper they use a similar method of using the Github Api in order to create their corpus. Additionally they contacted Cloud Bees (REFERENCE) to get a list of all open source projects that used their services. This helped them not to miss out on projects that they would otherwise missed out on. They kindly gave a copy of their final corpus. 
 
-However it does contain the data on the Cloud Bees projects which is 223 projects. As far as we can tell this only effects the comparison done in RQ2 \ref{section:RQ2}. This because in their RQ1, RQ2 they only do the it based the data that they gave us. \todo[]{check RQ2 when you create the scatter}
+However it does contain the data on the Cloud Bees projects which is 223 projects. As far as we can tell this only effects the comparison done in RQ2 \ref{section:RQ2}. Additionally we found slight discrepancies between the paper and corpus in RQ1, RQ2 and RQ3 mainly just a few numbers off in a few places. In order to do comparisons well and to keep it consistent we will be basing all our comparisons from the corpus. As the discrepancies are small we will using the conclusions from the paper where possible.  
 
 In order to get a better understanding of the results of the methodologies chosen in both cases. We created Figure \ref{graph:hist} two histograms to showing the density by the stars of the spread of data using the Sturge's rule. As we expected both corpses are skewed to the left.  
 
@@ -245,7 +245,7 @@ However this method is not perfect, for example \enquote{awesome-bootstrap-check
 \end{verbatim}
 This contains \verb|Status| and a url so we say it has got CI when the repository currently doesn't. Yet this is not the case for all of them as for example \enquote{SyncTrayzor} by \enquote{canton7} \cite{Male2020} uses AppVeyor but doesn't use a configuration file for it. Therefore we didn't find it as we searched for a config file only. 
 
-The percentage of CI projects they had was 40.27\%. If you look at Table 1 it shows that we got 38.51\% CI projects. This is interesting as we searched for more kinds of CI configuration so there was a potentially a higher chance of having CI.
+The percentage of CI projects they had was 39.81\%. If you look at Table 1 it shows that we got 38.51\% CI projects. This is interesting as we searched for more kinds of CI configuration so there was a potentially a higher chance of having CI.
 
 One possible reason could be because of in RQ3 \ref{section:RQ3} it shows that the more popular a project the higher chance it has of using CI. Therefore as their sample contains a few more projects that are popular their they could all be using CI. However that is a weak tangent to make in order to full explain it.  
 
@@ -254,11 +254,8 @@ Another possible reason could be if you combined the \enquote{Found CI} and \enq
 Another possible reason is that because of Github's growth over the last 4 years (\citet{GithubOctoverseResults2016} to 2019 \citet{GithubOctoverseResults}) so that Github is now at 40 million active users. It means that there are more projects that are using CD setups for building their static sites and in general Github is being used for more things that wouldn't require CI.
 
 Therefore we think that the last two factors are the most likely contributors to why there is less CI usage now. Another important interesting part is despite Github growing so much the CI usage rate has stayed relatively the same. 
-% % \todo[]{what we want here is to explain what we have found and then do the comparison. Instead of throwing them into a comparison straight away without explaining the data }
 
-% Overall, for public projects on Github CI is widely used however there are more questions to do with breakdown of how widely it is. As well as our sample isn't a complete search over the star count it is missing data. Nonetheless we are still able to analyse the results............
-
-
+\todo[]{maybe re-evaluate the analysis as the percentage difference has changed from 2-3\% odd to 1\% pretty much}
 
 
 % --------------------------------------------------------------
@@ -290,24 +287,6 @@ In Table \ref{table_config_types} we find like all other research Travis is the 
 
 \end{figure}
 
-
-% \begin{figure}[!h]
-%   \centering
-%   % TODO: make this bigger when the time comes
-%   \includegraphics[width=.8\textwidth]{../src/results/config-topn.pdf}
-%   \caption{Subs graph}
-%   \label{graph:config_bar}
-% \end{figure}
-
-% \begin{figure}[!h]
-%   \centering
-%   % TODO: make this bigger when the time comes
-%   \includegraphics[width=.8\textwidth]{../src/results/comparison_config_bar.pdf}
-%   \caption{Subs graph}
-%   \label{graph:config_bar}
-% \end{figure}
-
-\todo[]{remove topn from the 2020 dataset and normalise both graphs to a percentage so that comaprisons can easily be done between them. However how much of a comparison can you make with the datasets being so different}
 
 Our sample of repositories is 31,494 this means that as it is a representation of projects on Github so won't account for the whole of it. This means that although Wrecker had the smallest count of CI when researching of 20 projects. In Table \ref{table_config_types} we have configuration types that have lower counts. This is because that search for the 20 searched the whole of Github but the scraping was only able to do a small sample. Additionally their potentially could be faults in the scraping causing it show such low numbers for the last 3. 
 
