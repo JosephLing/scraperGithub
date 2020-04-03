@@ -1,4 +1,4 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{25}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -13,14 +13,14 @@
 \bibitem[{Bra(????{\natexlab{c}})}]{BranchTrunk2013}
  (????{\natexlab{c}}).
 
-\bibitem[{Git(????)}]{GithubOctoverseResults2016}
- (????). {GitHub} {State} of the {Octoverse}: 2016.
+\bibitem[{Git(????{\natexlab{a}})}]{GithubReadMeIncorrectFind}
+ (????{\natexlab{a}}). flatlogic/awesome-bootstrap-checkbox.
+
+\bibitem[{Git(????{\natexlab{b}})}]{GithubOctoverseResults2016}
+ (????{\natexlab{b}}). {GitHub} {State} of the {Octoverse}: 2016.
 
 \bibitem[{Rus(2020)}]{RustBlogCargo}
  (2020). Cargo: {Rust}'s community crate host {\textbar} {Rust} {Blog}.
-
-\bibitem[{202(2020)}]{2020Wiki}
- (2020). List of programming languages by type. Page Version ID: 946745400.
 
 \bibitem[{Borges, Hora and Valente(2016)}]{Borges2016}
 Borges, H., Hora, A. and Valente, M.~T. (2016). Understanding the {Factors}
@@ -68,6 +68,9 @@ Kalliamvakou, E., Gousios, G., Blincoe, K., Singer, L., German, D.~M. and
 \bibitem[{Ling(2019)}]{GithubRepoExample}
 Ling, J. (2019). Cu worhsip song list creator - a repository taken over for
   testing.
+
+\bibitem[{Male(2020)}]{Male2020}
+Male, A. (2020). canton7/{SyncTrayzor}. Original-date: 2015-02-08T17:08:40Z.
 
 \bibitem[{Michael~Hilton, Marinov and Dig(2016)}]{Hilton2016}
 Michael~Hilton, K.~H., Timothy~Tunnell, Marinov, D. and Dig, D. (2016). Usage,
