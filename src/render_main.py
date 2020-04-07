@@ -462,7 +462,7 @@ def comment_uage_tbale(data):
     df2 = pd.DataFrame(f, index=[0])
 
     print(df2.to_latex(caption="yaml configuration errors", label="table_yaml_errors",
-                bold_rows=True))
+                       bold_rows=True))
 
 
 def line_usage_configuration(data, only_comments=False):
@@ -471,13 +471,8 @@ def line_usage_configuration(data, only_comments=False):
     barWidth = 0.25
     if only_comments:
         data = data[data["comments"] > 0]
-    df = data.groupby("config")[["blank_lines", "comments", "code", "file_lines", "code_with_comments"]].mean()
+    df = data.groupby("config")[["blank_lines", "comments", "code", "file_lines"]].mean()
 
-    # set height of bar
-    # bars1 = [12, 30, 1, 8, 22]
-    # bars2 = [28, 6, 16, 5, 10]
-    # bars3 = [29, 3, 24, 25, 17]
-    #
     bars = []
     for config in df.columns:
         bars.append(list(df[config]))
@@ -487,22 +482,21 @@ def line_usage_configuration(data, only_comments=False):
     r2 = [x + barWidth for x in r1]
     r3 = [x + barWidth for x in r2]
     r4 = [x + barWidth for x in r3]
-    r5 = [x + barWidth for x in r4]
 
     # Make the plot
     plt.bar(r1, bars[0], color='#7f6d5f', width=barWidth, edgecolor='white', label='blank lines')
     plt.bar(r2, bars[1], color='#557f2d', width=barWidth, edgecolor='white', label='comments')
     plt.bar(r3, bars[2], color='blue', width=barWidth, edgecolor='white', label='code')
     plt.bar(r4, bars[3], color='red', width=barWidth, edgecolor='white', label='file lines')
-    plt.bar(r5, bars[4], color='#2d7f5e', width=barWidth, edgecolor='white', label='code with comments')
 
     # Add xticks on the middle of the group bars
-    plt.ylabel("lines")
+    plt.ylabel("mean number of lines", fontweight='bold')
     plt.xlabel('configuration', fontweight='bold')
     plt.xticks([r + barWidth for r in range(len(bars[0]))], list(df.index))
     plt.xticks(rotation=45)
     plt.legend()
     return plt
+
 
 def line_usage_configuration2(data, only_comments=False):
     import numpy as np
@@ -510,13 +504,8 @@ def line_usage_configuration2(data, only_comments=False):
     barWidth = 0.25
     if only_comments:
         data = data[data["comments"] > 0]
-    df = data.groupby("config")[["blank_lines", "comments", "code_with_comments"]].mean()
+    df = data.groupby("config")[["comments", "code_with_comments", "single_line_comment", "multi_line_comment"]].mean()
 
-    # set height of bar
-    # bars1 = [12, 30, 1, 8, 22]
-    # bars2 = [28, 6, 16, 5, 10]
-    # bars3 = [29, 3, 24, 25, 17]
-    #
     bars = []
     for config in df.columns:
         bars.append(list(df[config]))
@@ -524,20 +513,23 @@ def line_usage_configuration2(data, only_comments=False):
     # Set position of bar on X axis
     r1 = np.arange(len(bars[0]))
     r2 = [x + barWidth for x in r1]
-    r5 = [x + barWidth for x in r2]
+    r3 = [x + barWidth for x in r2]
+    r4 = [x + barWidth for x in r3]
 
     # Make the plot
-    plt.bar(r1, bars[0], color='#7f6d5f', width=barWidth, edgecolor='white', label='blank lines')
-    plt.bar(r2, bars[1], color='#557f2d', width=barWidth, edgecolor='white', label='comments')
-    plt.bar(r5, bars[2], color='#2d7f5e', width=barWidth, edgecolor='white', label='code with comments')
+    plt.bar(r1, bars[0], color='#7f6d5f', width=barWidth, edgecolor='white', label='comments')
+    plt.bar(r2, bars[1], color='blue', width=barWidth, edgecolor='white', label='code with comments')
+    plt.bar(r3, bars[2], color='red', width=barWidth, edgecolor='white', label='single line comment')
+    plt.bar(r4, bars[3], color='#2d7f5e', width=barWidth, edgecolor='white', label='multi line comment')
 
     # Add xticks on the middle of the group bars
-    plt.ylabel("lines")
+    plt.ylabel("mean number of lines", fontweight='bold')
     plt.xlabel('configuration', fontweight='bold')
     plt.xticks([r + barWidth for r in range(len(bars[0]))], list(df.index))
     plt.xticks(rotation=45)
     plt.legend()
     return plt
+
 
 def comment_usage(data):
     import numpy as np
@@ -621,7 +613,7 @@ def code_with_comments(data, xcol, ycol, cat="config"):
         axs[p].scatter(x, y, 0.5)
         b, m = polyfit(x, y, 1)
         axs[p].plot(x, b + m * x, '-', color="red", alpha=0.25, scalex=False, scaley=False)
-        axs[p].plot(np.array(range(x.max())), np.array(range(x.max())), '-', color="green",alpha=0.25)
+        axs[p].plot(np.array(range(x.max())), np.array(range(x.max())), '-', color="green", alpha=0.25)
         axs[p].set_title("{} (sample: {})".format(c, len(git)), fontsize=6)
         # axs[p].set_ylim(-1, 1200)
         # axs[p].set_xlim(0, 7000)
@@ -660,22 +652,27 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
         # save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
         #             image_encoding)
-        code_with_comments(sorted_data, "code", "comments")
-        code_with_comments(sorted_data, "code", "file_lines")
-        code_with_comments(sorted_data, "code", "blank_lines")
-        code_with_comments(sorted_data, "single_line_comment", "multi_line_comment")
-        code_with_comments(sorted_data, "multi_line_comment", "multi_line_comment_unique")
+        # code_with_comments(sorted_data, "code", "comments")
+        # code_with_comments(sorted_data, "code", "file_lines")
+        # code_with_comments(sorted_data, "code", "blank_lines")
+        # code_with_comments(sorted_data, "single_line_comment", "multi_line_comment")
+        # code_with_comments(sorted_data, "multi_line_comment", "multi_line_comment_unique")
+        #
+        # code_with_comments(sorted_data, "code", "comments", "lang")
+        # code_with_comments(sorted_data, "code", "file_lines", "lang")
 
-        code_with_comments(sorted_data, "code", "comments", "lang")
-        code_with_comments(sorted_data, "code", "file_lines", "lang")
-        line_usage_configuration(sorted_data).show()
-        line_usage_configuration(sorted_data[sorted_data["yaml"]]).show()
-        line_usage_configuration2(sorted_data[sorted_data["yaml"]]).show()
+        # save_as_pdf(line_usage_configuration(sorted_data[sorted_data["yaml"]]).show()
+        # save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"]]).show()
+        # save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"] == False]).show() asfdasdfasdfafdasdfasdfasdfasdfsdf
+        # comment_uage_tbale(sorted_data)
 
-        line_usage_configuration2(sorted_data[sorted_data["yaml"] == False]).show()
-
-
-        comment_uage_tbale(sorted_data)
+        save_as_pdf(line_usage_configuration(sorted_data), f"{output}/line structure all", image_encoding)
+        save_as_pdf(line_usage_configuration(sorted_data[sorted_data["yaml"]]), f"{output}/line structure yaml",
+                    image_encoding)
+        save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"]]),
+                    f"{output}/line structure yaml comments", image_encoding)
+        save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"] == False]),
+                    f"{output}/line structure none yaml comments", image_encoding)
     else:
         data = csvReader.readfile(name1)
         # #
@@ -715,7 +712,14 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # render_sankey_diagram.save_sanky_daigram_for_errors_and_comments(f"./{output}/sankey3",
         #                                                                  pd.read_csv(name2, dtype=dtypes), True, False,
 
-        save_as_pdf(line_usage_configuration(sorted_data), f"{output}/basic comments bars", image_encoding)
+        save_as_pdf(line_usage_configuration(sorted_data), f"{output}/line structure all", image_encoding)
+        save_as_pdf(line_usage_configuration(sorted_data[sorted_data["yaml"]]), f"{output}/line structure yaml",
+                    image_encoding)
+        save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"]]),
+                    f"{output}/line structure yaml comments", image_encoding)
+        save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"] == False]),
+                    f"{output}/line structure none yaml comments", image_encoding)
+
         save_as_pdf(comment_usage(sorted_data), f"{output}/comments usage bars", image_encoding)
 
         save_as_pdf(script_usage(sorted_data), f"{output}/scripts usage bars", image_encoding)

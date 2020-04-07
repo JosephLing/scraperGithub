@@ -456,18 +456,18 @@ For Travis as it is the largest config type out of the sample by a significant a
 \end{figure}
 
 
-The assumption was the as continuous integration setups can be complicated and have edge cases. Therefore comments would be used to describe and handle that complexity.
+The assumption was the as continuous integration setups can be complicated and have edge cases. Therefore comments in the configuration would be used to describe and handle that complexity.
 
-An example configuration file below for Github actions using the default template slightly altered. Shows two examples of comment usage, the first being including useful information about why a particular version of the programming language was chosen. The second is that the tests have been disabled by commenting them out. 
+An example of this in Figure \ref{fig:example_configuration_file} for Github Actions shows a number of the cases of comments. The first being including useful information about why a particular version of the programming language was chosen. The second is that the tests have been disabled by commenting them out. 
 
 
 
 \begin{figure}[!htbp]
   \centering
   \begin{minipage}[t]{.48\textwidth}
-    In order to pick up on all these different types of comments. All the CI files were parsed and then regular expressions were used to pick on up key factors such as "note:". Along with multiple single line comments which made up a block/multi-line comment.
+    In order to pick up on all these different types of comments. All the CI files were parsed and then regular expressions were used to pick on up key factors such as \enquote{note:}. Along with multiple single line comments which made up a block/multi-line comment.
     
-    For example in to the left there is an example Github Action yaml file. If were it would be parsed we would get: one multi line comment, 15 lines of code, 1 single line comment, a total of 5 comments and 20 lines in the file. Therefore their is a their is a ratio of 4:1 for code in this config file.
+    For example in to the right there is an example Github Action yaml file. If were it would be parsed we would get: 
   \end{minipage}%
   \hfill
   \begin{minipage}[t]{.48\textwidth}
@@ -475,82 +475,93 @@ An example configuration file below for Github actions using the default templat
       name: Python package
       on: [push]
       jobs:
-      build:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-      uses: actions/setup-python@v1
-      # note: only works with python 3
-      with:
-      python-version: 3.8
-      - name: Install dependencies
-      run: |
-      python -m pip install --upgrade pip
-      pip install -r requirements.txt
-      #      - name: Test with pytest
-      #        run: |
-      #          pip install pytest
-      #          pytest ./src
+        build:
+          runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+        - name: Set up Python
+        
+        uses: actions/setup-python@v1
+        # note: only works with python 3
+        with:
+        python-version: 3.8
+        - name: Install dependencies
+        run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        #      - name: Test with pytest
+        #        run: |
+        #          pip install pytest
+        #          pytest ./src
     \end{verbatim}
+    \caption{example configuration file}
+    \label{fig:example_configuration_file}
   \end{minipage}
 \end{figure}
 
 % NOTE: NEED TO EXPLAIN CODE_WITH_COMMENTS
 
-Initially before we look at the comments it is important to understand how the rest of the file is made up. In the graph below (Figure \ref{fig:bar_comments_lines}) it shows how each configuration type is made up by mean of each part of the file. For all the yaml based configurations lines of code and number of lines in total are very close. Then for the number of comments being very very small on average.
+\begin{table}
+  \begin{tabular}{|l|l|}
+    \hline
+    \textbf{comment type} & \textbf{count} \\ \hline
+    comments & 5 \\ \hline
+    single line comment & 1 \\ \hline
+    multiple line unique comments & 1 \\ \hline
+    multiple line comments  & 4 \\ \hline
+    code with comments & 0 \\ \hline
+    file lines & 18 \\ \hline
+    blank lines & 0 \\ \hline
+    code & 13 \\ \hline
+  \end{tabular}
+  \caption{Line structure analysis of Figure \ref{fig:example_configuration_file}}
+  \label{table:example_structure_data}
+\end{table}
 
-In the case for Jenkins pipelines and Teamcity there is a much higher usage of having code with comments. 
+In Figure \ref{fig:lines_structure_all} it gives the intail breakdown of the structure of the files. This is by counting the amount of blank lines, code and comments used up in each file. One of the key findings from this was the lack on average (mean) of comment usage. 
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{../src/results/line structure all.pdf}
+  \caption[alt text]{Mean of line counts for all CI configuration types. Showing the blank, coded and commented line average breakdown.}
+  \label{fig:lines_structure_all}
+\end{figure}
+
+In Figure \ref{fig:lines_structure_yaml} is just all the yaml based configurations. In order to get a better understanding of comment usage for them. As comments average line numbers is so it wasn't visible in Figure \ref{fig:lines_structure_all}. The other really interesting finding was that average line count for Travis CI files was the smallest. This is because Travis is the most popular CI service so there would be a higher chance to have large configuration files. 
 
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\textwidth]{../src/results/basic comments bars.pdf}
-  \caption[alt text]{Mean of line counts}
-  \label{fig:bar_comments_lines}
+  \includegraphics[width=\textwidth]{../src/results/line structure yaml.pdf}
+  \caption[alt text]{Mean of line counts but only for yaml based configuration. Giving a clearer view on the breakdown of how little blank lines and comments are used.}
+  \label{fig:lines_structure_yaml}
 \end{figure}
 
-% plan:
-% - grouped bar chart for blank lines, comments, code, file lines (with a zoomed in version and splitting up of yaml and non yaml)
-% 
-% comment bars: single, multi and code (which is kind of like the zoomed in )
-% this will give us a representation of the median which will allow us to discuss and expalin everythign clearly. And hopefully be eaisly visinbble!!
-% 
+In Figure \ref{fig:lines_structure_yaml} it shows how the comments are broken down for each CI service on average. In the case of Azure our sample size is of only one project so that doesn't give us any significant insight.
+The blue line which represents code that has a comment after is the most commonly used kind of comment. Apart from for Drone which has more multiple line comments. This is really interesting as it highlights that comments tend tied to the code that is written. We had expected for multiple line or single comments to be the most common kind of comment used. This is because code tend to follow a style guide to limit the maximum characters for a single line (REFERECNE THIS THING). In doing so this rule also applies for comments as well therefore you don't normally have space for a code and a comment. (BUT THAT IS NOT THE CASE HERE THINKING FACE..)
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{../src/results/line structure yaml comments.pdf}
+  \caption[alt text]{Mean of line counts for comments, code with comments, single line comments and multiple line comments for yaml configuration files}
+  \label{fig:lines_structure_yaml_comments}
+\end{figure}
 
 
+In the case for Jenkins pipelines and Teamcity there is a much higher usage of having code with comments. Therefore we have separated the analysis and comparison from Figure \ref{fig:lines_structure_all} to Figure \ref{fig:lines_structure_none_yaml} for the none yaml based configuration. Jenkins and Teamcity configuration is Kotlins based and for TeamCity also xml based. The key difference we find here is that multiple line comments is more common than code with comments when compared to the yaml configuration. The second key difference is a much higher mean number of lines for comments. These two difference are probably combined because both Kotlins and xml allow multipline comments really easily. (EXPLAIN)
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{../src/results/line structure none yaml comments.pdf}
+  \caption[alt text]{Mean of line counts for comments, code with comments, single line comments and multiple line comments for none yaml configuration files}
+  \label{fig:lines_structure_none_yaml}
+\end{figure}
 
-
-% so we are not going to do raitos as they don't work for what we are wanting to do
-% as well as they are really compilcated to do well. As in you have:
-% 
-% config:
-%   - file
-%     - file lines
-%     - blank lines
-%     - code
-%     - multiple types of comments
-% 
-% so in order to work out the raito you can do it per file easily -ish (as you can have comments and code...)
-% 
-% 
-% Ratios:
-% \begin{itemize}
-%   \item{code: comments}
-%   \item{code: line total}
-%   \item{code: blank lines}
-%   \item{single line comment: multiline comment}
-%   \item{single line comment: code with comment} 
-% \end{itemize}
-
-
-
-
-
+We have looked at the structure of the file and the what kind of comments are used. Then we looked at the structure of the comments. In to do this we created a list of regular expressions used to categorise how the comments were structured. 
 
 \begin{figure}[!ht]
   \centering
   \begin{minipage}[!t]{.48\textwidth}
-    In Figure \ref{fig:comment_types} a regular expression was used to label the comments. There were key different types of comment that we wanted to find. The first being the commented out code which we did by searching for version numbers in commments. The second being useful information about the structure of the CI file such todo, note, importanat comments (e.g. //todo). In order to increase the search for this we included searching for urls and seperation comments (e.g. //===).
+    In Figure \ref{fig:comment_types} a regular expression was used to label the comments. There were key different types of comment that we wanted to find. The first being the commented out code which we did by searching for version numbers in comments. The second being useful information about the structure of the CI file such todo, note, important comments (e.g. //todo). In order to increase the search for this we included searching for urls and separation comments (e.g. //===).
     
   \end{minipage}%
   \hfill
@@ -563,8 +574,7 @@ In the case for Jenkins pipelines and Teamcity there is a much higher usage of h
 
 From labelling the comments in Figure \ref{fig:comment_types} we can see that having comments with versions in and urls is most common. This could indicate comments from templates or how they are commented. Although yet again the amount of labels found on average is still very low.
 
-Overall we have found that comments are not used a lot. In the cases that they are used it's more likely to be from a configuration template or commenting out configuration.
-% NOTE: update this when raitos are done
+Overall we have found that comments are not used a lot. However where they are used they tend to be comments on the same line as code. In the cases that they are used it's more likely to be from a configuration template or commenting out configuration. 
 
 \pagebreak
 % ------------------------------------------------------------------------
