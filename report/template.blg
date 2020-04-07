@@ -1,20 +1,26 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: template.aux
 The style file: kentHarvard.bst
 Database file #1: sample.bib
+Warning--to sort, need author or key in GhTorrent2020
+Warning--to sort, need author or key in CloudBees2020
 Warning--to sort, need author or key in GithubReadMeIncorrectFind
 Warning--to sort, need author or key in GithubOctoverseResults2016
 Warning--to sort, need author or key in RustBlogCargo
+Warning--to sort, need author or key in YAML_FAQ_TABS
 Warning--to sort, need author or key in BranchGITFLOW2010
 Warning--to sort, need author or key in BranchGITHUBFLOW2017
 Warning--to sort, need author or key in BranchTrunk2013
 Warning--empty year in BranchGITFLOW2010; set to ????
 Warning--empty year in BranchGITHUBFLOW2017; set to ????
 Warning--empty year in BranchTrunk2013; set to ????
+Warning--empty year in CloudBees2020; set to ????
 Warning--empty year in GithubReadMeIncorrectFind; set to ????
+Warning--empty year in GhTorrent2020; set to ????
 Warning--empty year in GithubOctoverseResults2016; set to ????
+Warning--empty year in YAML_FAQ_TABS; set to ????
 Warning--empty pages in Github2017
 Warning--empty booktitle in Kalliamvakou2014
 Warning--empty booktitle in Hilton2016
 Warning--empty pages in Hilton2016
 Warning--empty booktitle in Vasilescu2015
-(There were 16 warnings)
+(There were 22 warnings)

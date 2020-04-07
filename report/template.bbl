@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{28}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -13,11 +13,20 @@
 \bibitem[{Bra(????{\natexlab{c}})}]{BranchTrunk2013}
  (????{\natexlab{c}}).
 
+\bibitem[{Clo(????)}]{CloudBees2020}
+ (????). Cloudbees website.
+
 \bibitem[{Git(????{\natexlab{a}})}]{GithubReadMeIncorrectFind}
  (????{\natexlab{a}}). flatlogic/awesome-bootstrap-checkbox.
 
+\bibitem[{GhT(????)}]{GhTorrent2020}
+ (????). Ghtorrent website.
+
 \bibitem[{Git(????{\natexlab{b}})}]{GithubOctoverseResults2016}
  (????{\natexlab{b}}). {GitHub} {State} of the {Octoverse}: 2016.
+
+\bibitem[{YAM(????)}]{YAML_FAQ_TABS}
+ (????). Yaml faq.
 
 \bibitem[{Rus(2020)}]{RustBlogCargo}
  (2020). Cargo: {Rust}'s community crate host {\textbar} {Rust} {Blog}.
@@ -95,17 +104,17 @@ Sharma, T., Fragkoulis, M. and Spinellis, D. (2016). Does {Your}
   {Conference} on {Mining} {Software} {Repositories} ({MSR})}, pp. 189--200,
   iSSN: null.
 
-\bibitem[{Tsvilik(2020{\natexlab{a}})}]{GithubReadMeExample}
-Tsvilik, S. (2020{\natexlab{a}}). wdio-docker-service.
-
-\bibitem[{Tsvilik(2020{\natexlab{b}})}]{GithubMetaDataExample}
-Tsvilik, S. (2020{\natexlab{b}}). wdio-docker-service.
+\bibitem[{Tsvilik(2020)}]{GithubReadMeExample}
+Tsvilik, S. (2020). wdio-docker-service.
 
 \bibitem[{Vasilescu et~al.(2015)}]{Vasilescu2015}
 Vasilescu, B., Yu, Y., Wang, H., Devanbu, P. and Filkov, V. (2015). Quality and
   productivity outcomes relating to continuous integration in {GitHub}.
   Bergamo, Italy: Association for Computing Machinery, {ESEC}/{FSE} 2015, pp.
   805--816.
+
+\bibitem[{webdriverio(2020)}]{GithubMetaDataExample}
+webdriverio (2020). webdriverio.
 
 \bibitem[{Wrecker and Oracle(2018)}]{WreckerDocs}
 Wrecker and Oracle (2018). Wrecker ci development blog.

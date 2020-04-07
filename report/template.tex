@@ -41,7 +41,7 @@ United Kingdom \\ \vspace{10mm} \\ Word Count: around 5500}
 \restoregeometry              %% restore the layout
 
 \begin{abstract}
-  Continuos integration (CI) is becoming more popular as software development moves to an Agile fast paced development life cycle. Most CI is done automatically using a service which run based off configuration. Our major questions is how much is CI acutally being used? As well as how are these files being structured? We got 31,494 open source projects from Github to answer these questions. In doing so compared our results against \citet{Hilton2016} work to see if their has been a increase in usage. We found a shift in CI services being used and were able to get similar results to their study. In terms of structure we found that configuration files are written with no comments normally. We suggest at the end further research is needed to get a better understanding of this growing field.    
+  Continuos integration (CI) is becoming more popular as software development moves to an Agile fast paced development life cycle. Most CI is done automatically using a service which run based off configuration. Our major questions is how much is CI actually being used? As well as how are these files being structured? We got 31,494 open source projects from Github to answer these questions. In doing so compared our results against \citet{Hilton2016} work to see if their has been a increase in usage. We found a shift in CI services being used and were able to get similar results to their study. In terms of structure we found that configuration files are written with no comments normally. We suggest at the end further research is needed to get a better understanding of this growing field.    
   \todo[]{similar is a bad word to use to describe the comparison}
 \end{abstract}
 
@@ -99,8 +99,8 @@ For the CI systems we pick we will look into the tooling around that to aid the 
 
 \section{Methodology}
 \label{methodology}
-
-Initially the project started of as a small piece of research that would aid looking into how visualise CI systems. Therefore the initial scraping script was a quick hack to try and get some data initially. This meant that as we were not initially trying to get lots of data we did not decided to use Ghtorrent (REFERENCE). However as it quickly started to want to gather more data and look at different questions it started to form into this paper. 
+% here we want to describe why we went with Github over GhTorrent 
+In order to answer the research questions we needed to find projects for CI configuration files. This is because we needed to get the contents of the configuration in order to analyse the structure of it. We chose to scrape Github via their Api as it was easy to setup and test whether or not it was working as there is a 121 mapping between the api and user interface. However using Ghtorrent \citet{GhTorrent2020} it may have been easier to gather more data because the rate limiting wasn't as strict. Yet harder to test whether or not it is working. Therefore we decide to use the Github Api as the source for our corpus.
 
 \begin{figure}[!htbp]
   \centering
@@ -172,8 +172,8 @@ Along with information of what CI is being used for a project we also gathered m
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.5, width=\textwidth]{2020-04-01-11-37-22.png}
-  \caption[alt text]{Example Github project description and metadata\cite{GithubMetaDataExample}}
+  \includegraphics[scale=0.5, width=\textwidth]{readme metadata example.png}
+  \caption[alt text]{Example Github project description and metadata\cite{GithubMetaDataExample}. The orange sections sections highlighted are the metadata that we scraped.}
   \label{ExampleGithubMetaData}
 \end{figure}
 
@@ -194,7 +194,7 @@ This all produced a sample of 32,660 projects from open source projects on Githu
 \subsection{Comparison corpus info}
 \label{section:HiltonComaprisonCoprusTHing}
 \vspace*{-0.05in}
-In \citet{Hilton2016} paper they use a similar method of using the Github Api in order to create their corpus. Additionally they contacted Cloud Bees (REFERENCE) to get a list of all open source projects that used their services. This helped them not to miss out on projects that they would otherwise missed out on. They kindly gave a copy of their final corpus. 
+In \citet{Hilton2016} paper they use a similar method of using the Github Api in order to create their corpus. Additionally they contacted Cloud Bees \citet{CloudBees2020} to get a list of all open source projects that used their services. This helped them not to miss out on projects that they would otherwise missed out on. They kindly gave a copy of their final corpus. 
 
 However it does contain the data on the Cloud Bees projects which is 223 projects. As far as we can tell this only effects the comparison done in RQ2 \ref{section:RQ2}. Additionally we found slight discrepancies between the paper and corpus in RQ1, RQ2 and RQ3 mainly just a few numbers off in a few places. In order to do comparisons well and to keep it consistent we will be basing all our comparisons from the corpus. As the discrepancies are small we will using the conclusions from the paper where possible.  
 
@@ -229,7 +229,7 @@ In order to get a better understanding of the results of the methodologies chose
 \label{section:RQ1}
 \vspace*{-0.05in}
 
-Out of the 32,660 projects 38.51\% of them had CI configuration files in them indicating that they used CI in our dataset. 
+Out of the 31,752 projects 38.39\% of them had CI configuration files in them indicating that they used CI in our dataset. 
 
 \input{comparison_table.tex}
 % table references are not working because the table was being rendered below the reference.... ah! but it's fixed atm 
@@ -255,7 +255,6 @@ Another possible reason is that because of Github's growth over the last 4 years
 
 Therefore we think that the last two factors are the most likely contributors to why there is less CI usage now. Another important interesting part is despite Github growing so much the CI usage rate has stayed relatively the same. 
 
-\todo[]{maybe re-evaluate the analysis as the percentage difference has changed from 2-3\% odd to 1\% pretty much}
 
 
 % --------------------------------------------------------------
@@ -265,8 +264,6 @@ Therefore we think that the last two factors are the most likely contributors to
 \vspace*{-0.05in}
 In Table \ref{table_config_types} we find like all other research Travis is the most popular CI system in use. However over the last 4 years since the \cite{Github2017} CircleCi has lost out on it's rough quarter that it owned. In particular the rise of Github Actions seems to have taken second place even though it is still very young in comparison as it was officially released November 13th 2019 but had a closed beta since the summer of 2019. However this might not be down to the CircleCi loosing out on their existing share. But potentially as the rise in CI usage goes up on Github. Projects are more likely to pick in the built in solutions to Github.
 \input{../src/results/configuration type count.tex}
-
-\todo[]{so the cloud bees data isn't in our corpus that they gave us... so hwo do we do comparison based on the data. But the paper says that it's 35,544 which is the size of data we have in our excel doc they gave us.... so :shrug@: but should only effect RQ2 which we can just use the details from the paper to reproduce the table/bar graph}
 
 \begin{figure}[!htbp]
   \centering
@@ -379,7 +376,7 @@ Overall popularity of the project increases the chances of it using CI. The prog
 % ------------------------------------------------------------------------------------------------------------------------------------
 \section{Structure of configuration files}
 
-The following three research questions will just be on the XXXXX CI projects. In order to be able to ask the questions about the data we filter the sample to only include CI projects. Then we created a csv table with a row per CI type in that project as some projects had multiple versions of CI as shown in REFERENCE-RQ1. Then we processed each CI file to get the necessary data to be able to ask questions about it's structure. As we wanted to be able to process files with or without errors in along with all types of CI. We created a parser to go through each line of the configuration file working out what that line is. For example is it a comment or blank line or does it have code. 
+The following three research questions will just be on the 14,302 CI projects (found CI plus multiple CI \ref{table:comparison_dataset}). In order to be able to ask the questions about the data we filter the sample to only include CI projects. Then we created a csv table with a row per CI type in that project as some projects had multiple versions of CI as shown in \ref{section:RQ1}. Then we processed each CI file to get the necessary data to be able to ask questions about it's structure. As we wanted to be able to process files with or without errors in along with all types of CI. We created a parser to go through each line of the configuration file working out what that line is. For example is it a comment or blank line or does it have code. 
 
 % a little bit like running cloc on the code base
 
@@ -387,6 +384,34 @@ The following three research questions will just be on the XXXXX CI projects. In
 \subsection{\textbf{RQ4}: What are the common errors when loading yaml configuration?}
 \label{section:RQ4}
 \vspace*{-0.05in}
+Here our the 
+\begin{figure}[!h]
+  \centering
+  \begin{minipage}[t]{.48\textwidth}
+    \textbf{Scanner error}
+    The first step of loading the yaml is to scan it to create the tokens. However for example tabs are not allowed in yaml \citet{YAML_FAQ_TABS} as seen in the example with \enquote{\textbackslash t} representing a tab. 
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{.48\textwidth}
+    \begin{verbatim}
+      definitions: 
+      \t- build
+    \end{verbatim}
+  \end{minipage}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+  \begin{minipage}[t]{.48\textwidth}
+    \textbf{Parse error}
+    In this example it has scanned the file and created tokens for the syntax. Now it parses the syntax and works out if each token is valid given it's current context. In this case a closing \verb|]| without an opening \verb|[| is invalid.
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{.48\textwidth}
+    \begin{verbatim}
+      definitions: ]
+    \end{verbatim}
+  \end{minipage}
+\end{figure}
 
 \begin{figure}[!ht]
   \centering
@@ -411,40 +436,14 @@ The following three research questions will just be on the XXXXX CI projects. In
   \end{minipage}
 \end{figure}
 
-\begin{figure}[!h]
-  \centering
-  \begin{minipage}[t]{.48\textwidth}
-    \textbf{Scanner error}
-    The first step of loading the yaml is to scan it to create the tokens. However invalid characters such as "\textbackslash t" are invalid. 
-  \end{minipage}%
-  \hfill
-  \begin{minipage}[t]{.48\textwidth}
-    \begin{verbatim}
-      definitions: \t
-    \end{verbatim}
-  \end{minipage}
-\end{figure}
-\begin{figure}[!ht]
-  \centering
-  \begin{minipage}[t]{.48\textwidth}
-    \textbf{Parse error}
-    In this example it has scanned the file and created tokens for the syntax. Now it parses the syntax and works out if each token is valid given it's current context. In this case a closing ] without an opening [ is invalid.
-  \end{minipage}%
-  \hfill
-  \begin{minipage}[t]{.48\textwidth}
-    \begin{verbatim}
-      definitions: ]
-    \end{verbatim}
-  \end{minipage}
-\end{figure}
+
 
 \input{../src/results/yaml config errors.tex}
+As can be seen in the Table \ref{table_yaml_errors} their our configuration files with yaml errors meaning that the CI for that project will not load correctly. Yet it seems that a very small percentage of projects that have them. For example the two highest configuration types with errors are Drone (36.90\%) followed by Travis (0.348\%).
 
-As can be seen in the Table \ref{table_yaml_errors} their our configuration files with yaml errors meaning that the CI for that project will not load. Yet it seems that a very small percentage of projects that have them. For example the two highest configuration types with errors are Drone (36.90\%) followed by Travis (0.348\%).
+In the case for Drone all the errors are for the same type of error. Potentially this could be because of how anchors are a lot more common in Drone.
 
-In the case for Drone all the errors are for the same type of error. Potentailly this could be because of how anchors are a lot more common in Drone.
-
-For Travis as it is the largest config type out of the sample by a signifacant amount it is more likely to contain more errors. Yet with such a small amount it seems like yaml errors aren't a major problem in CI. Although as they are required to be fixed in order for the CI to run the chances are the ones with errors ones that are being changed when the scraping was being done. Meaning that as the CI has been set up correctly for the other 99.632\% as they are not needing to change because their our no yaml errors in it and presumbely it is doing what they intend for it to do.
+For Travis as it is the largest config type out of the sample by a significant amount it is more likely to contain more errors. Yet with such a small amount it seems like yaml errors aren't a major problem in CI. Although as they are required to be fixed in order for the CI to run the chances are the ones with errors ones that are being changed when the scraping was being done. Meaning that as the CI has been set up correctly for the other 99.632\% as they are not needing to change because their our no yaml errors in it and presumably it is doing what they intend for it to do.
 
 
 \pagebreak
@@ -501,7 +500,7 @@ An example configuration file below for Github actions using the default templat
 
 Initially before we look at the comments it is important to understand how the rest of the file is made up. In the graph below (Figure \ref{fig:bar_comments_lines}) it shows how each configuration type is made up by mean of each part of the file. For all the yaml based configurations lines of code and number of lines in total are very close. Then for the number of comments being very very small on average.
 
-In the case for Jenkins pipelines and teamcity there is a much higher usage of having code with comments. 
+In the case for Jenkins pipelines and Teamcity there is a much higher usage of having code with comments. 
 
 
 \begin{figure}[!ht]
@@ -511,14 +510,37 @@ In the case for Jenkins pipelines and teamcity there is a much higher usage of h
   \label{fig:bar_comments_lines}
 \end{figure}
 
-Ratios:
-\begin{itemize}
-  \item{code: comments}
-  \item{code: line total}
-  \item{code: blank lines}
-  \item{single line comment: multiline comment}
-  \item{single line comment: code with comment}
-\end{itemize}
+% plan:
+% - grouped bar chart for blank lines, comments, code, file lines (with a zoomed in version and splitting up of yaml and non yaml)
+% 
+% comment bars: single, multi and code (which is kind of like the zoomed in )
+% this will give us a representation of the median which will allow us to discuss and expalin everythign clearly. And hopefully be eaisly visinbble!!
+% 
+
+
+
+
+% so we are not going to do raitos as they don't work for what we are wanting to do
+% as well as they are really compilcated to do well. As in you have:
+% 
+% config:
+%   - file
+%     - file lines
+%     - blank lines
+%     - code
+%     - multiple types of comments
+% 
+% so in order to work out the raito you can do it per file easily -ish (as you can have comments and code...)
+% 
+% 
+% Ratios:
+% \begin{itemize}
+%   \item{code: comments}
+%   \item{code: line total}
+%   \item{code: blank lines}
+%   \item{single line comment: multiline comment}
+%   \item{single line comment: code with comment} 
+% \end{itemize}
 
 
 

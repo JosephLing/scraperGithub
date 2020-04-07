@@ -449,6 +449,22 @@ def config_type_split(name, dataset):
         tf.write(s)
 
 
+def comment_uage_tbale(data):
+    f = {
+        "comments": data["comments"].sum() / data["file_lines"].sum(),
+        "code": data["code"].sum() / data["file_lines"].sum(),
+        "blank lines": data["blank_lines"].sum() / data["file_lines"].sum(),
+        "for comments: multiple line": data["multi_line_comment"].sum() / data["comments"].sum(),
+        "for comments: single line": data["single_line_comment"].sum() / data["comments"].sum(),
+        "for comments: code comment": data["code_with_comments"].sum() / data["comments"].sum(),
+    }
+
+    df2 = pd.DataFrame(f, index=[0])
+
+    print(df2.to_latex(caption="yaml configuration errors", label="table_yaml_errors",
+                bold_rows=True))
+
+
 def line_usage_configuration(data, only_comments=False):
     import numpy as np
     # set width of bar
@@ -488,6 +504,40 @@ def line_usage_configuration(data, only_comments=False):
     plt.legend()
     return plt
 
+def line_usage_configuration2(data, only_comments=False):
+    import numpy as np
+    # set width of bar
+    barWidth = 0.25
+    if only_comments:
+        data = data[data["comments"] > 0]
+    df = data.groupby("config")[["blank_lines", "comments", "code_with_comments"]].mean()
+
+    # set height of bar
+    # bars1 = [12, 30, 1, 8, 22]
+    # bars2 = [28, 6, 16, 5, 10]
+    # bars3 = [29, 3, 24, 25, 17]
+    #
+    bars = []
+    for config in df.columns:
+        bars.append(list(df[config]))
+
+    # Set position of bar on X axis
+    r1 = np.arange(len(bars[0]))
+    r2 = [x + barWidth for x in r1]
+    r5 = [x + barWidth for x in r2]
+
+    # Make the plot
+    plt.bar(r1, bars[0], color='#7f6d5f', width=barWidth, edgecolor='white', label='blank lines')
+    plt.bar(r2, bars[1], color='#557f2d', width=barWidth, edgecolor='white', label='comments')
+    plt.bar(r5, bars[2], color='#2d7f5e', width=barWidth, edgecolor='white', label='code with comments')
+
+    # Add xticks on the middle of the group bars
+    plt.ylabel("lines")
+    plt.xlabel('configuration', fontweight='bold')
+    plt.xticks([r + barWidth for r in range(len(bars[0]))], list(df.index))
+    plt.xticks(rotation=45)
+    plt.legend()
+    return plt
 
 def comment_usage(data):
     import numpy as np
@@ -555,6 +605,44 @@ def script_usage(data):
     return plt
 
 
+def code_with_comments(data, xcol, ycol, cat="config"):
+    from numpy.polynomial.polynomial import polyfit
+    plt.rc(({'font.size': 2}))
+
+    fig, axs = plt.subplots(3, 3)
+    i = 0
+    j = 0
+
+    for c in data[cat].value_counts().head(9).index:
+        p = (i, j)
+        git = data[data[cat] == c]
+        x = git[xcol]
+        y = git[ycol]
+        axs[p].scatter(x, y, 0.5)
+        b, m = polyfit(x, y, 1)
+        axs[p].plot(x, b + m * x, '-', color="red", alpha=0.25, scalex=False, scaley=False)
+        axs[p].plot(np.array(range(x.max())), np.array(range(x.max())), '-', color="green",alpha=0.25)
+        axs[p].set_title("{} (sample: {})".format(c, len(git)), fontsize=6)
+        # axs[p].set_ylim(-1, 1200)
+        # axs[p].set_xlim(0, 7000)
+
+        # axs[i].xlabel("comments")
+        # axs[i].xlabel("code")
+        if j == 2:
+            j = 0
+            i += 1
+        else:
+            j += 1
+
+    axs[(1, 0)].set(ylabel=ycol)
+    axs[(2, 1)].set(xlabel=xcol)
+
+    plt.rc(({'font.size': 2}))
+
+    plt.show()
+    pass
+
+
 def main(experimenting, name1, name2, image_encoding, output="."):
     if experimenting:
         # data = csvReader.readfile("combined1.csv")
@@ -569,10 +657,25 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
         #             image_encoding)
         # save_as_pdf(config_topn(sorted_data, 20), f"{output}/config-topn", image_encoding)
-        langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
-        save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
-                    image_encoding)
+        # langs = languages_table_topn(f"{output}/languages table.tex", 30, load_dataframe(name1), sorted_data)
+        # save_as_pdf(popularity_vs_percentage_CI_scatter(langs, sorted_data), f"{output}/languages-scatter-CI",
+        #             image_encoding)
+        code_with_comments(sorted_data, "code", "comments")
+        code_with_comments(sorted_data, "code", "file_lines")
+        code_with_comments(sorted_data, "code", "blank_lines")
+        code_with_comments(sorted_data, "single_line_comment", "multi_line_comment")
+        code_with_comments(sorted_data, "multi_line_comment", "multi_line_comment_unique")
 
+        code_with_comments(sorted_data, "code", "comments", "lang")
+        code_with_comments(sorted_data, "code", "file_lines", "lang")
+        line_usage_configuration(sorted_data).show()
+        line_usage_configuration(sorted_data[sorted_data["yaml"]]).show()
+        line_usage_configuration2(sorted_data[sorted_data["yaml"]]).show()
+
+        line_usage_configuration2(sorted_data[sorted_data["yaml"] == False]).show()
+
+
+        comment_uage_tbale(sorted_data)
     else:
         data = csvReader.readfile(name1)
         # #
@@ -624,6 +727,6 @@ def main(experimenting, name1, name2, image_encoding, output="."):
 
 
 if __name__ == '__main__':
-    data = main(True, "combined9.csv", "yaml threaded14.csv", "pdf", "./results")
+    data = main(True, "combined9.csv", "yaml threaded19.csv", "pdf", "./results")
     # data = main(False, "combined9.csv", "yaml threaded14.csv", "svg", "./results")
     # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")

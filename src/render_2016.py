@@ -121,16 +121,85 @@ def config_bar(data):
 
     return plot
 
+def create_percentage_bar_graphs(stars, xname, grouping_amount=540):
+    # stars.sort(key=lambda x: x)
+    print(stars)
+    groups = []
+    j = 0
+    i = 1
+    while j < len(stars):
+        group = []
+        while j < grouping_amount * i and j < len(stars):
+            group.append(stars[j][1])
+            # group.append((stars[keys[j]], keys[j]))
+            j += 1
+        groups.append((stars[j - 1][0], group))
+        i += 1
+
+    heights = []
+    bottom = []
+    for group in groups:
+        bottom.append(group[0])
+        if len(group[1]) != 0:
+            heights.append((sum(group[1]) / len(group[1])) * 100)
+        else:
+            heights.append(0)
+
+    fig, ax = plt.subplots()
+
+    # We need to draw the canvas, otherwise the labels won't be positioned and
+    # won't have values yet.
+
+    # so what happens here is we set the positions for all the bars
+    # then with those positions we set the label
+    # the key here that ax.bar primarily takes positions and then works out labels after that
+    # so that means you can't try do clever stuff as it will work out the positions first which will muck up
+    # all the things
+
+    ax.bar(np.arange(len(bottom)), heights)
+    plt.rc(({'font.size': 9}))
+    plt.xticks(rotation=90)
+
+    plt.ylim(0, 100)
+    plt.xlabel(xname)
+    plt.ylabel("percentage")
+    labels = []
+    for i in range(len(bottom)):
+        if i == len(bottom) - 1:
+            labels.append(str(bottom[i]))
+        else:
+            if i % 5 == 0:
+                labels.append(str(bottom[i]))
+            else:
+                labels.append("")
+
+    # this line is needed here
+    ax.set_xticks(np.arange(len(labels)))
+    ax.set_xticklabels(labels, rotation=45, zorder=100)
+
+    # ax.set_xticklabels(labels)
+    return fig
+
+
+def compare_coprus3(data, label):
+    stars = {}
+    for line in data:
+        if stars.get(line) is None:
+            stars[line] = 0
+
+        stars[line] += 1
+
+    return create_percentage_bar_graphs(stars, "percentage of stars that use CI", "stars")
 
 def compare_coprus2(data, label):
     plot = plt
     bins = 15
     # K = 1 + 3. 322 logN
     bins = 1 + int(3.322 * math.log(len(data)))
-    density = True
-    log = True
+    density = False
+    log = False
     plt.xlim(0, 111000)
-    plot.hist(data, bins, density=density, log=log, label=label)
+    plot.hist(data, bins, density=density, log=log, label=label, stacked=True)
     # plot.hist(data2["stargazers_count"], bins, density=density, log=log, label="2020")
     plot.xlabel("stars")
     plot.ylabel("density")
@@ -144,22 +213,24 @@ def main(output, image_encoding):
     data["CI_multi"] = data["Travis"] + data["AppVeyor"] + data["CircleCI"] + data["Werker"]
     data2 = pd.read_csv("combined9.csv")
     sorted_data = data[data["CI"] > 0]
-    write_to_latex(f"{output}/2016 usage first table raw data from corpus", len(data), sorted_data)
-    # save_as_pdf(compare_coprus(data, data2), f"{output}/comparison_corpus", image_encoding)
-    # save_as_pdf(compare_coprus2(data["stars"], "2016"), f"{output}/density_2016", image_encoding)
-    # save_as_pdf(compare_coprus2(data2["stargazers_count"], "2020"), f"{output}/density_2020", image_encoding)
+    # write_to_latex(f"{output}/2016 usage first table raw data from corpus", len(data), sorted_data)
+    # # save_as_pdf(compare_coprus(data, data2), f"{output}/comparison_corpus", image_encoding)
+    #
+    # # save_as_pdf(langs_topn(sorted_data, 20), f"{output}/comparison_langs_topn_sorted", image_encoding)
+    # # save_as_pdf(langs_topn(data, 20), f"{output}/comparison_langs_topn", image_encoding)
+    # # save_as_pdf(config_bar(data), f"{output}/comparison_config_bar", image_encoding)
+    # config_bar(data)
+    # df = languages_table_topn(30, data, sorted_data)
+    #
+    # print(df)
+    # print(df["total count"].sum())
+    # print(df["using CI"].sum())
+    #
+    # save_as_pdf(popularity_vs_percentage_CI_scatter(df, data), f"{output}/scatter", image_encoding)
 
-    # save_as_pdf(langs_topn(sorted_data, 20), f"{output}/comparison_langs_topn_sorted", image_encoding)
-    # save_as_pdf(langs_topn(data, 20), f"{output}/comparison_langs_topn", image_encoding)
-    # save_as_pdf(config_bar(data), f"{output}/comparison_config_bar", image_encoding)
-    config_bar(data)
-    df = languages_table_topn(30, data, sorted_data)
+    # save_as_pdf(compare_coprus3(data["stars"], "2016"), f"{output}/density_2016", image_encoding)
+    # save_as_pdf(compare_coprus3(data2["stargazers_count"], "2020"), f"{output}/density_2020", image_encoding)
 
-    print(df)
-    print(df["total count"].sum())
-    print(df["using CI"].sum())
-
-    save_as_pdf(popularity_vs_percentage_CI_scatter(df, data), f"{output}/scatter", image_encoding)
     # popularity_vs_percentage_CI_scatter
     return data
 
