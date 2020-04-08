@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  8 APR 2020 00:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.1.6)  8 APR 2020 16:23
 entering extended mode
 **c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
 (c:/Users/Joe/workspace/researchProject/scraper/report/template.tex
@@ -665,12 +665,12 @@ File: ../src/results/sub vs stars.pdf Graphic file (type pdf)
 Package pdftex.def Info: ../src/results/sub vs stars.pdf  used on input line 188.
 (pdftex.def)             Requested size: 390.0pt x 290.2912pt.
  [9 <../src/results/sub vs stars.pdf>]
-<../src/results/density_2016.pdf, id=274, 425.57869pt x 312.02145pt>
+<../src/results/density_2016.pdf, id=277, 425.57869pt x 312.02145pt>
 File: ../src/results/density_2016.pdf Graphic file (type pdf)
 <use ../src/results/density_2016.pdf>
 Package pdftex.def Info: ../src/results/density_2016.pdf  used on input line 207.
 (pdftex.def)             Requested size: 187.19833pt x 137.25177pt.
-<../src/results/density_2020.pdf, id=275, 425.57869pt x 312.02145pt>
+<../src/results/density_2020.pdf, id=278, 425.57869pt x 312.02145pt>
 File: ../src/results/density_2020.pdf Graphic file (type pdf)
 <use ../src/results/density_2020.pdf>
 Package pdftex.def Info: ../src/results/density_2020.pdf  used on input line 213.
@@ -687,12 +687,12 @@ Overfull \hbox (43.50623pt too wide) in paragraph at lines 245--245
  []
 
 [12] ("../src/results/configuration type count.tex")
-<../src/results/comparison_config_bar.pdf, id=352, 412.81226pt x 352.8465pt>
+<../src/results/comparison_config_bar.pdf, id=355, 412.81226pt x 352.8465pt>
 File: ../src/results/comparison_config_bar.pdf Graphic file (type pdf)
 <use ../src/results/comparison_config_bar.pdf>
 Package pdftex.def Info: ../src/results/comparison_config_bar.pdf  used on input line 272.
 (pdftex.def)             Requested size: 187.19833pt x 160.007pt.
-<../src/results/config-topn.pdf, id=353, 412.81226pt x 352.96849pt>
+<../src/results/config-topn.pdf, id=356, 412.81226pt x 352.96849pt>
 File: ../src/results/config-topn.pdf Graphic file (type pdf)
 <use ../src/results/config-topn.pdf>
 Package pdftex.def Info: ../src/results/config-topn.pdf  used on input line 278.
@@ -702,17 +702,17 @@ Overfull \hbox (0.8391pt too wide) in paragraph at lines 296--297
 \OT1/cmr/m/n/12 Below shows all the CI projects sorted then grouped to-gether per 540 projects.
  []
 
-<../src/results/percentage sub with CI other paper source.pdf, id=360, 412.81226pt x 351.44147pt>
+<../src/results/percentage sub with CI other paper source.pdf, id=363, 412.81226pt x 351.44147pt>
 File: ../src/results/percentage sub with CI other paper source.pdf Graphic file (type pdf)
 <use ../src/results/percentage sub with CI other paper source.pdf>
 Package pdftex.def Info: ../src/results/percentage sub with CI other paper source.pdf  used on input line 302.
 (pdftex.def)             Requested size: 168.47736pt x 143.43233pt.
-<../src/results/percentage stars with CI.pdf, id=361, 412.81226pt x 346.92783pt>
+<../src/results/percentage stars with CI.pdf, id=364, 412.81226pt x 346.92783pt>
 File: ../src/results/percentage stars with CI.pdf Graphic file (type pdf)
 <use ../src/results/percentage stars with CI.pdf>
 Package pdftex.def Info: ../src/results/percentage stars with CI.pdf  used on input line 308.
 (pdftex.def)             Requested size: 168.47736pt x 141.5902pt.
-<../src/results/percentage sub with CI.pdf, id=371, 412.81226pt x 342.4142pt>
+<../src/results/percentage sub with CI.pdf, id=374, 412.81226pt x 342.4142pt>
 File: ../src/results/percentage sub with CI.pdf Graphic file (type pdf)
 <use ../src/results/percentage sub with CI.pdf>
 Package pdftex.def Info: ../src/results/percentage sub with CI.pdf  used on input line 322.
@@ -733,7 +733,7 @@ pdfTeX warning: pdflatex (file ../src/results/percentage stars with CI.pdf): PDF
 
 pdfTeX warning: pdflatex (file ../src/results/percentage sub with CI.pdf): PDF inclusion: multiple pdfs with page group included in a single page
 >]
-<../src/results/languages-topn.pdf, id=561, 419.19548pt x 360.56218pt>
+<../src/results/languages-topn.pdf, id=564, 419.19548pt x 360.56218pt>
 File: ../src/results/languages-topn.pdf Graphic file (type pdf)
 <use ../src/results/languages-topn.pdf>
 Package pdftex.def Info: ../src/results/languages-topn.pdf  used on input line 336.
@@ -742,13 +742,13 @@ Package pdftex.def Info: ../src/results/languages-topn.pdf  used on input line 3
 Underfull \vbox (badness 4531) has occurred while \output is active []
 
  [16 <../src/results/languages-topn.pdf>]
-<../src/results/languages-scatter-CI.pdf, id=618, 418.94608pt x 315.83257pt>
+<../src/results/languages-scatter-CI.pdf, id=621, 418.94608pt x 315.83257pt>
 File: ../src/results/languages-scatter-CI.pdf Graphic file (type pdf)
 <use ../src/results/languages-scatter-CI.pdf>
 Package pdftex.def Info: ../src/results/languages-scatter-CI.pdf  used on input line 345.
 (pdftex.def)             Requested size: 312.00119pt x 235.21121pt.
  [17 <../src/results/languages-scatter-CI.pdf>]
-<../src/results/scatter.pdf, id=683, 412.81226pt x 315.83257pt>
+<../src/results/scatter.pdf, id=686, 412.81226pt x 315.83257pt>
 File: ../src/results/scatter.pdf Graphic file (type pdf)
 <use ../src/results/scatter.pdf>
 Package pdftex.def Info: ../src/results/scatter.pdf  used on input line 355.
@@ -765,23 +765,23 @@ Overfull \hbox (82.13826pt too wide) in paragraph at lines 5--18
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [22]
-<../src/results/line structure all.pdf, id=780, 412.81226pt x 362.34413pt>
+<../src/results/line structure all.pdf, id=783, 412.81226pt x 362.34413pt>
 File: ../src/results/line structure all.pdf Graphic file (type pdf)
 <use ../src/results/line structure all.pdf>
 Package pdftex.def Info: ../src/results/line structure all.pdf  used on input line 525.
 (pdftex.def)             Requested size: 390.0pt x 342.34512pt.
  [23]
-<../src/results/line structure yaml.pdf, id=790, 412.81226pt x 349.23581pt>
+<../src/results/line structure yaml.pdf, id=793, 412.81226pt x 349.23581pt>
 File: ../src/results/line structure yaml.pdf Graphic file (type pdf)
 <use ../src/results/line structure yaml.pdf>
 Package pdftex.def Info: ../src/results/line structure yaml.pdf  used on input line 535.
 (pdftex.def)             Requested size: 390.0pt x 329.96031pt.
-<../src/results/line structure yaml comments.pdf, id=792, 400.0458pt x 349.23581pt>
+<../src/results/line structure yaml comments.pdf, id=796, 400.0458pt x 349.23581pt>
 File: ../src/results/line structure yaml comments.pdf Graphic file (type pdf)
 <use ../src/results/line structure yaml comments.pdf>
 Package pdftex.def Info: ../src/results/line structure yaml comments.pdf  used on input line 545.
 (pdftex.def)             Requested size: 390.0pt x 340.47423pt.
-<../src/results/line structure none yaml comments.pdf, id=795, 412.81226pt x 362.34413pt>
+<../src/results/line structure none yaml comments.pdf, id=799, 412.81226pt x 362.34413pt>
 File: ../src/results/line structure none yaml comments.pdf Graphic file (type pdf)
 <use ../src/results/line structure none yaml comments.pdf>
 Package pdftex.def Info: ../src/results/line structure none yaml comments.pdf  used on input line 554.
@@ -794,7 +794,7 @@ Underfull \hbox (badness 1708) in paragraph at lines 564--565
 \OT1/cmr/m/n/12 code which we did by search-ing
  []
 
-<../src/results/comments usage bars.pdf, id=865, 400.0458pt x 362.34413pt>
+<../src/results/comments usage bars.pdf, id=870, 400.0458pt x 362.34413pt>
 File: ../src/results/comments usage bars.pdf Graphic file (type pdf)
 <use ../src/results/comments usage bars.pdf>
 Package pdftex.def Info: ../src/results/comments usage bars.pdf  used on input line 569.
@@ -805,63 +805,63 @@ Underfull \vbox (badness 3189) has occurred while \output is active []
  [26 <../src/results/line structure yaml.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [27 <../src/results/line structure yaml comments.pdf>] [28 <../src/results/line structure none yaml comments.pdf>]
-<../src/results/scripts usage bars.pdf, id=1042, 406.42903pt x 362.34413pt>
+ [27 <../src/results/line structure yaml comments.pdf>] [28 <../src/results/line structure none yaml comments.pdf>] [29 <../src/results/comments usage bars.pdf>]
+<../src/results/scripts usage bars.pdf, id=1103, 409.7069pt x 362.34413pt>
 File: ../src/results/scripts usage bars.pdf Graphic file (type pdf)
 <use ../src/results/scripts usage bars.pdf>
-Package pdftex.def Info: ../src/results/scripts usage bars.pdf  used on input line 594.
-(pdftex.def)             Requested size: 187.19833pt x 166.89041pt.
+Package pdftex.def Info: ../src/results/scripts usage bars.pdf  used on input line 595.
+(pdftex.def)             Requested size: 390.0pt x 344.92712pt.
  ("../src/results/scripts table.tex"
-Overfull \hbox (15.28424pt too wide) in paragraph at lines 5--18
+Overfull \hbox (76.30742pt too wide) in paragraph at lines 3--21
 [][] 
  []
 
-)
-<../src/results/scripts vs lines.pdf, id=1046, 419.82603pt x 312.02145pt>
+) [30 <../src/results/scripts usage bars.pdf>]
+<../src/results/scripts vs lines.pdf, id=1168, 416.00386pt x 315.83257pt>
 File: ../src/results/scripts vs lines.pdf Graphic file (type pdf)
 <use ../src/results/scripts vs lines.pdf>
-Package pdftex.def Info: ../src/results/scripts vs lines.pdf  used on input line 611.
-(pdftex.def)             Requested size: 187.19833pt x 139.13239pt.
-<../src/results/scripts vs stars.pdf, id=1047, 412.81226pt x 312.02145pt>
+Package pdftex.def Info: ../src/results/scripts vs lines.pdf  used on input line 613.
+(pdftex.def)             Requested size: 187.19833pt x 142.11852pt.
+<../src/results/scripts vs stars.pdf, id=1169, 422.38708pt x 315.83257pt>
 File: ../src/results/scripts vs stars.pdf Graphic file (type pdf)
 <use ../src/results/scripts vs stars.pdf>
-Package pdftex.def Info: ../src/results/scripts vs stars.pdf  used on input line 617.
-(pdftex.def)             Requested size: 187.19833pt x 141.49387pt.
- [29 <../src/results/comments usage bars.pdf>] [30 <../src/results/scripts usage bars.pdf> <../src/results/scripts vs lines.pdf
+Package pdftex.def Info: ../src/results/scripts vs stars.pdf  used on input line 619.
+(pdftex.def)             Requested size: 187.19833pt x 139.97397pt.
 
-pdfTeX warning: pdflatex (file ../src/results/scripts vs lines.pdf): PDF inclusion: multiple pdfs with page group included in a single page
-> <../src/results/scripts vs stars.pdf
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [31] [32 <../src/results/scripts vs lines.pdf> <../src/results/scripts vs stars.pdf
 
 pdfTeX warning: pdflatex (file ../src/results/scripts vs stars.pdf): PDF inclusion: multiple pdfs with page group included in a single page
 >]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [31] [32] (c:\Users\Joe\workspace\researchProject\scraper\report\template.bbl [33]
-Underfull \hbox (badness 3780) in paragraph at lines 82--83
+ [33] [34] (c:\Users\Joe\workspace\researchProject\scraper\report\template.bbl [35] [36]
+Underfull \hbox (badness 3780) in paragraph at lines 85--86
 []\OT1/cmr/m/n/12 Male, A. (2020). can-ton7/SyncTrayzor. Original-date: 2015-02-
  []
 
-[34]) [35]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 695.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 695.
+) [37]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 687.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 687.
  (c:\Users\Joe\workspace\researchProject\scraper\report\template.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 695.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 695.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 687.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 687.
 Package rerunfilecheck Info: File `template.out' has not changed.
-(rerunfilecheck)             Checksum: 1A72B26D787458B7CAC7ECCBE5DCBDCA;1445.
+(rerunfilecheck)             Checksum: 713D3D986ADF2EBEDFA37C48544EF95A;1445.
  ) 
 Here is how much of TeX's memory you used:
- 19127 strings out of 492484
- 367995 string characters out of 3122508
- 448063 words of memory out of 3000000
- 22939 multiletter control sequences out of 15000+200000
+ 19124 strings out of 492484
+ 367857 string characters out of 3122508
+ 448528 words of memory out of 3000000
+ 22934 multiletter control sequences out of 15000+200000
  10585 words of font info for 38 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,11n,83p,1175b,1007s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/Joe/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on c:\Users\Joe\workspace\researchProject\scraper\report\template.pdf (36 pages, 965926 bytes).
+Output written on c:\Users\Joe\workspace\researchProject\scraper\report\template.pdf (38 pages, 1029972 bytes).
 PDF statistics:
- 1302 PDF objects out of 1440 (max. 8388607)
- 121 named destinations out of 1000 (max. 500000)
+ 1330 PDF objects out of 1440 (max. 8388607)
+ 123 named destinations out of 1000 (max. 500000)
  389 words of extra memory for PDF output out of 10000 (max. 10000000)
 

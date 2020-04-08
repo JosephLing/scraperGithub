@@ -7,6 +7,7 @@ Warning--to sort, need author or key in GithubReadMeIncorrectFind
 Warning--to sort, need author or key in GithubOctoverseResults2016
 Warning--to sort, need author or key in RustBlogCargo
 Warning--to sort, need author or key in YAML_FAQ_TABS
+Warning--to sort, need author or key in PEP8
 Warning--to sort, need author or key in BranchGITFLOW2010
 Warning--to sort, need author or key in BranchGITHUBFLOW2017
 Warning--to sort, need author or key in BranchTrunk2013
@@ -17,10 +18,11 @@ Warning--empty year in CloudBees2020; set to ????
 Warning--empty year in GithubReadMeIncorrectFind; set to ????
 Warning--empty year in GhTorrent2020; set to ????
 Warning--empty year in GithubOctoverseResults2016; set to ????
+Warning--empty year in PEP8; set to ????
 Warning--empty year in YAML_FAQ_TABS; set to ????
 Warning--empty pages in Github2017
 Warning--empty booktitle in Kalliamvakou2014
 Warning--empty booktitle in Hilton2016
 Warning--empty pages in Hilton2016
 Warning--empty booktitle in Vasilescu2015
-(There were 22 warnings)
+(There were 24 warnings)

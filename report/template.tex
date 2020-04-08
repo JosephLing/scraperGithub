@@ -218,7 +218,7 @@ In order to get a better understanding of the results of the methodologies chose
   \label{graph:hist}
 
 \end{figure}
-% https://www.cloudbees.com/
+
 % ------------------------------------------------------------------------------------------------------------------------------------
 
 \pagebreak
@@ -338,7 +338,7 @@ In terms of what kind of programming languages are being used for CI? As well as
   \label{graph:programming_langs_count_ci}
 \end{figure}
 
-In order to get a better idea of the breakdown of the effect programming languages have on CI usages. We created Figure \ref{graph:scatter_langauges_CI} this shows three peices of information the percentage of CI usage on the y axis, average star count on the x axis and then number of projects using the language by the size of the dot. 
+In order to get a better idea of the breakdown of the effect programming languages have on CI usages. We created Figure \ref{graph:scatter_langauges_CI} this shows three pieces of information the percentage of CI usage on the y axis, average star count on the x axis and then number of projects using the language by the size of the dot. 
 
 \begin{figure}[!h]
   \centering
@@ -538,7 +538,7 @@ In Figure \ref{fig:lines_structure_yaml} is just all the yaml based configuratio
 \end{figure}
 
 In Figure \ref{fig:lines_structure_yaml} it shows how the comments are broken down for each CI service on average. In the case of Azure our sample size is of only one project so that doesn't give us any significant insight.
-The blue line which represents code that has a comment after is the most commonly used kind of comment. Apart from for Drone which has more multiple line comments. This is really interesting as it highlights that comments tend tied to the code that is written. We had expected for multiple line or single comments to be the most common kind of comment used. This is because code tend to follow a style guide to limit the maximum characters for a single line (REFERECNE THIS THING). In doing so this rule also applies for comments as well therefore you don't normally have space for a code and a comment. (BUT THAT IS NOT THE CASE HERE THINKING FACE..)
+The blue line which represents code that has a comment after is the most commonly used kind of comment. Apart from for Drone which has more multiple line comments. This is really interesting as it highlights that comments tend tied to the code that is written. We had expected for multiple line or single comments to be the most common kind of comment used. This is because code tend to follow a style guide to limit the maximum characters for a single line \citet{PEP8}. In doing so this rule also applies for comments as well therefore you don't normally have space for a code and a comment. (BUT THAT IS NOT THE CASE HERE THINKING FACE..)
 
 \begin{figure}[!ht]
   \centering
@@ -548,7 +548,7 @@ The blue line which represents code that has a comment after is the most commonl
 \end{figure}
 
 
-In the case for Jenkins pipelines and Teamcity there is a much higher usage of having code with comments. Therefore we have separated the analysis and comparison from Figure \ref{fig:lines_structure_all} to Figure \ref{fig:lines_structure_none_yaml} for the none yaml based configuration. Jenkins and Teamcity configuration is Kotlins based and for TeamCity also xml based. The key difference we find here is that multiple line comments is more common than code with comments when compared to the yaml configuration. The second key difference is a much higher mean number of lines for comments. These two difference are probably combined because both Kotlins and xml allow multipline comments really easily. (EXPLAIN)
+In the case for Jenkins pipelines and Teamcity there is a much higher usage of having code with comments. Therefore we have separated the analysis and comparison from Figure \ref{fig:lines_structure_all} to Figure \ref{fig:lines_structure_none_yaml} for the none yaml based configuration. Jenkins and Teamcity configuration is Kotlins based and for TeamCity also xml based. The key difference we find here is that multiple line comments is more common than code with comments when compared to the yaml configuration. The second key difference is a much higher mean number of lines for comments. These two difference are probably combined because both Kotlins and xml allow block comments which allow for multiline comments to be done easily. 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{../src/results/line structure none yaml comments.pdf}
@@ -587,21 +587,23 @@ An external script is a bash or powershell script typically depending on the ope
 
 The methodology we used to handle this was too look at how many bash or powershell scripts where used in CI. Using the code the parsed the yaml files for comments we were able to check do a using a regular expression for either of those files.  
 
+In Figure \ref{fig:script_usage} it shows the average script usage per CI service. We were surprised that on average multiple scripts were used for each across each CI service. This could be for a number of reasons as CI can be also be used for deployment either to production or for setting end to end testing environments. Part of CI is to be able to have the software build on any machine. In order to this scripts can be used to simplify the process for the developers and also when the CI is running in the CI service. This is so to avoid the \enquote{it works on my machine} situation.
+Another potential reason is that it is easier to write the logic needed for the CI process in the script than in the configuration for the CI. 
+These our interesting results and in order to be able know the reasoning for the high numbers further research needs to be done.
 
 \begin{figure}[!ht]
-  \centering
-  \begin{minipage}[!t]{.48\textwidth}
-      \includegraphics[width=\textwidth]{../src/results/scripts usage bars.pdf}
-      \caption[alt text]{Comment types}
-      \label{fig:script_usage}  
-  \end{minipage}%
-  \hfill
-  \begin{minipage}[!t]{.48\textwidth}
-    \input{../src/results/scripts table.tex}
-  \end{minipage}
+  \includegraphics[width=\textwidth]{../src/results/scripts usage bars.pdf}
+  \caption[alt text]{Mean script usage for each file}
+  \label{fig:script_usage}  
 \end{figure}
 
-In Figure \ref{fig:script_usage} we have the average number of times a script is used for a configuration file that already has a script being used.
+
+
+In Table \ref{table:scripts used} we can see the raw count found for each CI service for bash and powershell. We were surprised to see the percentages for external scripts to be so high. As we suspected that internal script usage was most likely very high but 
+
+\begin{table}
+  \input{../src/results/scripts table.tex}
+\end{table}
 
 As some of the necessary actions are being done in the scripts and not in the CI file. Potentially there could be less lines of code in the configuration for files that use scripts. However in Figure \ref{fig:script_scatter_lines} we can see that the data is very spiky with outliers. Then in Figure \ref{fig:script_scatter_lines2} we can see the same affect when trying to see if the more popular a project is affects the chances of it using CI.
 
@@ -609,46 +611,34 @@ As some of the necessary actions are being done in the scripts and not in the CI
   \centering
   \begin{minipage}[!t]{.48\textwidth}
     \includegraphics[width=\textwidth]{../src/results/scripts vs lines.pdf}
-    \caption{no. scripts to no. lines}
+    \caption{no. scripts to no. lines with the extreme values cropped out. This shows a slight trend in the more lines you have the more scripts you will use.}
     \label{fig:script_scatter_lines}    
   \end{minipage}%
   \hfill
   \begin{minipage}[!t]{.48\textwidth}
     \includegraphics[width=\textwidth]{../src/results/scripts vs stars.pdf}
-    \caption{no. scripts to stars}
+    \caption{no. scripts to stars with the extreme values cropped out. As we are comparing stars along the x axis it looks similar too Figure \ref{graph_scatter_stars_vs_subs}. But focused on the first 20,000 stars as that is where the data is most dense. We found a slight increase in usage of scripts the more popular a project became. Yet this is only a correlation further research would need to be done to work out if their is a causation}
     \label{fig:script_scatter_lines2}
   \end{minipage}
 \end{figure}
 
-\todo[]{percentage of usage needed like we had for comments}
-Overall we can see that scripts are not used that much. And their no correlation between lines of code and usage of external scripts.
+In Figure \ref{fig:script_scatter_lines} shows the number of lines against the number of scripts used. There is a slight increase in the number scripts used per number of lines. However it is a only very slight increase 
 
+In Figure \ref{fig:script_scatter_lines2} shows that there is no correlation between popularity an4d external script usage. The graph more closely follows the same shape as Figure \ref{graph_scatter_stars_vs_subs}. However much like that other graph there is no clear correlation to be made. 
+
+Overall we can see that external scripts are used at least once or more in configuration files. The larger the configuration file their is a slightly higher chance in more external scripts being used. Further research would need to be done to understand at what stage in the CI process they are used. 
 
 \pagebreak
 
-\section{Threats to validatity}
+\section{Threats to validating}
 
-The major and most obivious threat is the sample gathered from scraping the data from Github. This has already been touched on in the \ref{methodology} section but now we are going to look at it in more detail.
+The major and most obvious threat is the sample gathered from scraping the data from Github. This has already been touched on in the \ref{methodology} section but now we are going to look at it in more detail.
 
 Firstly if we assume that the scraping works perfectly then it's only at maximum a 1000 open source projects per star. That is excluding closed source projects which would range from personal projects to companies. As well as it is only data from Github not from Gitlab, bitbucket or other version control hosting services. This leads to bais in the data for example if Gitlab was also scraped then we would get a lot more Gitlab ci files. However in order to get best spread of data Github has the best api and most services do not tie you down to use only their service. As well although we could get a 1000 projects per star we were still able to get around 30,000 projects and a wide spread across Github. The key aspect being that because it was a sample we focused on getting a good spread of data.
 
 Secondly the scraping script is not perfect in how it finds configuration files. As it only looks in the top level directory for the file name pattern described in their docs or unique folder. Therefore if the systems allowed many different names or different names in past it wouldn't have picked it CI system. Additionally we only decided to scrape for certain CI files. Yet we chose a good scope based on previous research into the top CI files. As well the scraping script has been tested worked on to try and minimise any bugs. In the case that we did not pick up a CI file we ran a regexp against the ReadMe file to get a better understanding of the error bounds.
 
 Thirdly identifying which projects are programming projects or would have a need for CI. Based on the research \cite{Kalliamvakou2014} it is important to filter out repositories that aren't part of the question being asked. Therefore we could have looked to try and filter out Github static sites and other none software based projects. However if assume a certain type of project won't be using CI then we would be introducing bais when trying to answer how CI is used. For further research better labelling of what kind of projects are which would potentially beneficial though.
-
-% From methadolgoy to work out how to fit in:
-% There are dangers in scraping data off Github in terms of assumptions to do with the population as found in \cite{Kalliamvakou2014}. Our dataset does not contain any forked repositories. But due to time constraints number of commits and frequency of recent commits has not been looked at. This would be an interesting area of further research in order to improve the quality of the sample but also to look at how that affects the frequency of CI usage.
-
-% Additionally the assumption that all repositories are of programming projects with code in them is wrong. A number of repositories can be used for storage, experimental, academic and other things. However they to all some extent can use CI/CD for their work as a number of books were found when looking through the dataset could use CI/CD.
-
-
-
-% strength and validaltiy section 
-% - possible issues
-% - baise assume in the data
-% - e.g. sampling vai star
-% - focusing on Github
-% - problematic of scraping tool
 
 
 \pagebreak
@@ -657,7 +647,9 @@ Thirdly identifying which projects are programming projects or would have a need
 
 \section{Summary}
 
-We got a sample of XXXX open source projects from Github and were able to compare that to a previous study 4 years ago. In doing so we found that usage of CI projects was similar and that more popular a project the higher chance it would be using CI. This lined with the research from 4 years ago. The major change was the increase in popularity of Github Actions taking over second place from Circleci. Additionally we look at whether or not the number of people watching the project had the same effect. It did but to a lesser extent.
+We got a sample of 32,660 open source projects from Github and were able to compare that to a previous study 4 years ago. In doing so we found that usage of CI projects was similar and that more popular a project the higher chance it would be using CI. This linked with the research from 4 years ago. The major change was the increase in popularity of Github Actions taking over second place from CircleCi. Additionally we look at whether or not the number of people watching the project had the same effect it did but to a lesser extent.
+
+% something about the programming table thing we created 
 
 In terms of structure of CI configuration we looked each line of was used in context of comments. We found that a very few projects use comments in their CI. In terms of how they used scripts, we found the majority of projects do not use external scripts. 
 
@@ -673,7 +665,7 @@ The data for the programming language and version(s) is in the config. Therefore
 
 Further research into structure could look into the naming of each part of the build process that is used. This would be interesting as it would provided insight into what terms are commonly used. As well an idea into how people plan or don't plan out their configuration files.
 Additionally CI systems can be designed to run on every commit to version control or only commits to certain branches. Therefore by looking at the branching regexp that are being used an better understanding of how branches are actually used in software development where CI is also used could be found out. In particular looking into which branching method (e.g. \cite{BranchGITFLOW2010}, \cite{BranchGITHUBFLOW2017}, \cite{BranchTrunk2013}) is used more for projects with CI and those that don't. 
-asdf
+
 In addition working on pruning our dataset using methods outlined in \cite{Kalliamvakou2014}. 
 
 % After looking at these results three areas of research that could be interesting would be filtering the sample to only projects that had recent commits. On the assumption that CI is becoming more popular and stale projects won't require CI.

@@ -15,6 +15,7 @@ import numpy as np
 
 import render_sankey_diagram
 from data_parser import dtypes, format_as_percentage
+from numpy.polynomial.polynomial import polyfit
 
 
 def spread_of_data_sub_to_stars(data):
@@ -27,7 +28,7 @@ def spread_of_data_sub_to_stars(data):
     for line in data:
         x.append(int(line.get("stargazers_count")))
         y.append(int(line.get("subscribers_count")))
-    plot.scatter(x, y, s=1, alpha=0.75)
+    plot.scatter(x, y, s=1, alpha=0.75, label="project")
 
     plot.legend()
     return plot
@@ -38,11 +39,16 @@ def lines_against_scripts(data):
     plot = plt
     plot.xlabel('no. lines in file')
     plot.ylabel('no. scripts used in file')
-    data = data.sort_values(by=["code"])
+    x = data["code"]
+    y = data["scripts"]
+    b, m = polyfit(x, y, 1)
+    plot.plot(x, b + m * x, '-', color="red", alpha=0.25, scalex=False, scaley=False)
+    # plot.plot(np.array(range(x.max())), np.array(range(x.max())), '-', color="green", alpha=0.25)
 
-    plot.plot(data["code"], data["scripts"])
+    plot.scatter(x, y, s=0.5, alpha=0.5)
+    plot.xlim(0, 250)
+    plot.ylim(0, 50)
 
-    plot.legend()
     return plot
 
 
@@ -51,11 +57,16 @@ def stars_against_lines(data):
     plot = plt
     plot.xlabel('stars')
     plot.ylabel('no. scripts used in file')
-    data = data.sort_values(by=["stars"])
+    # data = data.sort_values(by=["stars"])
+    x = data["stars"]
+    y = data["scripts"]
+    b, m = polyfit(x, y, 1)
+    plot.plot(x, b + m * x, '-', color="red", alpha=0.25, scalex=False, scaley=False)
+    # plot.plot(np.array(range(x.max())), np.array(range(x.max())), '-', color="green", alpha=0.25)
+    plot.scatter(x, y, s=0.5, alpha=0.5)
+    plot.ylim(0, 50)
+    plot.xlim(0, 20000)
 
-    plot.plot(data["stars"], data["scripts"])
-
-    plot.legend()
     return plot
 
 
@@ -250,8 +261,18 @@ def config_bargraph(plot, dataset):
 
 
 def scripts_latex(name, sorted_data):
-    df = sorted_data[(sorted_data["powershell"] > 0) | (sorted_data["bash"] > 0)].groupby("config")[
+    frames = []
+
+    df = sorted_data.groupby("config")[
         ["bash", "powershell"]].sum()
+    df = df.join(sorted_data.groupby("config").size().rename("number of config"))
+    df = df.join((format_as_percentage(df["bash"] / df["number of config"] * 100)).rename("percentage bash"))
+    df = df.join((format_as_percentage(df["powershell"] / df["number of config"] * 100)).rename("percentage powershell"))
+    # frames.append({"no. config": })
+    #
+    # frames.append({"perc bash": frames[0]["bash"] / frames[1]["no. config"] * 100})
+    # frames.append({"perc power": frames[0]["powershell"] / frames[1]["no. config"] * 100})
+
 
     with open(name, 'w') as tf:
         s = df.to_latex(caption="sum of scripts used", label="table:scripts used",
@@ -260,7 +281,7 @@ def scripts_latex(name, sorted_data):
             "\\bottomrule", "").replace("\\begin{table}", "").replace("\\end{table}", "").replace("\centering",
                                                                                                   "").replace("\\\\",
                                                                                                               "\\\\ \\hline").replace(
-            "lrr", "|l|l|l|")
+            "lrrrll", "|l|l|l|l|l|l|")
         s = "\n".join([v for v in s.split("\n") if not v.startswith("\\textbf{config")]).replace(
             "yaml\_encoding\_error", "config")
         tf.write(s)
@@ -576,20 +597,27 @@ def script_usage(data):
     barWidth = 0.25
 
     df = data[(data["powershell"] > 0) | (data["bash"] > 0)].groupby("config")[["bash", "powershell"]].mean()
+    df2 = data.groupby("config")[["bash", "powershell"]].mean()
     bars = []
-    for config in df.columns:
-        bars.append(list(df[config]))
+    # bars2 = []
+    for config in df2.columns:
+        bars.append(list(df2[config]))
+    # for config in df.columns:
+    #     bars2.append(list(df[config]))
 
     # Set position of bar on X axis
     r1 = np.arange(len(bars[0]))
     r2 = [x + barWidth for x in r1]
 
     # Make the plot
-    plt.bar(r1, bars[0], color='#7f6d5f', width=barWidth, edgecolor='white', label=df.columns[0])
-    plt.bar(r2, bars[1], color='#557f2d', width=barWidth, edgecolor='white', label=df.columns[1])
+    plt.bar(r1, bars[0], color='#7f6d5f', width=barWidth, edgecolor='white', label=df2.columns[0])
+    plt.bar(r2, bars[1], color='#557f2d', width=barWidth, edgecolor='white', label=df2.columns[1])
+
+    # plt.bar(r1, bars2[0], color='red', width=barWidth, edgecolor='white', label="a")
+    # plt.bar(r2, bars2[1], color='blue', width=barWidth, edgecolor='white', label="b")
 
     # Add xticks on the middle of the group bars
-    plt.ylabel("average")
+    plt.ylabel("average script usage per file", fontweight='bold')
     plt.xlabel('configuration', fontweight='bold')
     plt.xticks([r + barWidth for r in range(len(bars[0]))], list(df.index))
     plt.xticks(rotation=45)
@@ -598,7 +626,6 @@ def script_usage(data):
 
 
 def code_with_comments(data, xcol, ycol, cat="config"):
-    from numpy.polynomial.polynomial import polyfit
     plt.rc(({'font.size': 2}))
 
     fig, axs = plt.subplots(3, 3)
@@ -666,13 +693,23 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         # save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"] == False]).show() asfdasdfasdfafdasdfasdfasdfasdfsdf
         # comment_uage_tbale(sorted_data)
 
-        save_as_pdf(line_usage_configuration(sorted_data), f"{output}/line structure all", image_encoding)
-        save_as_pdf(line_usage_configuration(sorted_data[sorted_data["yaml"]]), f"{output}/line structure yaml",
-                    image_encoding)
-        save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"]]),
-                    f"{output}/line structure yaml comments", image_encoding)
-        save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"] == False]),
-                    f"{output}/line structure none yaml comments", image_encoding)
+        # save_as_pdf(line_usage_configuration(sorted_data), f"{output}/line structure all", image_encoding)
+        # save_as_pdf(line_usage_configuration(sorted_data[sorted_data["yaml"]]), f"{output}/line structure yaml",
+        #             image_encoding)
+        # save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"]]),
+        #             f"{output}/line structure yaml comments", image_encoding)
+        # save_as_pdf(line_usage_configuration2(sorted_data[sorted_data["yaml"] == False]),
+        #             f"{output}/line structure none yaml comments", image_encoding)
+        #
+        # # data = csvReader.readfile(name1)
+        # # #
+        # # save_as_pdf(spread_of_data_sub_to_stars(data), f"{output}/sub vs stars", image_encoding)
+        # scripts_latex(f"{output}/scripts table new.tex", sorted_data)
+        # save_as_pdf(script_usage(sorted_data), f"{output}/scripts usage bars", image_encoding)
+
+        save_as_pdf(lines_against_scripts(sorted_data[sorted_data["yaml"]]), f"{output}/scripts vs lines", image_encoding)
+        save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
+
     else:
         data = csvReader.readfile(name1)
         # #
@@ -723,7 +760,7 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         save_as_pdf(comment_usage(sorted_data), f"{output}/comments usage bars", image_encoding)
 
         save_as_pdf(script_usage(sorted_data), f"{output}/scripts usage bars", image_encoding)
-        scripts_latex(f"{output}/scripts table.tex", sorted_data)
+        scripts_latex(f"{output}/scripts table new.tex", sorted_data)
         save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
         save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
 

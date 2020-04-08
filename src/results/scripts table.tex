@@ -1,18 +1,22 @@
 
 
-\caption{sum of scripts used}
-\label{table:scripts used}
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|l|l|l|l|l|}
 \hline
-{} &  bash &  powershell \\ \hline
+{} &  \multicolumn{2}{c|}{\textbf{bash}} &  \multicolumn{2}{c|}{\textbf{powershell}} & \textbf{total config}\\ \hline
+{}                       & count &  percentage usage &  count &  percentage usage & \\ \hline
 
-\textbf{buildkite      } &    61 &           2 \\ \hline
-\textbf{circleci       } &  1497 &           8 \\ \hline
-\textbf{drone          } &   230 &           0 \\ \hline
-\textbf{github         } &  1097 &          65 \\ \hline
-\textbf{jenkinsPipeline} &   171 &           0 \\ \hline
-\textbf{semaphore      } &     2 &           0 \\ \hline
-\textbf{travis         } &  5937 &           3 \\ \hline
+    % {} &  bash &  powershell &  number of config & percentage bash & percentage powershell \\ \hline
+    
+    \textbf{Buildkite      } &    61 &    190.62\% &   2  &  6.25\% &    32    \\ \hline
+    \textbf{CircleCi       } &  1497 &    134.99\% &   8  &  0.72\% &  1109    \\ \hline
+    \textbf{Drone          } &   230 &    273.81\% &   0  &   0.0\% &    84    \\ \hline
+    \textbf{Azure          } &     0 &       0.0\% &   0  &   0.0\% &     1    \\ \hline
+    \textbf{Github         } &  1097 &     47.67\% &  65  &  2.82\% &  2301    \\ \hline
+    \textbf{Jenkins Pipeline} &   171 &    106.21\% &   0  &   0.0\% &    161   \\ \hline
+    \textbf{Semaphore      } &     2 &     100.0\% &   0  &   0.0\% &     2    \\ \hline
+    \textbf{Teamcity       } &     0 &       0.0\% &   0  &   0.0\% &     4    \\ \hline
+    \textbf{Travis         } &  5937 &     55.97\% &   3  &  0.03\% & 10607   \\ \hline
 
 \end{tabular}
-
+\caption{Raw count and percentage chance of each CI service containing an external script}
+\label{table:scripts used}

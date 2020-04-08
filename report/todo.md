@@ -8,17 +8,8 @@ this is because we create a new entry for each CI type
 future:
 - proof read again and again (specailly with a fresh pair of eyes)
 - conclusion and abstract need TLC
-- decide if the first two graphs should go side by side or not, specailly as page 8 currently just seems to be one graph....
-- scripts percentages
-- graph axis labelling not working it is being cut off
-- bar graph done properly
-  - x axis labelling being clearer
-    - review write up to put some numbers to this when this is done!!!
-    - note: all 3 graphs use the same method to render them so it should be a case of fixing in one place
-  - drawing a nice pretty line to show the gradient or at least caculate it
-- look into spec to see if columns is a thing or if that would take too much time
-- verbatims having better styling and hopefully syntax highlighting maybe (push goal for syntax highlighting)
-- look into a better way to represent the yaml configuration errors table (highlighting and percentages or grouped bar graph)
+- introduction I don't think needs Fig 18 add to it 
+  - I think that working over graphs and analysis with Stefan while proof reading should solve all the things
 
 
 
