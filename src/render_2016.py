@@ -197,7 +197,7 @@ def compare_coprus2(data, label):
     # K = 1 + 3. 322 logN
     bins = 1 + int(3.322 * math.log(len(data)))
     density = False
-    log = False
+    log = True
     plt.xlim(0, 111000)
     plot.hist(data, bins, density=density, log=log, label=label, stacked=True)
     # plot.hist(data2["stargazers_count"], bins, density=density, log=log, label="2020")
@@ -228,8 +228,8 @@ def main(output, image_encoding):
     #
     # save_as_pdf(popularity_vs_percentage_CI_scatter(df, data), f"{output}/scatter", image_encoding)
 
-    # save_as_pdf(compare_coprus3(data["stars"], "2016"), f"{output}/density_2016", image_encoding)
-    # save_as_pdf(compare_coprus3(data2["stargazers_count"], "2020"), f"{output}/density_2020", image_encoding)
+    save_as_pdf(compare_coprus2(data["stars"], "2016"), f"{output}/density_2016", image_encoding)
+    save_as_pdf(compare_coprus2(data2["stargazers_count"], "2020"), f"{output}/density_2020", image_encoding)
 
     # popularity_vs_percentage_CI_scatter
     return data
