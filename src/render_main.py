@@ -37,8 +37,8 @@ def spread_of_data_sub_to_stars(data):
 def lines_against_scripts(data):
     data["scripts"] = data["bash"] + data["powershell"]
     plot = plt
-    plot.xlabel('no. lines in file')
-    plot.ylabel('no. scripts used in file')
+    plot.xlabel('number lines in file')
+    plot.ylabel('number scripts used in file')
     x = data["code"]
     y = data["scripts"]
     b, m = polyfit(x, y, 1)
@@ -56,7 +56,7 @@ def stars_against_lines(data):
     data["scripts"] = data["bash"] + data["powershell"]
     plot = plt
     plot.xlabel('stars')
-    plot.ylabel('no. scripts used in file')
+    plot.ylabel('number scripts used in file')
     # data = data.sort_values(by=["stars"])
     x = data["stars"]
     y = data["scripts"]
@@ -268,10 +268,10 @@ def scripts_latex(name, sorted_data):
     df = df.join(sorted_data.groupby("config").size().rename("number of config"))
     df = df.join((format_as_percentage(df["bash"] / df["number of config"] * 100)).rename("percentage bash"))
     df = df.join((format_as_percentage(df["powershell"] / df["number of config"] * 100)).rename("percentage powershell"))
-    # frames.append({"no. config": })
+    # frames.append({"number config": })
     #
-    # frames.append({"perc bash": frames[0]["bash"] / frames[1]["no. config"] * 100})
-    # frames.append({"perc power": frames[0]["powershell"] / frames[1]["no. config"] * 100})
+    # frames.append({"perc bash": frames[0]["bash"] / frames[1]["number config"] * 100})
+    # frames.append({"perc power": frames[0]["powershell"] / frames[1]["number config"] * 100})
 
 
     with open(name, 'w') as tf:
@@ -294,7 +294,7 @@ def yaml_config_errors_to_latex(name, dataset):
     df2 = pd.DataFrame({"composer error": defaults, "constructor error": defaults, "parse error": defaults,
                         "scanner error": defaults})
     df = pd.concat([df, df2])
-    df["no. config"] = thing
+    df["number config"] = thing
     with open(name, 'w') as tf:
         s = "\\begin {table}[!htbp]" + df.to_latex(caption="yaml configuration errors", label="table_yaml_errors",
                                                    bold_rows=True).replace("\\midrule", "").replace("\\toprule",
@@ -718,7 +718,7 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         save_as_pdf(spread_data_issues_vs_stars(data), f"{output}/issues vs stars", image_encoding)
 
         sorted_data = load_dataframe(name2)
-        yaml_config_errors_to_latex(f"{output}/yaml config errors.tex", sorted_data)
+        # yaml_config_errors_to_latex(f"{output}/yaml config errors.tex", sorted_data)
         # should not need to rerun this unless more scraping is done!!!
         # commented out as manual edits to the formatting are easier than code ones atm
         # config_type_split(f"{output}/configuration type count.tex", sorted_data)
@@ -760,7 +760,7 @@ def main(experimenting, name1, name2, image_encoding, output="."):
         save_as_pdf(comment_usage(sorted_data), f"{output}/comments usage bars", image_encoding)
 
         save_as_pdf(script_usage(sorted_data), f"{output}/scripts usage bars", image_encoding)
-        scripts_latex(f"{output}/scripts table new.tex", sorted_data)
+        # scripts_latex(f"{output}/scripts table new.tex", sorted_data)
         save_as_pdf(lines_against_scripts(sorted_data), f"{output}/scripts vs lines", image_encoding)
         save_as_pdf(stars_against_lines(sorted_data), f"{output}/scripts vs stars", image_encoding)
 
@@ -768,6 +768,6 @@ def main(experimenting, name1, name2, image_encoding, output="."):
 
 
 if __name__ == '__main__':
-    data = main(True, "combined9.csv", "yaml threaded19.csv", "pdf", "./results")
+    data = main(False, "combined9.csv", "yaml threaded19.csv", "pdf", "./results")
     # data = main(False, "combined9.csv", "yaml threaded14.csv", "svg", "./results")
     # main(True, "combined1.csv", "yaml threaded6.csv", "svg", "./results")

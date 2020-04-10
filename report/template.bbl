@@ -1,38 +1,32 @@
-\begin{thebibliography}{29}
+\begin{thebibliography}{30}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 \providecommand{\eprint}[2][]{\url{#2}}
 
-\bibitem[{Bra(????{\natexlab{a}})}]{BranchGITFLOW2010}
- (????{\natexlab{a}}).
-
-\bibitem[{Bra(????{\natexlab{b}})}]{BranchGITHUBFLOW2017}
- (????{\natexlab{b}}).
-
-\bibitem[{Bra(????{\natexlab{c}})}]{BranchTrunk2013}
- (????{\natexlab{c}}).
-
-\bibitem[{Clo(????)}]{CloudBees2020}
- (????). Cloudbees website.
-
-\bibitem[{Git(????{\natexlab{a}})}]{GithubReadMeIncorrectFind}
- (????{\natexlab{a}}). flatlogic/awesome-bootstrap-checkbox.
-
-\bibitem[{GhT(????)}]{GhTorrent2020}
- (????). Ghtorrent website.
-
-\bibitem[{Git(????{\natexlab{b}})}]{GithubOctoverseResults2016}
- (????{\natexlab{b}}). {GitHub} {State} of the {Octoverse}: 2016.
-
-\bibitem[{PEP(????)}]{PEP8}
- (????). {PEP} 8 -- {Style} {Guide} for {Python} {Code}.
-
-\bibitem[{YAM(????)}]{YAML_FAQ_TABS}
- (????). Yaml faq.
-
 \bibitem[{Rus(2020)}]{RustBlogCargo}
  (2020). Cargo: {Rust}'s community crate host {\textbar} {Rust} {Blog}.
+
+\bibitem[{Clo(2020)}]{CloudBees2020}
+ (2020). Cloudbees website.
+
+\bibitem[{Git(2020{\natexlab{a}})}]{GithubReadMeIncorrectFind}
+ (2020{\natexlab{a}}). flatlogic/awesome-bootstrap-checkbox.
+
+\bibitem[{GhT(2020)}]{GhTorrent2020}
+ (2020). Ghtorrent website.
+
+\bibitem[{Git(2020{\natexlab{b}})}]{GithubOctoverseResults2016}
+ (2020{\natexlab{b}}). {GitHub} {State} of the {Octoverse}: 2016.
+
+\bibitem[{PEP(2020)}]{PEP8}
+ (2020). {PEP} 8 -- {Style} {Guide} for {Python} {Code}.
+
+\bibitem[{RUB(2020)}]{RUBY2020}
+ (2020). {\textgreater}{Ruby} {Style} {Guide}.
+
+\bibitem[{YAM(2020)}]{YAML_FAQ_TABS}
+ (2020). Yaml faq.
 
 \bibitem[{Borges, Hora and Valente(2016)}]{Borges2016}
 Borges, H., Hora, A. and Valente, M.~T. (2016). Understanding the {Factors}
@@ -53,6 +47,9 @@ Copeland, P. (2010). Google's {Innovation} {Factory}: {Testing}, {Culture}, and
   {Conference} on {Software} {Testing}, {Verification} and {Validation}},
   Washington, DC, USA: IEEE Computer Society, {ICST} '10, pp. 11--14.
 
+\bibitem[{Driessen(2013)}]{BranchGITFLOW2010}
+Driessen, V. (2013). A {successful} {git} {branching} {model} - {git} flow.
+
 \bibitem[{Fowler(2010)}]{CI2010_MartinFowler}
 Fowler, M. (2010). Continous integration.
 
@@ -62,15 +59,21 @@ Gallaba, K. and McIntosh, S. (2018). Use and {Misuse} of {Continuous}
   (mis)use {Travis} {CI}. \textit{IEEE Transactions on Software Engineering},
   pp. 1--1.
 
-\bibitem[{Github(2017)}]{Github2017}
-Github (2017). Github welcomes all ci tools. In github.com, ed., \textit{Github
-  welcomes all ci tools}.
+\bibitem[{Github(2017{\natexlab{a}})}]{BranchGITHUBFLOW2017}
+Github (2017{\natexlab{a}}). Github flow introduction.
+
+\bibitem[{Github(2017{\natexlab{b}})}]{Github2017}
+Github (2017{\natexlab{b}}). Github welcomes all ci tools. In github.com, ed.,
+  \textit{Github welcomes all ci tools}.
 
 \bibitem[{Github(2019)}]{GithubOctoverseResults}
 Github (2019). Octoverse - top languages.
 
 \bibitem[{GitHub(2020)}]{WreckerOpenSourceGithubSearch}
 GitHub (2020). github filename search for wrecker.yml files.
+
+\bibitem[{Hammant(2013)}]{BranchTrunk2013}
+Hammant, P. (2013). What is {trunk} based development.
 
 \bibitem[{Kalliamvakou et~al.(2014)}]{Kalliamvakou2014}
 Kalliamvakou, E., Gousios, G., Blincoe, K., Singer, L., German, D.~M. and
